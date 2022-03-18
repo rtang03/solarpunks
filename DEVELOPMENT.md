@@ -24,3 +24,16 @@ Today's Goal
 1. scafford the application structure
 1. attempt to connect to LensAPI
 1. attempt to authenticate and profile CRUD
+
+
+# Useful Material
+
+## Reference
+
+## Frequently used command
+
+
+```
+git tag -a v0.1 -m "something happen"
+git tag push origin v0.1
+```
