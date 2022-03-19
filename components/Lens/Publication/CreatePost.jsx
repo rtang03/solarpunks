@@ -1,7 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { getLensHub } from "../../../lensApi/lens-hub";
+import { getLensHub } from "../../../lensApi/lensHub";
 import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import { ethers, utils } from "ethers";
@@ -15,6 +15,10 @@ const CreatePost = () => {
   const { provider } = useMoralis();
   const [_create, { data, error, loading }] = useMutation(CREATE_POST_TYPED_DATA);
   const [signatureParts, setSignatureParts] = useState();
+  const [transactionReceipt, setTransactionReceipt] = useState();
+
+  const ethersProvider = new ethers.providers.Web3Provider(provider);
+  const signer = ethersProvider.getSigner();
 
   /**
    * Step 1: Signing EIP-712 Typed Data, retrieved from LensAPI endpoint
@@ -41,9 +45,7 @@ const CreatePost = () => {
   const typedData = data?.createPostTypedData?.typedData;
 
   useEffect(() => {
-    if (typedData) {
-      const ethersProvider = new ethers.providers.Web3Provider(provider);
-      let signer = ethersProvider.getSigner();
+    if (typedData && !transactionReceipt && !signatureParts) {
       signer
         ._signTypedData(
           omit(typedData.domain, "__typename"),
@@ -52,7 +54,6 @@ const CreatePost = () => {
         )
         .then(signature => {
           const signatureParts = utils.splitSignature(signature);
-          console.log("signature parts", signatureParts);
           setSignatureParts(signatureParts);
           // example: signatureParts
           // {
@@ -75,10 +76,54 @@ const CreatePost = () => {
     const v = signatureParts?.v;
     const r = signatureParts?.r;
     const s = signatureParts?.s;
+    const isTypedDataValid =
+      typedData?.value?.profileId &&
+      typedData?.value?.contentURI &&
+      typedData?.value?.collectModule &&
+      typedData?.value?.collectModuleData &&
+      typedData?.value?.referenceModule &&
+      typedData?.value?.referenceModuleData &&
+      typedData?.value?.deadline;
 
-    if (v && r && s) {
-    } else console.error("unknown error in signatureParts", signatureParts);
+    if (v && r && s && isTypedDataValid && !transactionReceipt) {
+      const lensHub = getLensHub(signer);
+      const payload = {
+        profileId: typedData.value.profileId,
+        contentURI: typedData.value.contentURI,
+        collectModule: typedData.value.collectModule,
+        collectModuleData: typedData.value.collectModuleData,
+        referenceModule: typedData.value.referenceModule,
+        referenceModuleData: typedData.value.referenceModuleData,
+        sig: {
+          v,
+          r,
+          s,
+          deadline: typedData.value.deadline,
+        },
+      };
+      // example payload
+      // {
+      //   collectModule: "0xb96e42b5579e76197B4d2EA710fF50e037881253",
+      //   collectModuleData: "0x",
+      //   contentURI: "https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8",
+      //   profileId: "0x21",
+      //   referenceModule: "0x0000000000000000000000000000000000000000",
+      //   referenceModuleData: "0x",
+      //   sig: {
+      //     deadline: 1647699754,
+      //     r: "0x7c50caf15d088f92b492c1e108041336aa79b4e595d4361b3d801a4f2208be33",
+      //     s: "0x1dffc217d25b1720f12c6a4c30ba9bd30f2c6b567de35671bcd5966aea8f8505",
+      //     v: 28,
+      //   },
+      // };
+      lensHub.postWithSig(payload).then(tx => {
+        setTransactionReceipt(tx);
+        console.log("transaction recept", tx);
+      });
+    }
   }, [signatureParts]);
+
+  transactionReceipt && console.log("transactionReceipt", transactionReceipt);
 
   return (
     <Formik initialValues={{}} onSubmit={async () => create()}>
@@ -88,9 +133,13 @@ const CreatePost = () => {
           <button className="bg-blue-500 m-2 p-2 border-2" type="submit">
             Create Post
           </button>
-          <div>Result: </div>
+          <div>CreateTypedData: </div>
           {error && <div className="border-2">error: {error.message}</div>}
           {data && <pre className="text-left">{JSON.stringify(data, null, 2)}</pre>}
+          <div>Receipt: </div>
+          {transactionReceipt && (
+            <pre className="text-left w-64">{JSON.stringify(transactionReceipt, null, 2)}</pre>
+          )}
         </Form>
       )}
     </Formik>
@@ -132,7 +181,7 @@ const CREATE_POST_TYPED_DATA = gql`
   }
 `;
 
-// example: after successful run of Step 1: createPostTypedData
+// Step 1 result: after successful run of Step 1: createPostTypedData
 // {
 //   "createPostTypedData": {
 //     "id": "0d4bb40e-fcd3-48fc-902f-ac2b11dcc1af",
@@ -206,3 +255,45 @@ const CREATE_POST_TYPED_DATA = gql`
 //     "__typename": "CreatePostBroadcastItemResult"
 //   }
 // }
+
+// Step 2 result: Transaction receipt
+// {
+//   "hash": "0x14cecd0ff74bece12269bdb63036b2e2818c14b407c6cb8e52aa5387c6e25b20",
+//   "type": 2,
+//   "accessList": null,
+//   "blockHash": null,
+//   "blockNumber": null,
+//   "transactionIndex": null,
+//   "confirmations": 0,
+//   "from": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//   "gasPrice": {
+//     "type": "BigNumber",
+//     "hex": "0x83eb3da7"
+//   },
+//   "maxPriorityFeePerGas": {
+//     "type": "BigNumber",
+//     "hex": "0x83eb3d99"
+//   },
+//   "maxFeePerGas": {
+//     "type": "BigNumber",
+//     "hex": "0x83eb3da7"
+//   },
+//   "gasLimit": {
+//     "type": "BigNumber",
+//     "hex": "0x0377ea"
+//   },
+//   "to": "0xd7B3481De00995046C7850bCe9a5196B7605c367",
+//   "value": {
+//     "type": "BigNumber",
+//     "hex": "0x00"
+//   },
+//   "nonce": 0,
+//   "data": "0x3b508132000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000210000000000000000000000000000000000000000000000000000000000000140000000000000000000000000b96e42b5579e76197b4d2ea710ff50e03788125300000000000000000000000000000000000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000000000000000000000000000000000000001c4d0c2a7d9d5d23adf893dec04a6ae85ef13f3d16b69dc8fc44227968e7f5620f16a43cd86049052ce0fcf365f5f118d0781d9169a3ad9b91e7908581877dba16000000000000000000000000000000000000000000000000000000006235ea16000000000000000000000000000000000000000000000000000000000000004368747470733a2f2f697066732e696f2f697066732f516d5373595278334c7044416231475a516d377a5a314175485a6a6662506b44364a3773397234317875316d6638000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+//   "r": "0x7a6eea407508fe79414b1176d04c934113f3c1edc690e8e2e802cadba380c9da",
+//   "s": "0x7d7034b2dce4b0ad2d8bdfbb914665e54a2c649a6af513f99d44b4fe7f8fb54e",
+//   "v": 1,
+//   "creates": null,
+//   "chainId": 0
+// }
+
+// https://mumbai.polygonscan.com/tx/0x14cecd0ff74bece12269bdb63036b2e2818c14b407c6cb8e52aa5387c6e25b20

@@ -22,7 +22,6 @@ const getParam = name => {
 export const LENS_API = "https://api-mumbai.lens.dev/"; // getParamOrExit("LENS_API");
 
 export const PROFILE_ID = "0x21";
-// export const PROFILE_ID = getParam("PROFILE_ID");
 
 export const LENS_FOLLOW_NFT_ABI = [
   {

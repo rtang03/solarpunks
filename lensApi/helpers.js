@@ -13,6 +13,8 @@ export const omit = (object, name) => {
   return omitDeep(object, name);
 };
 
+// below 3 call, no use; can remove later
+
 export const getSigner = provider => {
   const ethersProvider = new ethers.providers.Web3Provider(provider);
   return ethersProvider.getSigner();
