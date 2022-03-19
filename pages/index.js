@@ -6,6 +6,8 @@ import CreateProfile from "../components/Lens/Profile/CreateProfile";
 import SearchProfile from "../components/Lens/Profile/SearchProfile";
 import UpdateProfile from "../components/Lens/Profile/UpdateProfile";
 import { useState } from "react";
+import Publications from "../components/Lens/Publication/Publications";
+import CreatePost from "../components/Lens/Publication/CreatePost";
 
 // todo: for dev use only. fix later
 const HARDCODE_HANDLE = "rtang3";
@@ -46,6 +48,18 @@ const Home = () => {
             <div className="m-5 border-2">
               5. Update Profile
               <UpdateProfile handle={HARDCODE_HANDLE} />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              6. Get Paginated Publications
+              <Publications />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              7. Create Post
+              <CreatePost />
             </div>
           )}
         </main>
