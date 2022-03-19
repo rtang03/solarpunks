@@ -2,6 +2,7 @@ import { useMoralis } from "react-moralis";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { signText } from "../../lensApi/ethers.service";
 import { setAuthenticationToken } from "../../lensApi/state";
+import { useEffect } from "react";
 
 const GET_CHALLENGE = gql`
   query ($request: ChallengeRequest!) {
@@ -20,7 +21,7 @@ const AUTHENTICATION = gql`
   }
 `;
 
-const Auth = () => {
+const Auth = ({ authenicationCallback }) => {
   const { account } = useMoralis();
   const {
     loading: challengeLoading,
@@ -40,7 +41,18 @@ const Auth = () => {
     });
   };
 
-  if (authResult) setAuthenticationToken(authResult.authenticate.accessToken);
+  // this avoids Authenticate and parent component render at the same time
+  useEffect(() => {
+    if (authResult) {
+      setAuthenticationToken(authResult.authenticate.accessToken);
+      return new Promise(resolve =>
+        setTimeout(() => {
+          authenicationCallback(true);
+          resolve();
+        }, 200),
+      );
+    }
+  }, [authResult]);
 
   challengeError && console.error("challengeError", challengeError);
   authError && console.error(authError);

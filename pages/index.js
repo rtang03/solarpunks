@@ -3,9 +3,11 @@ import { useMoralis } from "react-moralis";
 import Authenticate from "../components/Lens/Authenicate";
 import Profiles from "../components/Lens/Profile/Profiles";
 import CreateProfile from "../components/Lens/Profile/CreateProfile";
+import { useState } from "react";
 
 const Home = () => {
-  const { account } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
+  const [isLensAPIAuthenticated, setLensAPIAuthenticated] = useState(false);
 
   return (
     <Layout home={true}>
@@ -15,15 +17,15 @@ const Home = () => {
           {account && (
             <div className="m-5 border-2">
               1. LensApi Authenticate:
-              <Authenticate />
+              <Authenticate authenicationCallback={setLensAPIAuthenticated} />
             </div>
           )}
-          {account && (
+          {account && isAuthenticated && isLensAPIAuthenticated && (
             <div className="m-5 border-2">
               2. Get Paginated Profiles: <Profiles />
             </div>
           )}
-          {account && (
+          {account && isAuthenticated && isLensAPIAuthenticated && (
             <div className="m-5 border-2">
               3. Create Profile
               <CreateProfile />
