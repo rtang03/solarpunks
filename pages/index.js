@@ -3,7 +3,12 @@ import { useMoralis } from "react-moralis";
 import Authenticate from "../components/Lens/Authenicate";
 import Profiles from "../components/Lens/Profile/Profiles";
 import CreateProfile from "../components/Lens/Profile/CreateProfile";
+import SearchProfile from "../components/Lens/Profile/SearchProfile";
+import UpdateProfile from "../components/Lens/Profile/UpdateProfile";
 import { useState } from "react";
+
+// todo: for dev use only. fix later
+const HARDCODE_HANDLE = "rtang3";
 
 const Home = () => {
   const { account, isAuthenticated } = useMoralis();
@@ -29,6 +34,18 @@ const Home = () => {
             <div className="m-5 border-2">
               3. Create Profile
               <CreateProfile />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              4. Search By Handle
+              <SearchProfile />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              5. Update Profile
+              <UpdateProfile handle={HARDCODE_HANDLE} />
             </div>
           )}
         </main>
