@@ -2,7 +2,24 @@
 
 ## [Unreleased](https://github.com/rtang03/solarpunks/tree/HEAD)
 
-[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.3...HEAD)
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.4...HEAD)
+
+**Closed issues:**
+
+- Example: LensAPI - CollectTypedData [\#17](https://github.com/rtang03/solarpunks/issues/17)
+- Example: LensAPI - CreateCommentTypedData [\#16](https://github.com/rtang03/solarpunks/issues/16)
+- Example: LensAPI - Paginated Followings [\#15](https://github.com/rtang03/solarpunks/issues/15)
+- Example: LensAPI - Paginated Followers [\#14](https://github.com/rtang03/solarpunks/issues/14)
+- Example: LensAPI - common transaction submission [\#13](https://github.com/rtang03/solarpunks/issues/13)
+- Example: LensAPI - createFollowTypedData \(EIP-712\) [\#12](https://github.com/rtang03/solarpunks/issues/12)
+
+**Merged pull requests:**
+
+- day 3 - follow / get-followers / get-following / collect / create comment [\#18](https://github.com/rtang03/solarpunks/pull/18) ([rtang03](https://github.com/rtang03))
+
+## [v0.4](https://github.com/rtang03/solarpunks/tree/v0.4) (2022-03-20)
+
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.3...v0.4)
 
 **Closed issues:**
 
@@ -14,7 +31,6 @@
 **Merged pull requests:**
 
 - day 2 - create post / get-post / get-posts [\#10](https://github.com/rtang03/solarpunks/pull/10) ([rtang03](https://github.com/rtang03))
-- day 2 - Merge main into UI Branch [\#11](https://github.com/rtang03/solarpunks/pull/11) ([HabacucMX](https://github.com/HabacucMX))
 
 ## [v0.3](https://github.com/rtang03/solarpunks/tree/v0.3) (2022-03-19)
 
@@ -24,7 +40,7 @@
 
 - Example: LensAPI - Retrieve Paginated Profiles [\#4](https://github.com/rtang03/solarpunks/issues/4)
 - Example: LensAPI - Search Profile [\#3](https://github.com/rtang03/solarpunks/issues/3)
-- Example: LensAPI - Transaction Receipt after any mutation [\#2](https://github.com/rtang03/solarpunks/issues/2)
+- Example: LensAPI - Transaction Receipt with Indexer info [\#2](https://github.com/rtang03/solarpunks/issues/2)
 
 **Merged pull requests:**
 
