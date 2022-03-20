@@ -1,24 +1,32 @@
 import { gql, useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { getLensHub } from "../../../lensApi/lensHub";
 import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
 import { ethers, utils } from "ethers";
 import omit from "omit-deep";
+import { useQueryTxIndexed } from "../../../hooks/useQueryTxIndexed";
 
 // TODO: hardcoded contentUri and profileId. fix later
-const CONTENT_URL = "https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8";
+const CONTENT_URL = "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN";
 const PROFILE_ID = "0x21";
 
 const CreatePost = () => {
   const { provider } = useMoralis();
   const [_create, { data, error, loading }] = useMutation(CREATE_POST_TYPED_DATA);
   const [signatureParts, setSignatureParts] = useState();
-  const [transactionReceipt, setTransactionReceipt] = useState();
+  const [transaction, setTransaction] = useState();
 
   const ethersProvider = new ethers.providers.Web3Provider(provider);
   const signer = ethersProvider.getSigner();
+  const txHash = transaction?.hash;
+
+  const { isIndexedLoading, isIndexedError, transactionReceipt } = useQueryTxIndexed(
+    transaction,
+    txHash,
+  );
+
+  isIndexedError && console.error("isIndexedError", isIndexedError);
 
   /**
    * Step 1: Signing EIP-712 Typed Data, retrieved from LensAPI endpoint
@@ -45,7 +53,7 @@ const CreatePost = () => {
   const typedData = data?.createPostTypedData?.typedData;
 
   useEffect(() => {
-    if (typedData && !transactionReceipt && !signatureParts) {
+    if (typedData && !transaction && !signatureParts) {
       signer
         ._signTypedData(
           omit(typedData.domain, "__typename"),
@@ -85,7 +93,7 @@ const CreatePost = () => {
       typedData?.value?.referenceModuleData &&
       typedData?.value?.deadline;
 
-    if (v && r && s && isTypedDataValid && !transactionReceipt) {
+    if (v && r && s && isTypedDataValid && !transaction) {
       const lensHub = getLensHub(signer);
       const payload = {
         profileId: typedData.value.profileId,
@@ -116,14 +124,12 @@ const CreatePost = () => {
       //     v: 28,
       //   },
       // };
-      lensHub.postWithSig(payload).then(tx => {
-        setTransactionReceipt(tx);
-        console.log("transaction recept", tx);
-      });
+      lensHub.postWithSig(payload).then(tx => setTransaction(tx));
     }
   }, [signatureParts]);
 
-  transactionReceipt && console.log("transactionReceipt", transactionReceipt);
+  // TODO: remember to remove it later
+  transaction && console.log("transaction", transaction);
 
   return (
     <Formik initialValues={{}} onSubmit={async () => create()}>
@@ -136,7 +142,11 @@ const CreatePost = () => {
           <div>CreateTypedData: </div>
           {error && <div className="border-2">error: {error.message}</div>}
           {data && <pre className="text-left">{JSON.stringify(data, null, 2)}</pre>}
-          <div>Receipt: </div>
+          <div>Transaction: </div>
+          {transaction && (
+            <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
+          )}
+          <div>transactionReceipt: </div>
           {transactionReceipt && (
             <pre className="text-left w-64">{JSON.stringify(transactionReceipt, null, 2)}</pre>
           )}

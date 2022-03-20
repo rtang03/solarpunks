@@ -17,7 +17,7 @@ const Publications = () => {
             variables: {
               request: {
                 limit: PAGESIZE,
-                cursor: CURSOR,
+                // cursor: CURSOR,
                 profileId: PROFILE_ID, // optionally
                 publicationTypes: ["POST", "COMMENT", "MIRROR"], // mandatory
                 // future use
