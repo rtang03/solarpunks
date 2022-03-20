@@ -1,17 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,400;0,500;0,700;1,200;1,400;1,500;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
   .connect-btn {
-    @apply connect-block-text mx-4 rounded-lg border-2
-  border-gray-600 px-4 text-base hover:bg-gray-700
-  hover:text-gray-300 hover:transition dark:border-gray-400
-  dark:hover:bg-gray-300 dark:hover:text-gray-700;
+    @apply
+    px-4 
   }
-  .connect-block-text {
-    @apply my-auto mr-auto ml-4 
-    align-middle text-lg 
-    font-bold tracking-wider text-gray-600 dark:text-gray-400;
+ 
+  .hud1 {
+    @apply p-3 
+    bg-glass-100 text-center
+    rounded-bl-lg
+    border-none
+    hover:bg-solar-100
+    cursor-pointer
+  }
+
+  .hud2 {
+    @apply p-3 
+    bg-glass-100 text-center
+    border-none
+  }
+
+  .hud3 {
+    @apply p-3 
+    bg-glass-100 text-center
+    border-none
+    hover:bg-solar-100
+    cursor-pointer
+  }
+  
+  .hud4 {
+    @apply p-3 
+    bg-glass-100 text-center
+    border-none
+    hover:bg-solar-100
+    cursor-pointer
+    rounded-br-lg
+  }
+
+  .hudb {
+    @apply p-3 
+    bg-glass-100 text-center
+    border-none
+    hover:bg-solar-100
+    cursor-pointer
+  }
+
+  .top-hud { 
+    @apply mx-96 fixed grid grid-cols-7 items-center top-0 left-0 right-0
+    rounded-b-lg
+    font-exo
+    font-medium
+    text-lg
+    border-none
   }
 }

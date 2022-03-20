@@ -49,6 +49,11 @@ module.exports = {
                     200: "#f6af55",
                     100: "#fdb04e",
                 },
+                
+                glass: {
+                    100: "#aaa6a170",
+                },
+
                 "bookmark-purple": "#5267DF",
                 "bookmark-red": "#fa5959",
                 "bookmark-blue": "#242A45",
@@ -58,8 +63,12 @@ module.exports = {
             spacing: {
                 88: "22rem",
             },
+            borderRadius: {
+                'lg': '25px',
+            },
             fontFamily: {
                 Poppins: ["Poppins, sans-serif"],
+                exo: ['"Exo 2"'],
             },
             container: {
                 center: true,
