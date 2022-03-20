@@ -43,3 +43,11 @@ git tag -d v0.5.1
 # delete remote tag
 git push --delete origin v0.5.1
 ```
+
+### Finding 1
+I figure that out. I did stupid thing. the contentURI need to refer to a json file of OpenSeas metadata format. That means, energy count or whatever custom attributes can go to https://docs.lens.dev/docs/metadata-standards#attributes---required
+Lens Protocol
+Metadata standards
+As everything is an NFT in theory - even if it can not be collected - setting metadata standards is necessary for all publications. This will outline what we propose you should conform to if you are building on Lens Protocol. This does not mean you can not set up your own standards; rather, it means...
+Only if STRICTLY following this metadata standard, LensAPI will do indexing, and searchable. I go sleep now, and continue tomorrow. 
+Besides, I found that there are 3 subsequent steps. 1. tx committed, 2. indexing ok, 3. metadata status: success. Only if 3 steps are all done successfully, is searchable. If this mal-form metadata file; step 1 and 2 will be fine, fail at step 3. Still, unsearchable. And, neither documentation, nor the example repo, gives clear instructions. about the step 3.

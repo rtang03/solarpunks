@@ -36,7 +36,7 @@ const Profiles = () => {
       </button>
       <div>Result: </div>
       {error && <div className="border-2">error: {error.message}</div>}
-      <pre className="text-left">{data && JSON.stringify(data, null, 2)}</pre>
+      {data && <pre className="text-left">{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 };

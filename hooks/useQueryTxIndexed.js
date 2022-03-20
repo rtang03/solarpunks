@@ -27,6 +27,16 @@ export const useQueryTxIndexed = (txResponse, txHash) => {
       stopPolling();
       console.log("Stop polling");
     }
+    // future enhancement. Not affecting hackathon, skip it for now.
+    // kind: 'POST' | 'PROFILE'
+    // PROFILE: stop polling after Indexed
+    // POST: stop polling after Indexed AND Metadatastatus returned
+    // const metadataStatus = isIndexedData?.hasTxHashBeenIndexed?.metadataStatus?.status;
+    // console.log("metadataStatus", metadataStatus);
+    // if (metadataStatus === 1 || metadataStatus === 2) {
+    //   stopPolling();
+    //   console.log("Stop polling");
+    // }
   }, [isIndexedData]);
 
   // Apollo Error
