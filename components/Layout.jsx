@@ -4,15 +4,15 @@ import Account from "./Account/Account";
 export default function Layout({ children, home }) {
   return (
 
-    <div>
-    <nav >
-      <div><a>Twitter</a></div>
-      <div>Location</div>
-      <div> ENS / <Account /></div>
-      <div>Balance</div>
-      <div> ⚡ Emergy Units</div>
-      <div> 💽 Chips Units</div>
-      <div> 🪨 Carbon</div>      
+    <div class="border-none">
+    <nav class='top-hud'>
+      <div class='hud1'>Twitter</div>
+      <div class="hud2">Location</div>
+      <div class="hudb"> <Account /></div>
+      <div class="hud3">Balance</div>
+      <div class="hud2"> ⚡ Energy</div>
+      <div class="hud2"> 💽 Chips</div>
+      <div class="hud4"> 🪨 Carbon</div>      
     </nav>
     <main>{children}</main>
     {!home && (
