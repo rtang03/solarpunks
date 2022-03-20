@@ -144,3 +144,46 @@ const GET_FOLLOWING = gql`
     }
   }
 `;
+
+// {
+//   "following": {
+//     "__typename": "PaginatedFollowingResult",
+//     "items": [
+//       {
+//         "__typename": "Following",
+//         "profile": {
+//           "__typename": "Profile",
+//           "id": "0x21",
+//           "name": null,
+//           "bio": null,
+//           "location": null,
+//           "website": null,
+//           "twitterUrl": null,
+//           "handle": "rtang3",
+//           "picture": null,
+//           "coverPicture": null,
+//           "ownedBy": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//           "depatcher": null,
+//           "stats": {
+//             "__typename": "ProfileStats",
+//             "totalFollowers": 1,
+//             "totalFollowing": 0,
+//             "totalPosts": 2,
+//             "totalComments": 0,
+//             "totalMirrors": 0,
+//             "totalPublications": 2,
+//             "totalCollects": 0
+//           },
+//           "followModule": null
+//         },
+//         "totalAmountOfTimesFollowing": 6
+//       }
+//     ],
+//     "pageInfo": {
+//       "__typename": "PaginatedResultInfo",
+//       "prev": "{\"offset\":0}",
+//       "next": "{\"offset\":1}",
+//       "totalCount": 1
+//     }
+//   }
+// }

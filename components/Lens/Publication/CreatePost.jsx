@@ -13,7 +13,7 @@ const CreatePost = () => {
   const { provider } = useMoralis();
   const [_create, { data, error, loading }] = useMutation(CREATE_POST_TYPED_DATA);
 
-  // txHash is used for querying Indexer, if necessary
+  // txHash is used for querying Indexer
   const typedDataTxHash = data?.[LENS_API_MUTATION]?.txHash;
   const typedData = data?.[LENS_API_MUTATION]?.typedData;
 
@@ -61,6 +61,8 @@ const CreatePost = () => {
   };
 
   // Apollo Error in Indexer
+  signTypedDataError && console.error("signTypedDataError", signTypedDataError);
+  transError && console.error("transError", transError);
   isIndexedError && console.error("isIndexedError", isIndexedError);
 
   return (

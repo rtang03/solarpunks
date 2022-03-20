@@ -45,6 +45,8 @@ const Follow = () => {
   };
 
   // Apollo Error in Indexer
+  signTypedDataError && console.error("signTypedDataError", signTypedDataError);
+  transError && console.error("transError", transError);
   isIndexedError && console.error("isIndexedError", isIndexedError);
 
   return (
