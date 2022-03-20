@@ -9,6 +9,11 @@ import { useState } from "react";
 import Publications from "../components/Lens/Publication/Publications";
 import CreatePost from "../components/Lens/Publication/CreatePost";
 import Publication from "../components/Lens/Publication/Publication";
+import Follow from "../components/Lens/Follow/Follow";
+import Followers from "../components/Lens/Follow/Followers";
+import Following from "../components/Lens/Follow/Following";
+import CreateComment from "../components/Lens/Publication/CreateComment";
+import Collect from "../components/Lens/Module/Collect";
 
 // todo: for dev use only. fix later
 const HARDCODE_HANDLE = "rtang3";
@@ -67,6 +72,36 @@ const Home = () => {
             <div className="m-5 border-2">
               8. Get 1x Publication
               <Publication />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              9. Follow profileId "x021" (switch to other account first)
+              <Follow />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              10. Get Paginated Followers by profileId "x021"
+              <Followers />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              11. Get Paginated Following by active wallet address
+              <Following />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              12. Create Comment
+              <CreateComment />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              13. Collect 0x21-0x08 by 0x59
+              <Collect />
             </div>
           )}
         </main>
