@@ -13,6 +13,7 @@ import Follow from "../components/Lens/Follow/Follow";
 import Followers from "../components/Lens/Follow/Followers";
 import Following from "../components/Lens/Follow/Following";
 import CreateComment from "../components/Lens/Publication/CreateComment";
+import Collect from "../components/Lens/Module/Collect";
 
 // todo: for dev use only. fix later
 const HARDCODE_HANDLE = "rtang3";
@@ -95,6 +96,12 @@ const Home = () => {
             <div className="m-5 border-2">
               12. Create Comment
               <CreateComment />
+            </div>
+          )}
+          {account && isAuthenticated && isLensAPIAuthenticated && (
+            <div className="m-5 border-2">
+              13. Collect 0x21-0x08 by 0x59
+              <Collect />
             </div>
           )}
         </main>

@@ -1,6 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useMoralis } from "react-moralis";
 import { useSendTransWithSig } from "../../../hooks/useSendTransWithSig";
 
 // TODO: hardcoded contentUri and profileId. fix later
@@ -11,7 +10,6 @@ const PROFILE_ID = "0x21";
 const CreateComment = () => {
   const LENS_API_MUTATION = "createCommentTypedData";
   const CONTRACT_FUNC_NAME = "commentWithSig";
-  const { provider } = useMoralis();
   const [_create, { data, error, loading }] = useMutation(CREATE_COMMENT_TYPED_DATA);
 
   // txHash is used for querying Indexer

@@ -13,6 +13,7 @@ export const useSendTransWithSig = ({
   typedDataTxHash,
   contractFuncName, // string
   contractPayload,
+  gasLimit,
 }) => {
   const { provider } = useMoralis();
   const [transaction, setTransaction] = useState();
@@ -90,15 +91,18 @@ export const useSendTransWithSig = ({
       //     v: 28,
       //   },
       // };
-      lensHub[contractFuncName]({
-        ...contractPayload,
-        sig: {
-          v,
-          r,
-          s,
-          deadline: typedData?.value?.deadline,
+      lensHub[contractFuncName](
+        {
+          ...contractPayload,
+          sig: {
+            v,
+            r,
+            s,
+            deadline: typedData?.value?.deadline,
+          },
         },
-      })
+        { gasLimit },
+      )
         .then(tx => {
           setTransaction(tx);
           setIsSendTransLoading(false);
