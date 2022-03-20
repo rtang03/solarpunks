@@ -12,7 +12,7 @@ const Follow = () => {
 
   const [_follow, { data, error, loading }] = useMutation(CREATE_FOLLOW_TYPED_DATA);
 
-  // txHash is used for querying Indexer
+  // txHash is used for querying Indexer, if necessary
   const typedDataTxHash = data?.[LENS_API_MUTATION]?.txHash;
   const typedData = data?.[LENS_API_MUTATION]?.typedData;
 

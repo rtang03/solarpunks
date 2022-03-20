@@ -1,45 +1,36 @@
 import { gql, useMutation } from "@apollo/client";
 import { Formik, Form } from "formik";
+import { getLensHub } from "../../../lensApi/lensHub";
 import { useMoralis } from "react-moralis";
-import { useSendTransWithSig } from "../../../hooks/useSendTransWithSig";
+import { useEffect, useState } from "react";
+import { ethers, utils } from "ethers";
+import omit from "omit-deep";
+import { useQueryTxIndexed } from "../../../hooks/useQueryTxIndexed";
 
 // TODO: hardcoded contentUri and profileId. fix later
 const CONTENT_URL = "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN";
-const PROFILE_ID = "0x21"; //account2 is "0x59";
+const PROFILE_ID = "0x59" // "0x21";
 
 const CreatePost = () => {
-  const LENS_API_MUTATION = "createPostTypedData";
-  const CONTRACT_FUNC_NAME = "postWithSig";
   const { provider } = useMoralis();
   const [_create, { data, error, loading }] = useMutation(CREATE_POST_TYPED_DATA);
+  const [signatureParts, setSignatureParts] = useState();
+  const [transaction, setTransaction] = useState();
 
-  // txHash is used for querying Indexer, if necessary
-  const typedDataTxHash = data?.[LENS_API_MUTATION]?.txHash;
-  const typedData = data?.[LENS_API_MUTATION]?.typedData;
+  const ethersProvider = new ethers.providers.Web3Provider(provider);
+  const signer = ethersProvider.getSigner();
+  const txHash = transaction?.hash;
 
-  const {
+  const { isIndexedLoading, isIndexedError, transactionReceipt } = useQueryTxIndexed(
     transaction,
-    signTypedDataError,
-    isIndexedLoading,
-    isIndexedError,
-    transactionReceipt,
-    transError,
-    isSendTransLoading,
-    isSignTypedDataLoading,
-  } = useSendTransWithSig({
-    typedData,
-    typedDataTxHash,
-    contractFuncName: CONTRACT_FUNC_NAME,
-    contractPayload: {
-      profileId: typedData?.value?.profileId,
-      contentURI: typedData?.value?.contentURI,
-      collectModule: typedData?.value?.collectModule,
-      collectModuleData: typedData?.value?.collectModuleData,
-      referenceModule: typedData?.value?.referenceModule,
-      referenceModuleData: typedData?.value?.referenceModuleData,
-    },
-  });
+    txHash,
+  );
 
+  isIndexedError && console.error("isIndexedError", isIndexedError);
+
+  /**
+   * Step 1: Signing EIP-712 Typed Data, retrieved from LensAPI endpoint
+   */
   const create = async () => {
     const request = {
       profileId: PROFILE_ID,
@@ -59,9 +50,84 @@ const CreatePost = () => {
       console.error("unexpected error [creatPost]: ", e);
     }
   };
+  const typedData = data?.createPostTypedData?.typedData;
 
-  // Apollo Error in Indexer
-  isIndexedError && console.error("isIndexedError", isIndexedError);
+  useEffect(() => {
+    if (typedData && !transaction && !signatureParts) {
+      signer
+        ._signTypedData(
+          omit(typedData.domain, "__typename"),
+          omit(typedData.types, "__typename"),
+          omit(typedData.value, "__typename"),
+        )
+        .then(signature => {
+          const signatureParts = utils.splitSignature(signature);
+          setSignatureParts(signatureParts);
+          // example: signatureParts
+          // {
+          //   compact: "0x16c94b64338cde6881527a7ee85d932ef7c09debfd253e3e0f43bf7bfc80f4d7da8adaa9f83488ea15a68e20e798e3b885e35398e94b65e3370ab5176a615a76"
+          //   r: "0x16c94b64338cde6881527a7ee85d932ef7c09debfd253e3e0f43bf7bfc80f4d7"
+          //   recoveryParam: 1
+          //   s: "0x5a8adaa9f83488ea15a68e20e798e3b885e35398e94b65e3370ab5176a615a76"
+          //   v: 28
+          //   yParityAndS: "0xda8adaa9f83488ea15a68e20e798e3b885e35398e94b65e3370ab5176a615a76"
+          //   _vs: "0xda8adaa9f83488ea15a68e20e798e3b885e35398e94b65e3370ab5176a615a76"
+          // }
+        });
+    }
+  }, [data]);
+
+  /**
+   * Step 2: Submit signed tx, to Lens-Hub
+   */
+  useEffect(() => {
+    const v = signatureParts?.v;
+    const r = signatureParts?.r;
+    const s = signatureParts?.s;
+    const isTypedDataValid =
+      typedData?.value?.profileId &&
+      typedData?.value?.contentURI &&
+      typedData?.value?.collectModule &&
+      typedData?.value?.collectModuleData &&
+      typedData?.value?.referenceModule &&
+      typedData?.value?.referenceModuleData &&
+      typedData?.value?.deadline;
+
+    if (v && r && s && isTypedDataValid && !transaction) {
+      const lensHub = getLensHub(signer);
+      const payload = {
+        profileId: typedData.value.profileId,
+        contentURI: typedData.value.contentURI,
+        collectModule: typedData.value.collectModule,
+        collectModuleData: typedData.value.collectModuleData,
+        referenceModule: typedData.value.referenceModule,
+        referenceModuleData: typedData.value.referenceModuleData,
+        sig: {
+          v,
+          r,
+          s,
+          deadline: typedData.value.deadline,
+        },
+      };
+      // example payload
+      // {
+      //   collectModule: "0xb96e42b5579e76197B4d2EA710fF50e037881253",
+      //   collectModuleData: "0x",
+      //   contentURI: "https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8",
+      //   profileId: "0x21",
+      //   referenceModule: "0x0000000000000000000000000000000000000000",
+      //   referenceModuleData: "0x",
+      //   sig: {
+      //     deadline: 1647699754,
+      //     r: "0x7c50caf15d088f92b492c1e108041336aa79b4e595d4361b3d801a4f2208be33",
+      //     s: "0x1dffc217d25b1720f12c6a4c30ba9bd30f2c6b567de35671bcd5966aea8f8505",
+      //     v: 28,
+      //   },
+      // };
+      lensHub.postWithSig(payload).then(tx => setTransaction(tx));
+    }
+  }, [signatureParts]);
+
 
   return (
     <Formik initialValues={{}} onSubmit={async () => create()}>
