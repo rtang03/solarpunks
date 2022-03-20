@@ -1,20 +1,28 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import { useMoralis } from "react-moralis";
 
+// TODO: hardcoded pagination
+const PAGESIZE = 5;
+const CURSOR = 0;
+
+/**
+ * @HabacucMX
+ * currently, retrieve profiles by owner only
+ */
 const Profiles = () => {
   const { account } = useMoralis();
   const [getProfiles, { loading, data, error }] = useLazyQuery(GET_PROFILES);
 
   return (
-    <div>1
+    <div>
       <button
         className="bg-blue-500 m-2 p-2 border-2"
         onClick={() =>
           getProfiles({
             variables: {
               request: {
-                limit: 10,
-                cursor: 0,
+                limit: PAGESIZE,
+                cursor: CURSOR,
                 // handles: ["account1"], // string[]
                 // profileIds: null, // string[]
                 ownedBy: account,
@@ -28,7 +36,7 @@ const Profiles = () => {
       </button>
       <div>Result: </div>
       {error && <div className="border-2">error: {error.message}</div>}
-      <pre className="text-left">{data && JSON.stringify(data, null, 2)}</pre>
+      {data && <pre className="text-left">{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 };
@@ -115,3 +123,68 @@ const GET_PROFILES = gql`
 `;
 
 export default Profiles;
+
+// example
+// {
+//   "profiles": {
+//     "__typename": "PaginatedProfileResult",
+//     "items": [
+//       {
+//         "__typename": "Profile",
+//         "id": "0x21",
+//         "name": null,
+//         "bio": null,
+//         "location": null,
+//         "website": null,
+//         "twitterUrl": null,
+//         "picture": null,
+//         "handle": "rtang3",
+//         "coverPicture": null,
+//         "ownedBy": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//         "depatcher": null,
+//         "stats": {
+//           "__typename": "ProfileStats",
+//           "totalFollowers": 0,
+//           "totalFollowing": 0,
+//           "totalPosts": 0,
+//           "totalComments": 0,
+//           "totalMirrors": 0,
+//           "totalPublications": 0,
+//           "totalCollects": 0
+//         },
+//         "followModule": null
+//       },
+//       {
+//         "__typename": "Profile",
+//         "id": "0x2f",
+//         "name": null,
+//         "bio": null,
+//         "location": null,
+//         "website": null,
+//         "twitterUrl": null,
+//         "picture": null,
+//         "handle": "rtang4",
+//         "coverPicture": null,
+//         "ownedBy": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//         "depatcher": null,
+//         "stats": {
+//           "__typename": "ProfileStats",
+//           "totalFollowers": 0,
+//           "totalFollowing": 0,
+//           "totalPosts": 0,
+//           "totalComments": 0,
+//           "totalMirrors": 0,
+//           "totalPublications": 0,
+//           "totalCollects": 0
+//         },
+//         "followModule": null
+//       }
+//     ],
+//     "pageInfo": {
+//       "__typename": "PaginatedResultInfo",
+//       "prev": "{\"offset\":0}",
+//       "next": "{\"offset\":2}",
+//       "totalCount": 2
+//     }
+//   }
+// }

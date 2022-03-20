@@ -1,40 +1,37 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 
-const PUB_ID = "0x21-0x08";
-
-// kind: 'POST' | 'COMMIT' | 'MIRROR'
-const Publication = ({ kind }) => {
-  const [getPub, { loading, data, error }] = useLazyQuery(GET_PUBLICATION);
-
-  return (
-    <div>
-      <button
-        className="bg-blue-500 m-2 p-2 border-2"
-        onClick={() => getPub({ variables: { request: { publicationId: PUB_ID } } })}
-      >
-        Get Pub: {PUB_ID}
-      </button>
-      <div>Result: </div>
-      {error && <div className="border-2">error: {error.message}</div>}
-      {data && <pre className="text-left">{JSON.stringify(data, null, 2)}</pre>}
-    </div>
-  );
-};
-
-export default Publication;
-
-const GET_PUBLICATION = gql`
-  query ($request: PublicationQueryRequest!) {
-    publication(request: $request) {
-      __typename
-      ... on Post {
-        ...PostFields
+export const SEARCH = gql`
+  query ($request: SearchQueryRequest!) {
+    search(request: $request) {
+      ... on PublicationSearchResult {
+        __typename
+        items {
+          __typename
+          ... on Comment {
+            ...CommentFields
+          }
+          ... on Post {
+            ...PostFields
+          }
+        }
+        pageInfo {
+          prev
+          totalCount
+          next
+        }
       }
-      ... on Comment {
-        ...CommentFields
-      }
-      ... on Mirror {
-        ...MirrorFields
+      ... on ProfileSearchResult {
+        __typename
+        items {
+          ... on Profile {
+            ...ProfileFields
+          }
+        }
+        pageInfo {
+          prev
+          totalCount
+          next
+        }
       }
     }
   }
@@ -44,8 +41,31 @@ const GET_PUBLICATION = gql`
     mimeType
   }
 
-  fragment ProfileFields on Profile {
+  fragment MirrorBaseFields on Mirror {
     id
+    profile {
+      ...ProfileFields
+    }
+    stats {
+      ...PublicationStatsFields
+    }
+    metadata {
+      ...MetadataOutputFields
+    }
+    createdAt
+    collectModule {
+      ...CollectModuleFields
+    }
+    referenceModule {
+      ... on FollowOnlyReferenceModuleSettings {
+        type
+      }
+    }
+    appId
+  }
+
+  fragment ProfileFields on Profile {
+    profileId: id
     name
     bio
     location
@@ -216,41 +236,6 @@ const GET_PUBLICATION = gql`
       }
     }
     appId
-  }
-
-  fragment MirrorBaseFields on Mirror {
-    id
-    profile {
-      ...ProfileFields
-    }
-    stats {
-      ...PublicationStatsFields
-    }
-    metadata {
-      ...MetadataOutputFields
-    }
-    createdAt
-    collectModule {
-      ...CollectModuleFields
-    }
-    referenceModule {
-      ... on FollowOnlyReferenceModuleSettings {
-        type
-      }
-    }
-    appId
-  }
-
-  fragment MirrorFields on Mirror {
-    ...MirrorBaseFields
-    mirrorOf {
-      ... on Post {
-        ...PostFields
-      }
-      ... on Comment {
-        ...CommentFields
-      }
-    }
   }
 
   fragment CommentBaseFields on Comment {
