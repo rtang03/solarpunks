@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import { getLensHub } from "../../../lensApi/lensHub";
 import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import { useQueryTxIndexed } from "../../../hooks/useQueryTxIndexed";
 
 // TODO: hardcoded contentUri and profileId. fix later
 const CONTENT_URL = "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN";
-const PROFILE_ID = "0x21";
+const PROFILE_ID = "0x59" // "0x21";
 
 const CreatePost = () => {
   const { provider } = useMoralis();
@@ -128,8 +128,6 @@ const CreatePost = () => {
     }
   }, [signatureParts]);
 
-  // TODO: remember to remove it later
-  transaction && console.log("transaction", transaction);
 
   return (
     <Formik initialValues={{}} onSubmit={async () => create()}>
