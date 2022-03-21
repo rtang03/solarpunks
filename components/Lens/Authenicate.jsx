@@ -2,7 +2,8 @@ import { useMoralis } from "react-moralis";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { signText } from "../../lensApi/ethers.service";
 import { setAuthenticationToken } from "../../lensApi/state";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import LensContext from "../LensContext";
 
 const GET_CHALLENGE = gql`
   query ($request: ChallengeRequest!) {
@@ -21,8 +22,9 @@ const AUTHENTICATION = gql`
   }
 `;
 
-const Auth = ({ authenicationCallback }) => {
-  const { account } = useMoralis();
+const Auth = () => {
+  const { account, isAuthenticated } = useMoralis();
+  const { isLensReady, setIsLensReady } = useContext(LensContext);
   const {
     loading: challengeLoading,
     error: challengeError,
@@ -45,12 +47,7 @@ const Auth = ({ authenicationCallback }) => {
   useEffect(() => {
     if (authResult) {
       setAuthenticationToken(authResult.authenticate.accessToken);
-      return new Promise(resolve =>
-        setTimeout(() => {
-          authenicationCallback(true);
-          resolve();
-        }, 200),
-      );
+      setIsLensReady(true);
     }
   }, [authResult]);
 
@@ -58,21 +55,21 @@ const Auth = ({ authenicationCallback }) => {
   authError && console.error(authError);
 
   return (
-    <div>
-      {account ? (
+    <span>
+      {account && isAuthenticated ? (
         <button
-          disabled={authLoading || authResult}
-          className="bg-blue-500 m-2 p-2 border-2"
+          disabled={authLoading || isLensReady}
+          className="connect-btn-no-hover"
           onClick={async () => authenticate()}
         >
-          {authResult ? "Authenicated" : "Login to LensAPI"}
+          {isLensReady ? "Lens Ready" : "Use Lens"}
         </button>
       ) : (
         <div>Please connect your wallet.</div>
       )}
       {challengeError && <p>Oops! Fail to obtain challenge</p>}
       {authError && <p>Oops! Fail to authenicate LensAPI</p>}
-    </div>
+    </span>
   );
 };
 
