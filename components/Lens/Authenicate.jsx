@@ -55,22 +55,22 @@ const Auth = () => {
   authError && console.error(authError);
 
   return (
-    <span>
+    <div className="hud2">
       {account && isAuthenticated ? (
         <button
           disabled={authLoading || isLensReady}
-          className="connect-btn-no-hover"
+          
 
           onClick={async () => authenticate()}
         >
           {isLensReady ? "Lens Ready" : "Use Lens"}
         </button>
       ) : (
-        <div class="hud2">2. Connect to Lens</div>
+        <div>2. Connect to Lens</div>
       )}
       {challengeError && <p>Oops! Fail to obtain challenge</p>}
       {authError && <p>Oops! Fail to authenicate LensAPI</p>}
-    </span>
+    </div>
   );
 };
 

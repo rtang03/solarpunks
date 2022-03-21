@@ -25,7 +25,7 @@
   }
 
   .top-hud { 
-    @apply xl:mx-96 fixed grid grid-cols-3 items-center top-0 left-0 right-0
+    @apply xl:mx-96 fixed grid grid-cols-5 items-center top-0 left-0 right-0
     rounded-b-lg
     font-exo
     font-medium
@@ -49,8 +49,8 @@
     bg-glass-100 text-center
     rounded-bl-lg
     border-none
-    hover:bg-solar-900
-    hover:text-night-100
+    hover:bg-cyber-100
+    hover:text-white
     cursor-pointer
   }
 
@@ -64,8 +64,8 @@
     @apply p-1 
     bg-glass-100 text-center
     border-none
-    hover:bg-solar-900
-    hover:text-night-100
+    hover:bg-cyber-100
+    hover:text-white
     cursor-pointer
   }
   
@@ -73,8 +73,8 @@
     @apply p-1 
     bg-glass-100 text-center
     border-none
-    hover:bg-solar-900
-    hover:text-night-100
+    hover:bg-cyber-100
+    hover:text-white
     cursor-pointer
     rounded-br-lg
   }
