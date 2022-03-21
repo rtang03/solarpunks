@@ -1,10 +1,11 @@
 import "../styles/globals.css";
 import { ApolloProvider } from "@apollo/client";
 import { useApollo } from "../lib/apolloClient";
-import Head from "next/head";
 import dynamic from "next/dynamic";
 import { LensProvider } from "../components/LensContext";
 import { useState, useMemo } from "react";
+
+
 
 const MoralisContextProvider = dynamic(() => import("../components/MoralisContext"), {
   ssr: false,
