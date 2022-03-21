@@ -10,13 +10,12 @@ import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import LensContext from "./LensContext";
 
-const PAGESIZE = 5;
+const PAGESIZE = 20;
 
 const Profiles = ({ cursor, dev }) => {
   const FUNC = "profiles";
   const { account } = useMoralis();
   const { isLensReady } = useContext(LensContext);
-  console.log("isLensReady in profiles", isLensReady);
 
   const { loading, data, error } = useQuery(GET_PROFILES, {
     variables: {
@@ -45,7 +44,7 @@ const Profiles = ({ cursor, dev }) => {
           {isActiveRecord && !error && !loading ? (
             <div>
               {items?.map((item, key) => (
-                <div className="border-2 m-2">
+                <div className="border-2 m-2" key={key}>
                   <button className="bg-blue-200 m-2 p-2">
                     <Link href={`/profiles/${item.handle}`}>
                       <a>Handle: {item.handle}</a>

@@ -7,12 +7,14 @@ import ConnectWalletMessage from "../../components/ConnectWalletMessage";
 const ProfilePage = () => {
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
-  const handle = router.query.id;
+  const handle = router.query.handle;
 
   return (
     <Layout>
       {account && isAuthenticated ? (
-        <Profile handle={handle} dev={true} />
+        <>
+          <Profile handle={handle} dev={true} />
+        </>
       ) : (
         <ConnectWalletMessage />
       )}

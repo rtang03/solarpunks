@@ -13,6 +13,7 @@ const Profile = ({ handle, dev }) => {
   const { data, error, loading } = useQuery(SEARCH, {
     variables: { request: { limit: 1, query: handle, type: "PROFILE" } },
     skip: !handle || !isLensReady,
+    pollInterval: 500,
   });
 
   const result = data?.[FUNC]?.items?.[0];
@@ -23,6 +24,13 @@ const Profile = ({ handle, dev }) => {
         <div>Lens is not active</div>
       ) : (
         <div className="border-2 p-2">
+          <div>
+            <Link href={`/profiles/${handle}/update-profile`}>
+              <button className="border-2 p-2 bg-blue-300">
+                <a>Update this profile</a>
+              </button>
+            </Link>
+          </div>
           <button className="bg-blue-200 border-2 m-2 p-2">
             <Link href={`/profiles`}>
               <a>back to my profiles</a>

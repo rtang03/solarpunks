@@ -1,6 +1,5 @@
 import Layout from "../components/Layout";
 import { useMoralis } from "react-moralis";
-import CreateProfile from "../components/Lens/Profile/CreateProfile";
 import SearchProfile from "../components/Lens/Profile/SearchProfile";
 import UpdateProfile from "../components/Lens/Profile/UpdateProfile";
 import { useContext } from "react";
@@ -28,12 +27,6 @@ const Home = () => {
       <div className="flex min-h-screen flex-col items-center justify-center py-2">
         <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
           <h1 className="text-2xl font-bold">Welcome to Decentralized Social</h1>
-          {account && isAuthenticated && isLensReady && (
-            <div className="m-5 border-2">
-              3. Create Profile
-              <CreateProfile />
-            </div>
-          )}
           {account && isAuthenticated && (
             <div className="m-5 border-2">
               4. Search By Handle

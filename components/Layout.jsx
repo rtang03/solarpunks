@@ -30,6 +30,13 @@ const Layout = ({ children, home }) => {
                 </button>
               </span>
             </Link>
+            <Link href="/profiles/create-profile">
+              <span className="mx-2">
+                <button className="border-2 p-2">
+                  <a>Create Profile</a>
+                </button>
+              </span>
+            </Link>
           </>
         )}
       </nav>
