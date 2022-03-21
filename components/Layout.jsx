@@ -3,7 +3,7 @@ import Account from "./Account/Account";
 import { useMoralis } from "react-moralis";
 import { useState } from "react";
 import Authenticate from "../components/Lens/Authenicate";
-import MainBoard from "../components/MainBoard"
+//import MainBoard from "../components/MainBoard"
 
 
 export default function Layout({ children, home }) {
@@ -26,7 +26,7 @@ export default function Layout({ children, home }) {
       {account && (<div class="hudc"> 🪨 Carbon</div>)}  
     </nav>
 
-    <main><MainBoard/></main>
+    <main>{children}</main>
     {!home && (
       <div>
         <Link href="/">
