@@ -49,9 +49,13 @@ module.exports = {
                     200: "#f6af55",
                     100: "#fdb04e",
                 },
+
+                night: {
+                    100: "#01304E",
+                },
                 
                 glass: {
-                    100: "#aaa6a170",
+                    100: "#19191a71",
                 },
 
                 "bookmark-purple": "#5267DF",
