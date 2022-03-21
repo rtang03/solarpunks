@@ -3,6 +3,7 @@ import Account from "./Account/Account";
 import { useMoralis } from "react-moralis";
 import { useState } from "react";
 import Authenticate from "../components/Lens/Authenicate";
+import MainBoard from "../components/MainBoard"
 
 
 export default function Layout({ children, home }) {
@@ -16,9 +17,7 @@ export default function Layout({ children, home }) {
     <nav class='top-hud'>
       <div class="hud1"> <Account /></div>
       {account && (<Authenticate authenicationCallback={setLensAPIAuthenticated} /> )}
-      {account && (<div class='hud3'>My Lens profile</div>)}
-      {account && (<a href="./Layout" class="hud2">Lens Friends</a>)}
-      {account && (<div class="hud4">Create post</div>)}
+      {account && (<div class='hud4'>My Lens profile</div>)}
     </nav>
     <nav class="bottom-hud">
       {account && (<div class="huda"> 🔥 Gas</div>)} 
@@ -27,7 +26,7 @@ export default function Layout({ children, home }) {
       {account && (<div class="hudc"> 🪨 Carbon</div>)}  
     </nav>
 
-    <main>{children}</main>
+    <main><MainBoard/></main>
     {!home && (
       <div>
         <Link href="/">
