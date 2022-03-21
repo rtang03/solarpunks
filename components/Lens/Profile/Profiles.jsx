@@ -5,10 +5,6 @@ import { useMoralis } from "react-moralis";
 const PAGESIZE = 5;
 const CURSOR = 0;
 
-/**
- * @HabacucMX
- * currently, retrieve profiles by owner only
- */
 const Profiles = () => {
   const { account } = useMoralis();
   const [getProfiles, { loading, data, error }] = useLazyQuery(GET_PROFILES);
@@ -41,7 +37,9 @@ const Profiles = () => {
   );
 };
 
-const GET_PROFILES = gql`
+export default Profiles;
+
+export const GET_PROFILES = gql`
   query ($request: ProfileQueryRequest!) {
     profiles(request: $request) {
       items {
@@ -121,8 +119,6 @@ const GET_PROFILES = gql`
     }
   }
 `;
-
-export default Profiles;
 
 // example
 // {
