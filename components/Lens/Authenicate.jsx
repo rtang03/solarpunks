@@ -58,17 +58,17 @@ const Auth = ({ authenicationCallback }) => {
   authError && console.error(authError);
 
   return (
-    <div>
+    <div class="hud3">
       {account ? (
         <button
           disabled={authLoading || authResult}
-          className="bg-blue-500 m-2 p-2 border-2"
+          
           onClick={async () => authenticate()}
         >
           {authResult ? "Authenicated" : "Login to LensAPI"}
         </button>
       ) : (
-        <div>Please connect your wallet.</div>
+        <div class="hud2">2. Connect to Lens</div>
       )}
       {challengeError && <p>Oops! Fail to obtain challenge</p>}
       {authError && <p>Oops! Fail to authenicate LensAPI</p>}

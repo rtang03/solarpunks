@@ -21,7 +21,7 @@ const Account = () => {
     return (
       <>
         <button type="button" onClick={openWalletDialogModal} className="connect-btn">
-          Connect
+          1. Connect wallet
         </button>
         <DialogModal
           isOpen={isWalletDialogOpen}
