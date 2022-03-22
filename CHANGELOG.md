@@ -2,16 +2,26 @@
 
 ## [Unreleased](https://github.com/rtang03/solarpunks/tree/HEAD)
 
-[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.5...HEAD)
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.6...HEAD)
+
+**Closed issues:**
+
+- Example: LensAPI - Post [\#26](https://github.com/rtang03/solarpunks/issues/26)
+- March 20 Todo [\#19](https://github.com/rtang03/solarpunks/issues/19)
+
+**Merged pull requests:**
+
+- day 5: post related path done [\#27](https://github.com/rtang03/solarpunks/pull/27) ([rtang03](https://github.com/rtang03))
+- day 4 - create profile / update-profile [\#23](https://github.com/rtang03/solarpunks/pull/23) ([rtang03](https://github.com/rtang03))
+
+## [v0.6](https://github.com/rtang03/solarpunks/tree/v0.6) (2022-03-21)
+
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.5...v0.6)
 
 **Closed issues:**
 
 - Example: LensAPI - Get Timeline [\#22](https://github.com/rtang03/solarpunks/issues/22)
 - March 19 Todo [\#7](https://github.com/rtang03/solarpunks/issues/7)
-
-**Merged pull requests:**
-
-- day 4 - create profile / update-profile [\#23](https://github.com/rtang03/solarpunks/pull/23) ([rtang03](https://github.com/rtang03))
 
 ## [v0.5](https://github.com/rtang03/solarpunks/tree/v0.5) (2022-03-20)
 
