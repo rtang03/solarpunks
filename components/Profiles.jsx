@@ -1,6 +1,3 @@
-/**
- * Get My Paginated Profiles
- */
 import { gql, useQuery } from "@apollo/client";
 import NoRecord from "./NoRecord";
 import Error from "./Error";
@@ -12,18 +9,18 @@ import LensContext from "./LensContext";
 
 const PAGESIZE = 20;
 
-const Profiles = ({ cursor, dev }) => {
+const ProfilesComponent = ({ cursor, dev }) => {
   const FUNC = "profiles";
   const { account } = useMoralis();
-  const { isLensReady } = useContext(LensContext);
+  const { isLensReady, defaultProfile, defaultHandle, setDefaultProfile, setDefaultHandle } =
+    useContext(LensContext);
+  const defaultUser = defaultProfile && defaultHandle && `${defaultHandle}#${defaultProfile}`;
 
   const { loading, data, error } = useQuery(GET_PROFILES, {
     variables: {
       request: {
         limit: PAGESIZE,
-        cursor: cursor || 0,
         ownedBy: account,
-        whoMirroredPublicationId: null, // string
       },
     },
     skip: !account,
@@ -44,18 +41,46 @@ const Profiles = ({ cursor, dev }) => {
           <div class="">
             {!isLensReady && <div class="LensIcon">Lens is not active</div>}
           </div>
-          
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
             <div>
-              {items?.map((item, key) => (
+              {items?.map(({ name, id, handle }, key) => (
                 <div className="border-2 m-2" key={key}>
-                  <button className="bg-blue-200 m-2 p-2">
-                    <Link href={`/profiles/${item.handle}`}>
-                      <a>Handle: {item.handle}</a>
-                    </Link>
-                  </button>
-                  <pre key={key}>{JSON.stringify(item, null, 2)}</pre>
+                  {/* Profile Summary */}
+                  <div className="m-2 p-2">
+                    <div>
+                      {defaultUser === `${handle}#${id}` ? (
+                        <span className="font-bold">Active</span>
+                      ) : (
+                        <button
+                          className="border-2 bg-blue-100"
+                          onClick={() => {
+                            setDefaultProfile(id);
+                            setDefaultHandle(handle);
+                          }}
+                        >
+                          Make Active
+                        </button>
+                      )}
+                    </div>
+                    <span>
+                      {name && `${name} |`} {`${handle}#${id}`}
+                    </span>
+                    <span className="m-2">
+                      <button className="bg-blue-200 m-2 p-2">
+                        <Link href={`/profiles/${handle}`}>
+                          <a>Details</a>
+                        </Link>
+                      </button>
+                    </span>
+                  </div>
+                  <span className="m-2">
+                    <button className="bg-blue-200 m-2 p-2">
+                      <Link href={`/profiles/${handle}/publications`}>
+                        <a>Go to my publications</a>
+                      </Link>
+                    </button>
+                  </span>
                 </div>
               ))}
             </div>
@@ -79,7 +104,7 @@ const Profiles = ({ cursor, dev }) => {
   );
 };
 
-export default Profiles;
+export default ProfilesComponent;
 
 const GET_PROFILES = gql`
   query ($request: ProfileQueryRequest!) {
@@ -161,3 +186,44 @@ const GET_PROFILES = gql`
     }
   }
 `;
+
+// Example:
+// should returns, something like:
+// {
+//   "search": {
+//     "__typename": "ProfileSearchResult",
+//     "items": [
+//       {
+//         "__typename": "Profile",
+//         "profileId": "0x21",
+//         "name": null,
+//         "bio": null,
+//         "location": null,
+//         "website": null,
+//         "twitterUrl": null,
+//         "handle": "rtang3",
+//         "picture": null,
+//         "coverPicture": null,
+//         "ownedBy": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//         "depatcher": null,
+//         "stats": {
+//           "__typename": "ProfileStats",
+//           "totalFollowers": 0,
+//           "totalFollowing": 0,
+//           "totalPosts": 0,
+//           "totalComments": 0,
+//           "totalMirrors": 0,
+//           "totalPublications": 0,
+//           "totalCollects": 0
+//         },
+//         "followModule": null
+//       }
+//     ],
+//     "pageInfo": {
+//       "__typename": "PaginatedResultInfo",
+//       "prev": "{\"offset\":0}",
+//       "totalCount": 1,
+//       "next": "{\"offset\":1}"
+//     }
+//   }
+// }

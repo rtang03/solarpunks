@@ -24,7 +24,8 @@ const AUTHENTICATION = gql`
 
 const Auth = () => {
   const { account, isAuthenticated } = useMoralis();
-  const { isLensReady, setIsLensReady } = useContext(LensContext);
+  const { isLensReady, setIsLensReady, defaultHandle, defaultProfile } = useContext(LensContext);
+  const user = defaultHandle && defaultProfile && `${defaultHandle}#${defaultProfile}`;
   const {
     loading: challengeLoading,
     error: challengeError,
@@ -55,16 +56,23 @@ const Auth = () => {
   authError && console.error(authError);
 
   return (
-    <div className="hud0lens">
-      {account && isAuthenticated  ? (
-        <div
-          disabled={authLoading || isLensReady}
-          
-
-          onClick={async () => authenticate()}
-        >
-          {isLensReady ? "Lens Ready" : "Use Lens"}
-        </div>
+    <span className="hud0lens">
+      {account && isAuthenticated ? (
+        <>
+          {isLensReady ? (
+            <button disabled={authLoading || isLensReady} className="connect-btn-no-hover">
+              {user || "Lens Ready"}
+            </button>
+          ) : (
+            <button
+              disabled={authLoading || isLensReady}
+              className="connect-btn-no-hover"
+              onClick={async () => authenticate()}
+            >
+              Use Lens
+            </button>
+          )}
+        </>
       ) : (
         <div>2. Connect to Lens</div>
       )}

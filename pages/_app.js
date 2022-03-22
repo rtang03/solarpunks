@@ -15,7 +15,22 @@ const MoralisContextProvider = dynamic(() => import("../components/MoralisContex
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps);
   const [isLensReady, setIsLensReady] = useState(false);
-  const value = useMemo(() => ({ isLensReady, setIsLensReady }), [isLensReady]);
+  const [defaultProfile, setDefaultProfile] = useState("");
+  const [defaultHandle, setDefaultHandle] = useState("");
+  const [fetchDefaultProfileCount, setFetchDefaultPofileCount] = useState(0);
+  const value = useMemo(
+    () => ({
+      isLensReady,
+      setIsLensReady,
+      defaultProfile,
+      setDefaultProfile,
+      defaultHandle,
+      setDefaultHandle,
+      fetchDefaultProfileCount,
+      setFetchDefaultPofileCount,
+    }),
+    [isLensReady, defaultProfile, defaultHandle, fetchDefaultProfileCount],
+  );
 
   return (
     <LensProvider value={value}>
