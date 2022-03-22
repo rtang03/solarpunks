@@ -32,6 +32,7 @@
     text-white
     text-lg
     border-none
+    z-10
   }
 
   .bottom-hud { 
@@ -149,6 +150,33 @@
     grid
     grid-cols-2
     text-center
+  }
+
+  .MainCon2 { 
+    @apply
+    flex 
+    items-center
+    pt-32
+    mx-96
+    justify-center
+    align-middle
+    grid
+    grid-cols-1
+    text-center
+  }
+
+  .LensCon {
+    @apply
+    bg-glass-100 
+    rounded-lg 
+    xl:mx-20 py-10 xl:py-40 xl:text-5xl
+    text-2xl font-exo text-white animate-pulse
+  }
+
+  .LensIcon {
+    @apply 
+    text-9xl 
+    mb-5 pb-20
   }
 
   .MainBoard {

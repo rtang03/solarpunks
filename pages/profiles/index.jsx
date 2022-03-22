@@ -7,8 +7,10 @@ const ProfilesPage = () => {
   const { account, isAuthenticated } = useMoralis();
 
   return (
-    <Layout>
-      {account && isAuthenticated ? <Profiles dev={true} /> : <ConnectWalletMessage />}
+    <Layout class="mt-10">
+      <div class="MainCon2">
+        {account && isAuthenticated ? <Profiles dev={true} /> : <ConnectWalletMessage />}
+      </div>
     </Layout>
   );
 };
