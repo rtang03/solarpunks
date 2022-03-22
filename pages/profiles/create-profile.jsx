@@ -67,30 +67,31 @@ const CreateProfile = ({ dev }) => {
           }}
         >
           {({ values, errors, touched, isSubmitting }) => (
-            <Form>
+            <Form class="bg-glass-100 mx-96 px-20 py-6 rounded-lg font-exo text-lg text-white text-center">
               {loading && <div>...loading</div>}
               {/* Field1: Handle */}
-              <div className="m-10">
+              <div className="text-left m-10">
+                <h1 class="text-5xl text-center pb-14">New 🌿Lens Profile</h1>
                 <span className="p-2 m-2">
-                  <label htmlFor="handle">handle*</label>
+                  <label class="text-2xl" htmlFor="handle">*Choose your 🌿 Lens' handle:</label>
                 </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="handle" name="handle" placeholder="handle" />
-                </span>
-                {/* Input Error */}
+                <span className="p-2 m-2">
+                  <Field class="rounded p-2 text-night-100 w-96" id="handle" name="handle" placeholder="Your name on 🌿 lens" />{/* Input Error */}
                 {errors?.handle && (
-                  <div>
+                  <a class="pl-5 animate-ping text-solar-100">
                     <ErrorMessage name="handle" />
-                  </div>
+                  </a>
                 )}
+                </span>
+               
               </div>
               {/* Field2: profilePictureUri */}
-              <div className="m-10">
+              <div className="text-left m-10">
                 <span className="p-2 m-2">
-                  <label htmlFor="profilePictureUri">profilePictureUri</label>
+                  <label class="text-2xl" htmlFor="profilePictureUri">Paste your 🖼️ profilePictureUri:</label>
                 </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="handle" name="profilePictureUri" placeholder="profilePictureUri" />
+                <span className="p-2 m-2">
+                  <Field class="rounded p-2 text-night-100 w-88" id="handle" name="profilePictureUri" placeholder="🖼️profilePictureUri" />
                 </span>
                 {/* Input Error */}
                 {errors?.profilePictureUri && (
@@ -100,8 +101,13 @@ const CreateProfile = ({ dev }) => {
                 )}
               </div>
               {/* Field3: followNFTURI */}
-              <div className="m-10">
-                <p className="m-5">
+              <div className="text left m-10">
+                <label class=" text-2xl text-solar-500" htmlFor="followNFTURI">Paste your 🖼️ followNFTURI:</label>
+                <span className="p-2 m-2">
+                  <Field class="rounded p-2 text-night-100" id="followNFTURI" name="followNFTURI" placeholder="followNFTURI" />
+                </span>
+                {/* Input Error */}
+                <p className="text-solar-500 m-5">
                   NOTE: The follow NFT URI is the NFT metadata your followers will mint when they
                   follow you. This can be updated at all times. If you do not pass in anything it
                   will create a super cool changing NFT which will show the last publication of your
@@ -109,13 +115,6 @@ const CreateProfile = ({ dev }) => {
                   about writing this logic but still have the ability to customise it for their
                   followers
                 </p>
-                <span className="p-2 m-2">
-                  <label htmlFor="followNFTURI">followNFTURI</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="followNFTURI" name="followNFTURI" placeholder="followNFTURI" />
-                </span>
-                {/* Input Error */}
                 {errors?.followNFTURI && (
                   <div>
                     <ErrorMessage name="followNFTURI" />
@@ -131,10 +130,11 @@ const CreateProfile = ({ dev }) => {
                   errors?.profilePictureUri ||
                   errors?.followNFTURI
                 }
-                className="bg-blue-500 m-5 p-2 border-2"
+                className="bg-cyber-100 mx-5 mt-16 px-5 py-3 rounded-lg 
+                hover:bg-solar-100 hover:animate-pulse hover:text-night-100 cursor-pointer"
                 type="submit"
               >
-                {txHash ? "OK" : "Create"}
+                {txHash ? "OK" : "Create 🌿 Lens Profile"}
               </button>
               {/* Successful call */}
               {txHash && (

@@ -141,10 +141,11 @@
 
   .MainCon { 
     @apply
-    min-h-screen
     flex 
-    items-center 
+    items-center
+    pt-32
     justify-center
+    align-middle
     grid
     grid-cols-2
     text-center
