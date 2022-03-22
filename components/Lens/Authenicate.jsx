@@ -57,13 +57,21 @@ const Auth = () => {
   return (
     <span>
       {account && isAuthenticated ? (
-        <button
-          disabled={authLoading || isLensReady}
-          className="connect-btn-no-hover"
-          onClick={async () => authenticate()}
-        >
-          {isLensReady ? "Lens Ready" : "Use Lens"}
-        </button>
+        <>
+          {isLensReady ? (
+            <button disabled={authLoading || isLensReady} className="connect-btn-no-hover">
+              Lens Ready
+            </button>
+          ) : (
+            <button
+              disabled={authLoading || isLensReady}
+              className="connect-btn-no-hover"
+              onClick={async () => authenticate()}
+            >
+              Use Lens
+            </button>
+          )}
+        </>
       ) : (
         <div>Please connect your wallet.</div>
       )}

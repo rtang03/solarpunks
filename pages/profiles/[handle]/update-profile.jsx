@@ -100,14 +100,14 @@ const UpdateProfile = ({ dev }) => {
               <div>
                 <Link href={`/profiles/${handle}`}>
                   <button className="border-2 p-2 bg-blue-300">
-                    <a>Back to {handle}</a>
+                    <a>Back to my profile</a>
                   </button>
                 </Link>
               </div>
               {loading && <div>...loading</div>}
               {!searchResult && !loading && <div>No search result error</div>}
-              <div>
-                Update Profile {profileToUpdate?.handle} / {profileToUpdate?.profileId}
+              <div className="font-bold">
+                {profileToUpdate?.handle}#{profileToUpdate?.profileId}
               </div>
               {/* Field1: name */}
               <div className="m-10">

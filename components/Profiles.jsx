@@ -1,6 +1,3 @@
-/**
- * Get My Paginated Profiles
- */
 import { gql, useQuery } from "@apollo/client";
 import NoRecord from "./NoRecord";
 import Error from "./Error";
@@ -9,10 +6,11 @@ import Link from "next/link";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import LensContext from "./LensContext";
+import ProfileCard from "./ProfileCard";
 
 const PAGESIZE = 20;
 
-const Profiles = ({ cursor, dev }) => {
+const ProfilesComponent = ({ cursor, dev }) => {
   const FUNC = "profiles";
   const { account } = useMoralis();
   const { isLensReady } = useContext(LensContext);
@@ -39,18 +37,29 @@ const Profiles = ({ cursor, dev }) => {
       ) : (
         <>
           <h1>Profiles</h1>
-          {!isLensReady && <div>Lens is not active</div>}
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
             <div>
-              {items?.map((item, key) => (
+              {items?.map(({ name, id, handle }, key) => (
                 <div className="border-2 m-2" key={key}>
-                  <button className="bg-blue-200 m-2 p-2">
-                    <Link href={`/profiles/${item.handle}`}>
-                      <a>Handle: {item.handle}</a>
-                    </Link>
-                  </button>
-                  <pre key={key}>{JSON.stringify(item, null, 2)}</pre>
+                  {/* Profile Summary */}
+                  <div className="m-2 p-2">
+                    {name && `${name} |`} {`${handle}#${id}`}
+                    <span className="m-2">
+                      <button className="bg-blue-200 m-2 p-2">
+                        <Link href={`/profiles/${handle}`}>
+                          <a>Details</a>
+                        </Link>
+                      </button>
+                    </span>
+                  </div>
+                  <span className="m-2">
+                    <button className="bg-blue-200 m-2 p-2">
+                      <Link href={`/profiles/${handle}/publications`}>
+                        <a>Go to my publications</a>
+                      </Link>
+                    </button>
+                  </span>
                 </div>
               ))}
             </div>
@@ -74,7 +83,7 @@ const Profiles = ({ cursor, dev }) => {
   );
 };
 
-export default Profiles;
+export default ProfilesComponent;
 
 const GET_PROFILES = gql`
   query ($request: ProfileQueryRequest!) {
