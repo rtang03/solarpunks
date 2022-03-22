@@ -25,18 +25,6 @@ const Home = () => {
           <h1 className="text-2xl font-bold">Welcome to Decentralized Social</h1>
           {account && isAuthenticated && (
             <div className="m-5 border-2">
-              7. Create Post
-              <CreatePost />
-            </div>
-          )}
-          {account && isAuthenticated && (
-            <div className="m-5 border-2">
-              8. Get 1x Publication
-              <Publication />
-            </div>
-          )}
-          {account && isAuthenticated && (
-            <div className="m-5 border-2">
               9. Follow profileId "x021" (switch to other account first)
               <Follow />
             </div>
