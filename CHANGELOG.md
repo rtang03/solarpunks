@@ -11,6 +11,7 @@
 
 **Merged pull requests:**
 
+- timeline / /profiles/\[handle\]/publications/create-post / default profile [\#28](https://github.com/rtang03/solarpunks/pull/28) ([rtang03](https://github.com/rtang03))
 - day 5: post related path done [\#27](https://github.com/rtang03/solarpunks/pull/27) ([rtang03](https://github.com/rtang03))
 - day 4 - create profile / update-profile [\#23](https://github.com/rtang03/solarpunks/pull/23) ([rtang03](https://github.com/rtang03))
 
