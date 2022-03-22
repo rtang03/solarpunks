@@ -6,22 +6,21 @@ import Link from "next/link";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import LensContext from "./LensContext";
-import ProfileCard from "./ProfileCard";
 
 const PAGESIZE = 20;
 
 const ProfilesComponent = ({ cursor, dev }) => {
   const FUNC = "profiles";
   const { account } = useMoralis();
-  const { isLensReady } = useContext(LensContext);
+  const { isLensReady, defaultProfile, defaultHandle, setDefaultProfile, setDefaultHandle } =
+    useContext(LensContext);
+  const defaultUser = defaultProfile && defaultHandle && `${defaultHandle}#${defaultProfile}`;
 
   const { loading, data, error } = useQuery(GET_PROFILES, {
     variables: {
       request: {
         limit: PAGESIZE,
-        cursor: cursor || 0,
         ownedBy: account,
-        whoMirroredPublicationId: null, // string
       },
     },
     skip: !account,
@@ -44,7 +43,24 @@ const ProfilesComponent = ({ cursor, dev }) => {
                 <div className="border-2 m-2" key={key}>
                   {/* Profile Summary */}
                   <div className="m-2 p-2">
-                    {name && `${name} |`} {`${handle}#${id}`}
+                    <div>
+                      {defaultUser === `${handle}#${id}` ? (
+                        <span className="font-bold">Active</span>
+                      ) : (
+                        <button
+                          className="border-2 bg-blue-100"
+                          onClick={() => {
+                            setDefaultProfile(id);
+                            setDefaultHandle(handle);
+                          }}
+                        >
+                          Make Active
+                        </button>
+                      )}
+                    </div>
+                    <span>
+                      {name && `${name} |`} {`${handle}#${id}`}
+                    </span>
                     <span className="m-2">
                       <button className="bg-blue-200 m-2 p-2">
                         <Link href={`/profiles/${handle}`}>

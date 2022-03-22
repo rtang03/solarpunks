@@ -37,8 +37,8 @@ const CreateProfile = ({ dev }) => {
           initialValues={{ handle: "", profilePictureUri: "", followNFTURI: "" }}
           validationSchema={Yup.object().shape({
             handle: Yup.string()
-              .min(3, "Too Short!")
-              .max(25, "Too Long!")
+              .min(3, "Too Short! Min 3 chars")
+              .max(8, "Too Long! Max 8 chars")
               .lowercase("lower-case required")
               .strict()
               .required("Required"),
