@@ -181,3 +181,44 @@ const GET_PROFILES = gql`
     }
   }
 `;
+
+// Example:
+// should returns, something like:
+// {
+//   "search": {
+//     "__typename": "ProfileSearchResult",
+//     "items": [
+//       {
+//         "__typename": "Profile",
+//         "profileId": "0x21",
+//         "name": null,
+//         "bio": null,
+//         "location": null,
+//         "website": null,
+//         "twitterUrl": null,
+//         "handle": "rtang3",
+//         "picture": null,
+//         "coverPicture": null,
+//         "ownedBy": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//         "depatcher": null,
+//         "stats": {
+//           "__typename": "ProfileStats",
+//           "totalFollowers": 0,
+//           "totalFollowing": 0,
+//           "totalPosts": 0,
+//           "totalComments": 0,
+//           "totalMirrors": 0,
+//           "totalPublications": 0,
+//           "totalCollects": 0
+//         },
+//         "followModule": null
+//       }
+//     ],
+//     "pageInfo": {
+//       "__typename": "PaginatedResultInfo",
+//       "prev": "{\"offset\":0}",
+//       "totalCount": 1,
+//       "next": "{\"offset\":1}"
+//     }
+//   }
+// }

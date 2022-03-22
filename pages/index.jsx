@@ -1,8 +1,6 @@
 import Layout from "../components/Layout";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
-import CreatePost from "../components/Lens/Publication/CreatePost";
-import Publication from "../components/Lens/Publication/Publication";
 import Follow from "../components/Lens/Follow/Follow";
 import Followers from "../components/Lens/Follow/Followers";
 import Following from "../components/Lens/Follow/Following";

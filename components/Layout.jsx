@@ -68,6 +68,13 @@ const Layout = ({ children, home }) => {
                 </button>
               </span>
             </Link>
+            <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
+              <span className="mx-2">
+                <button className="border-2 p-2">
+                  <a>Create Post</a>
+                </button>
+              </span>
+            </Link>
           </>
         )}
       </nav>

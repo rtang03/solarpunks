@@ -154,11 +154,11 @@ const CreateProfile = ({ dev }) => {
               {/* after receiving transactionReceipt */}
               {transactionReceipt && (
                 <div className="w-64">
-                  Receipt
+                  transaction receipt received
                   <p>indexed: {transactionReceipt?.indexed ? "true" : "false"}</p>
                 </div>
               )}
-              {transactionReceipt && dev && (
+              {dev && transactionReceipt && (
                 <>
                   <div>Dev Mode</div>
                   <JSONTree data={transactionReceipt} />
