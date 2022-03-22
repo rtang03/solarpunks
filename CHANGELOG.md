@@ -55,7 +55,7 @@
 **Merged pull requests:**
 
 - day 2 - create post / get-post / get-posts [\#10](https://github.com/rtang03/solarpunks/pull/10) ([rtang03](https://github.com/rtang03))
-
+- day 2 - Merge main into UI Barnch [\#11](https://github.com/rtang03/solarpunks/pull/11) ([HabacucMX](https://github.com/HabacucMX))
 ## [v0.3](https://github.com/rtang03/solarpunks/tree/v0.3) (2022-03-19)
 
 [Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.2...v0.3)

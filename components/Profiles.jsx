@@ -30,12 +30,17 @@ const ProfilesComponent = ({ cursor, dev }) => {
   const items = isActiveRecord ? data?.[FUNC]?.items : null;
 
   return (
-    <>
+    <div class="mt-10">
       {!isLensReady ? (
-        <div>Lens is not active</div>
+        <div class="LensCon">
+          <div class="LensIcon" >🌿</div>2. Lens is not active
+        </div>
       ) : (
         <>
           <h1>Profiles</h1>
+          <div class="">
+            {!isLensReady && <div class="LensIcon">Lens is not active</div>}
+          </div>
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
             <div>
@@ -95,7 +100,7 @@ const ProfilesComponent = ({ cursor, dev }) => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

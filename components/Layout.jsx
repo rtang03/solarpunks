@@ -42,33 +42,16 @@ const Layout = ({ children, home }) => {
 
   return (
     <div>
-      <nav className="container bg-gray-300 py-5">
+      <nav className="top-hud">
         <Account />
         {account && isAuthenticated && <Authenticate />}
         {account && isAuthenticated && isLensReady && (
-          <>
-            <Link href="/dashboard">
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Dashboard</a>
-                </button>
-              </span>
-            </Link>
-            <Link href="/profiles">
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Profiles</a>
-                </button>
-              </span>
-            </Link>
-            <Link href="/profiles/create-profile">
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Create Profile</a>
-                </button>
-              </span>
-            </Link>
-            <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
+          <a class="hud3" href="/dashboard">Dashboard</a>)}
+        {account && isAuthenticated && isLensReady && (  
+          <a class="hud3" href="/profiles">Profiles</a>)}
+        {account && isAuthenticated && isLensReady && (
+        <a class="hud4" href="/profiles/create-profile">Create Profile</a>)}
+          <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
               <span className="mx-2">
                 <button className="border-2 p-2">
                   <a>Create Post</a>
@@ -82,10 +65,14 @@ const Layout = ({ children, home }) => {
                 </button>
               </span>
             </Link>
-          </>
-        )}
       </nav>
       <main>{children}</main>
+      <nav class="bottom-hud">
+      {account && (<div class="huda"> 🔥 Gas</div>)} 
+      {account && (<div class="hudb"> ⚡ Energy</div>)}
+      {account && (<div class="hudb"> 💽 Chips</div>)}
+      {account && (<div class="hudc"> 🪨 Carbon</div>)}  
+    </nav>
     </div>
   );
 };

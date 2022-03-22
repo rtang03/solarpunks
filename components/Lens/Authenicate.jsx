@@ -56,7 +56,7 @@ const Auth = () => {
   authError && console.error(authError);
 
   return (
-    <span>
+    <span className="hud0lens">
       {account && isAuthenticated ? (
         <>
           {isLensReady ? (
@@ -74,11 +74,11 @@ const Auth = () => {
           )}
         </>
       ) : (
-        <div>Please connect your wallet.</div>
+        <div>2. Connect to Lens</div>
       )}
       {challengeError && <p>Oops! Fail to obtain challenge</p>}
       {authError && <p>Oops! Fail to authenicate LensAPI</p>}
-    </span>
+    </div>
   );
 };
 

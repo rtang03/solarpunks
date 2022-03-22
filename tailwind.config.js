@@ -13,6 +13,20 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+        
+
+                cyber: {
+                    100: "#119195",
+                    200: "#0b979b",
+                    300: "#119195",
+                    400: "#178b8f",
+                    500: "#247f82",
+                    600: "#376d6f",
+                    700: "#3e6768",
+                    800: "#4a5b5c",
+                    900: "#515555",
+                },
+
                 gray: {
                     900: "#202225",
                     800: "#2f3136",
@@ -23,6 +37,27 @@ module.exports = {
                     200: "#ebedef",
                     100: "#f2f3f5",
                 },
+
+                solar: {
+                    900: "#aaa6a1",
+                    800: "#bfa98c",
+                    700: "#cdaa7e",
+                    600: "#daac71",
+                    500: "#e1ad6a",
+                    400: "#e8ad63",
+                    300: "#efae5c",
+                    200: "#f6af55",
+                    100: "#fdb04e",
+                },
+
+                night: {
+                    100: "#01304E",
+                },
+                
+                glass: {
+                    100: "#19191a71",
+                },
+
                 "bookmark-purple": "#5267DF",
                 "bookmark-red": "#fa5959",
                 "bookmark-blue": "#242A45",
@@ -32,8 +67,12 @@ module.exports = {
             spacing: {
                 88: "22rem",
             },
+            borderRadius: {
+                'lg': '25px',
+            },
             fontFamily: {
                 Poppins: ["Poppins, sans-serif"],
+                exo: ['"Exo 2"'],
             },
             container: {
                 center: true,
