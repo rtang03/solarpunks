@@ -37,8 +37,8 @@ const CreateProfile = ({ dev }) => {
           initialValues={{ handle: "", profilePictureUri: "", followNFTURI: "" }}
           validationSchema={Yup.object().shape({
             handle: Yup.string()
-              .min(3, "Too Short!")
-              .max(25, "Too Long!")
+              .min(3, "Too Short! Min 3 chars")
+              .max(8, "Too Long! Max 8 chars")
               .lowercase("lower-case required")
               .strict()
               .required("Required"),
@@ -154,11 +154,11 @@ const CreateProfile = ({ dev }) => {
               {/* after receiving transactionReceipt */}
               {transactionReceipt && (
                 <div className="w-64">
-                  Receipt
+                  transaction receipt received
                   <p>indexed: {transactionReceipt?.indexed ? "true" : "false"}</p>
                 </div>
               )}
-              {transactionReceipt && dev && (
+              {dev && transactionReceipt && (
                 <>
                   <div>Dev Mode</div>
                   <JSONTree data={transactionReceipt} />
