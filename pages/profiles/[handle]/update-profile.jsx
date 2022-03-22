@@ -36,9 +36,7 @@ const UpdateProfile = ({ dev }) => {
     skip: !handle,
   });
   searchProfileError && console.error("searchProfileError: ", searchProfileError);
-
   const profileToUpdate = searchResult?.search?.items?.[0];
-
   const isValidProfile = profileToUpdate?.profileId && profileToUpdate?.handle === handle;
 
   // I guess handle : profile is 1:1 mapping, not quite sure!! Below code alerts me, when it it not

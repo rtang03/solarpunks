@@ -6,22 +6,21 @@ import Link from "next/link";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import LensContext from "./LensContext";
-import ProfileCard from "./ProfileCard";
 
 const PAGESIZE = 20;
 
 const ProfilesComponent = ({ cursor, dev }) => {
   const FUNC = "profiles";
   const { account } = useMoralis();
-  const { isLensReady } = useContext(LensContext);
+  const { isLensReady, defaultProfile, defaultHandle, setDefaultProfile, setDefaultHandle } =
+    useContext(LensContext);
+  const defaultUser = defaultProfile && defaultHandle && `${defaultHandle}#${defaultProfile}`;
 
   const { loading, data, error } = useQuery(GET_PROFILES, {
     variables: {
       request: {
         limit: PAGESIZE,
-        cursor: cursor || 0,
         ownedBy: account,
-        whoMirroredPublicationId: null, // string
       },
     },
     skip: !account,
@@ -44,7 +43,24 @@ const ProfilesComponent = ({ cursor, dev }) => {
                 <div className="border-2 m-2" key={key}>
                   {/* Profile Summary */}
                   <div className="m-2 p-2">
-                    {name && `${name} |`} {`${handle}#${id}`}
+                    <div>
+                      {defaultUser === `${handle}#${id}` ? (
+                        <span className="font-bold">Active</span>
+                      ) : (
+                        <button
+                          className="border-2 bg-blue-100"
+                          onClick={() => {
+                            setDefaultProfile(id);
+                            setDefaultHandle(handle);
+                          }}
+                        >
+                          Make Active
+                        </button>
+                      )}
+                    </div>
+                    <span>
+                      {name && `${name} |`} {`${handle}#${id}`}
+                    </span>
                     <span className="m-2">
                       <button className="bg-blue-200 m-2 p-2">
                         <Link href={`/profiles/${handle}`}>
@@ -165,3 +181,44 @@ const GET_PROFILES = gql`
     }
   }
 `;
+
+// Example:
+// should returns, something like:
+// {
+//   "search": {
+//     "__typename": "ProfileSearchResult",
+//     "items": [
+//       {
+//         "__typename": "Profile",
+//         "profileId": "0x21",
+//         "name": null,
+//         "bio": null,
+//         "location": null,
+//         "website": null,
+//         "twitterUrl": null,
+//         "handle": "rtang3",
+//         "picture": null,
+//         "coverPicture": null,
+//         "ownedBy": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
+//         "depatcher": null,
+//         "stats": {
+//           "__typename": "ProfileStats",
+//           "totalFollowers": 0,
+//           "totalFollowing": 0,
+//           "totalPosts": 0,
+//           "totalComments": 0,
+//           "totalMirrors": 0,
+//           "totalPublications": 0,
+//           "totalCollects": 0
+//         },
+//         "followModule": null
+//       }
+//     ],
+//     "pageInfo": {
+//       "__typename": "PaginatedResultInfo",
+//       "prev": "{\"offset\":0}",
+//       "totalCount": 1,
+//       "next": "{\"offset\":1}"
+//     }
+//   }
+// }

@@ -49,8 +49,6 @@ const PostCard = ({ post }) => {
 };
 
 export default PostCard;
-// https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN
-// https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8?filename=pug.png
 
 // {
 //   "__typename": "Post",

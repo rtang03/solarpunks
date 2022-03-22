@@ -35,7 +35,7 @@ const ProfileComponent = ({ handle, dev }) => {
           </div>
           <div>
             <button className="bg-blue-200 border-2 m-2 p-2">
-              <Link href={`/profiles/${result.handle}/publications`}>
+              <Link href={`/profiles/${result?.handle}/publications`}>
                 <a>go to my publication</a>
               </Link>
             </button>
