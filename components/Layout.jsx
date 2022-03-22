@@ -75,6 +75,13 @@ const Layout = ({ children, home }) => {
                 </button>
               </span>
             </Link>
+            <Link href={`/profiles/${defaultHandle}/timeline`}>
+              <span className="mx-2">
+                <button className="border-2 p-2">
+                  <a>Timeline</a>
+                </button>
+              </span>
+            </Link>
           </>
         )}
       </nav>
