@@ -55,16 +55,16 @@ const Auth = () => {
   authError && console.error(authError);
 
   return (
-    <div className="hud2">
-      {account && isAuthenticated ? (
-        <button
+    <div className="hud0lens">
+      {account && isAuthenticated  ? (
+        <div
           disabled={authLoading || isLensReady}
           
 
           onClick={async () => authenticate()}
         >
           {isLensReady ? "Lens Ready" : "Use Lens"}
-        </button>
+        </div>
       ) : (
         <div>2. Connect to Lens</div>
       )}

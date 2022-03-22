@@ -20,7 +20,7 @@ const Account = () => {
   if (!isAuthenticated || !account)
     return (
       <>
-        <button type="button" onClick={openWalletDialogModal} class="hud1">
+        <button type="button" onClick={openWalletDialogModal} class="hud0">
           1. Connect wallet
         </button>
 
@@ -73,7 +73,7 @@ const Account = () => {
   const explorerURL = chainId && getExplorer(chainId);
   return (
     <>
-      <button type="button" onClick={openAuthDialogModal} class="hud1">
+      <button type="button" onClick={openAuthDialogModal} class="hud1con">
         {shortenAddress(account)}
       </button>
       <DialogModal isOpen={isAuthDialogOpen} handleClose={closeAuthDialogModal} title="Account">
