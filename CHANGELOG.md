@@ -6,11 +6,14 @@
 
 **Closed issues:**
 
+- March 22 UI TODO [\#30](https://github.com/rtang03/solarpunks/issues/30)
 - Example: LensAPI - Post [\#26](https://github.com/rtang03/solarpunks/issues/26)
+- March 21 Todo [\#24](https://github.com/rtang03/solarpunks/issues/24)
 - March 20 Todo [\#19](https://github.com/rtang03/solarpunks/issues/19)
 
 **Merged pull requests:**
 
+- Day 6: create comment / follow / explore page / query following / query followers [\#32](https://github.com/rtang03/solarpunks/pull/32) ([rtang03](https://github.com/rtang03))
 - timeline / /profiles/\[handle\]/publications/create-post / default profile [\#28](https://github.com/rtang03/solarpunks/pull/28) ([rtang03](https://github.com/rtang03))
 - day 5: post related path done [\#27](https://github.com/rtang03/solarpunks/pull/27) ([rtang03](https://github.com/rtang03))
 - day 4 - create profile / update-profile [\#23](https://github.com/rtang03/solarpunks/pull/23) ([rtang03](https://github.com/rtang03))
