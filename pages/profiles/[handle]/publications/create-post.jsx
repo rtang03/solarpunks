@@ -9,6 +9,7 @@ import ConnectWalletMessage from "../../../../components/ConnectWalletMessage";
 import { useSendTransWithSig } from "../../../../hooks/useSendTransWithSig";
 import { useRouter } from "next/router";
 import { SEARCH } from "../../../../graphql/search";
+import Link from "next/link";
 
 const CreatePostPage = ({ dev }) => {
   const FUNC = "createPostTypedData";
@@ -171,12 +172,14 @@ const CreatePostPage = ({ dev }) => {
                 {isSendTransLoading && "Submitting"}
                 {transaction && "Done"}
               </button>
+              {/* PROGRESS */}
               <div>
                 {loading && <div>...creating</div>}
                 {isIndexedLoading && <div>...indexing</div>}
                 {isSignTypedDataLoading && <div>...signing</div>}
                 {isSendTransLoading && <div>...submittig</div>}
               </div>
+              {/* MESSAGE SECTION */}
               {/* Display Error */}
               {error && <div className="border-2">error: {error.message}</div>}
               {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
@@ -197,6 +200,7 @@ const CreatePostPage = ({ dev }) => {
                   >
                     View on Explorer
                   </a>
+                  <span>note: indexing may take a while.</span>
                 </div>
               )}
               {/* when Dev-mode is ON */}
@@ -215,6 +219,7 @@ const CreatePostPage = ({ dev }) => {
                   </pre>
                 </>
               )}
+              {/* END OF MESSAGE SECTION */}
             </Form>
           )}
         </Formik>

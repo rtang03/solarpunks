@@ -10,12 +10,19 @@ const MoralisContextProvider = dynamic(() => import("../components/MoralisContex
   ssr: false,
 });
 
+// TODO: DEMO ONLY
+const friends = ["rtang3#0x21", "rtang4#0x2f"];
+
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps);
   const [isLensReady, setIsLensReady] = useState(false);
   const [defaultProfile, setDefaultProfile] = useState("");
   const [defaultHandle, setDefaultHandle] = useState("");
   const [fetchDefaultProfileCount, setFetchDefaultPofileCount] = useState(0);
+  const [friendList, setFriendList] = useState(friends);
+  const [last5VisitProfiles, setLast5VisitProfiles] = useState([]);
+  const [last5VisitPublications, setLast5VisitPublications] = useState([]);
+
   const value = useMemo(
     () => ({
       isLensReady,
@@ -26,8 +33,22 @@ export default function App({ Component, pageProps }) {
       setDefaultHandle,
       fetchDefaultProfileCount,
       setFetchDefaultPofileCount,
+      friendList,
+      setFriendList,
+      last5VisitProfiles,
+      setLast5VisitProfiles,
+      last5VisitPublications,
+      setLast5VisitPublications,
     }),
-    [isLensReady, defaultProfile, defaultHandle, fetchDefaultProfileCount],
+    [
+      isLensReady,
+      defaultProfile,
+      defaultHandle,
+      fetchDefaultProfileCount,
+      friendList,
+      last5VisitProfiles,
+      last5VisitPublications,
+    ],
   );
 
   return (

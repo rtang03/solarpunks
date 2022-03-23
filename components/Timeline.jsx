@@ -1,30 +1,71 @@
-import { gql, useLazyQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
+import NoRecord from "./NoRecord";
+import PostCard from "./PostCard";
+import CommentCard from "./CommentCard";
+import { JSONTree } from "react-json-tree";
 
-// TODO: hardcoded pagination
-const PAGESIZE = 5;
+const PAGESIZE = 20;
 const CURSOR = 0;
-const PROFILE_ID = "0x21";
 
-const Timeline = () => {
-  const [getTimeline, { data, loading, error }] = useLazyQuery(GET_TIMELINE2);
+const Timeline = ({ profileId, dev, showLinkToPublicProfile, showComment }) => {
+  const FUNC = "timeline";
+  const { data, loading, error } = useQuery(GET_TIMELINE2, {
+    variables: {
+      request: { limit: PAGESIZE, cursor: CURSOR, profileId },
+    },
+    skip: !profileId,
+  });
+
+  const isActiveRecord = data?.[FUNC]?.items?.length > 0;
+  const items = isActiveRecord ? data?.[FUNC]?.items : null;
 
   return (
     <div>
-      <button
-        className="bg-blue-500 m-2 p-2 border-2"
-        onClick={() =>
-          getTimeline({
-            variables: {
-              request: { limit: PAGESIZE, cursor: CURSOR, profileId: PROFILE_ID },
-            },
-          })
-        }
-      >
-        Get Timeline
-      </button>
-      <div>Result: </div>
-      {error && <div className="border-2">error: {error.message}</div>}
-      {data && <pre className="text-left w-1/2">{JSON.stringify(data, null, 2)}</pre>}
+      <div className="m-2 p-2 font-bold">Timeline</div>
+      {loading && <div>...loading</div>}
+      {isActiveRecord && !error && !loading ? (
+        <>
+          {items?.map((item, index) => (
+            <div key={index}>
+              {item["__typename"] === "Comment" ? (
+                <>
+                  {showComment && (
+                    <div className="border-2 m-2 p-2">
+                      <CommentCard
+                        comment={item}
+                        showLinkToPublicProfile={showLinkToPublicProfile}
+                      />
+                    </div>
+                  )}
+                </>
+              ) : item["__typename"] === "Post" ? (
+                <div className="border-2 m-2 p-2">
+                  <PostCard
+                    post={item}
+                    showLinkToPublicProfile={showLinkToPublicProfile}
+                    hideStats={true}
+                  />
+                </div>
+              ) : (
+                <div>Unknow item</div>
+              )}
+            </div>
+          ))}
+        </>
+      ) : (
+        <NoRecord />
+      )}
+      {error && (
+        <>
+          <Error error={error} />
+          {dev && (
+            <>
+              <div>Dev Mode</div>
+              <JSONTree data={error} hideRoot={true} />
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 };
@@ -477,279 +518,4 @@ const GET_TIMELINE2 = gql`
   }
 `;
 
-// ORIGINAL is broken
-const GET_TIMELINE = gql`
-  query ($request: TimelineRequest!) {
-    timeline(request: $request) {
-      items {
-        __typename
-        ... on Post {
-          ...PostFields
-        }
-        ... on Comment {
-          ...CommentFields
-        }
-        ... on Mirror {
-          ...MirrorFields
-        }
-      }
-      pageInfo {
-        prev
-        next
-        totalCount
-      }
-    }
-  }
-
-  fragment MediaFields on Media {
-    url
-    width
-    height
-    mimeType
-  }
-
-  fragment ProfileFields on Profile {
-    id
-    name
-    bio
-    location
-    website
-    twitterUrl
-    handle
-    picture {
-      ... on NftImage {
-        contractAddress
-        tokenId
-        uri
-        verified
-      }
-      ... on MediaSet {
-        original {
-          ...MediaFields
-        }
-        small {
-          ...MediaFields
-        }
-        medium {
-          ...MediaFields
-        }
-      }
-    }
-    coverPicture {
-      ... on NftImage {
-        contractAddress
-        tokenId
-        uri
-        verified
-      }
-      ... on MediaSet {
-        original {
-          ...MediaFields
-        }
-        small {
-          ...MediaFields
-        }
-        medium {
-          ...MediaFields
-        }
-      }
-    }
-    ownedBy
-    depatcher {
-      address
-    }
-    stats {
-      totalFollowers
-      totalFollowing
-      totalPosts
-      totalComments
-      totalMirrors
-      totalPublications
-      totalCollects
-    }
-    followModule {
-      ... on FeeFollowModuleSettings {
-        type
-        amount {
-          asset {
-            name
-            symbol
-            decimals
-            address
-          }
-          value
-        }
-        recipient
-      }
-    }
-  }
-
-  fragment PublicationStatsFields on PublicationStats {
-    totalAmountOfMirrors
-    totalAmountOfCollects
-    totalAmountOfComments
-  }
-
-  fragment MetadataOutputFields on MetadataOutput {
-    name
-    description
-    content
-    media {
-      original {
-        ...MediaFields
-      }
-      small {
-        ...MediaFields
-      }
-      medium {
-        ...MediaFields
-      }
-    }
-    attributes {
-      displayType
-      traitType
-      value
-    }
-  }
-
-  fragment CollectModuleFields on CollectModule {
-    __typename
-    ... on EmptyCollectModuleSettings {
-      type
-      contractAddress
-    }
-  }
-
-  fragment PostFields on Post {
-    id
-    profile {
-      ...ProfileFields
-    }
-    stats {
-      ...PublicationStatsFields
-    }
-    metadata {
-      ...MetadataOutputFields
-    }
-    createdAt
-    collectModule {
-      ...CollectModuleFields
-    }
-    referenceModule {
-      ... on FollowOnlyReferenceModuleSettings {
-        type
-        contractAddress
-      }
-    }
-    appId
-    collectedBy {
-      ...WalletFields
-    }
-    onChainContentURI
-  }
-
-  fragment MirrorBaseFields on Mirror {
-    id
-    profile {
-      ...ProfileFields
-    }
-    stats {
-      ...PublicationStatsFields
-    }
-    metadata {
-      ...MetadataOutputFields
-    }
-    createdAt
-    collectModule {
-      ...CollectModuleFields
-    }
-    referenceModule {
-      ... on FollowOnlyReferenceModuleSettings {
-        type
-        contractAddress
-      }
-    }
-    appId
-    onChainContentURI
-  }
-
-  fragment MirrorFields on Mirror {
-    ...MirrorBaseFields
-    mirrorOf {
-      ... on Post {
-        ...PostFields
-      }
-      ... on Comment {
-        ...CommentFields
-      }
-    }
-  }
-
-  fragment CommentBaseFields on Comment {
-    id
-    profile {
-      ...ProfileFields
-    }
-    stats {
-      ...PublicationStatsFields
-    }
-    metadata {
-      ...MetadataOutputFields
-    }
-    createdAt
-    collectModule {
-      ...CollectModuleFields
-    }
-    referenceModule {
-      ... on FollowOnlyReferenceModuleSettings {
-        type
-        contractAddress
-      }
-    }
-    appId
-    collectedBy {
-      ...WalletFields
-    }
-    onChainContentURI
-  }
-
-  fragment CommentFields on Comment {
-    ...CommentBaseFields
-    mainPost {
-      ... on Post {
-        ...PostFields
-      }
-      ... on Mirror {
-        ...MirrorBaseFields
-        mirrorOf {
-          ... on Post {
-            ...PostFields
-          }
-          ... on Comment {
-            ...CommentMirrorOfFields
-          }
-        }
-      }
-    }
-  }
-
-  fragment CommentMirrorOfFields on Comment {
-    ...CommentBaseFields
-    mainPost {
-      ... on Post {
-        ...PostFields
-      }
-      ... on Mirror {
-        ...MirrorBaseFields
-      }
-    }
-  }
-
-  fragment WalletFields on Wallet {
-    address
-    defaultProfile {
-      ...ProfileFields
-    }
-    totalAmountOfProfiles
-  }
-`;
+// ORIGINAL query in the Github Lens example is broken. Need Fixing

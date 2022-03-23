@@ -8,7 +8,7 @@ import { useContext } from "react";
 import LensContext from "./LensContext";
 import ProfileCard from "./ProfileCard";
 
-const ProfileComponent = ({ handle, dev }) => {
+const ProfileComponent = ({ handle, dev, guessOnly }) => {
   const FUNC = "search";
   const { isLensReady } = useContext(LensContext);
   const { data, error, loading } = useQuery(SEARCH, {
@@ -25,33 +25,37 @@ const ProfileComponent = ({ handle, dev }) => {
       {!isLensReady ? (
         <div>Lens is not active</div>
       ) : (
-        <div className="border-2 p-2">
-          <div>
-            <button className="bg-blue-200 border-2 m-2 p-2">
-              <Link href={`/profiles`}>
-                <a>back to my profiles</a>
-              </Link>
-            </button>
-          </div>
-          <div>
-            <button className="bg-blue-200 border-2 m-2 p-2">
-              <Link href={`/profiles/${result?.handle}/publications`}>
-                <a>go to my publication</a>
-              </Link>
-            </button>
-          </div>
-          <div>
-            <Link href={`/profiles/${handle}/update-profile`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Update this profile</a>
-              </button>
-            </Link>
-          </div>
+        <div className="p-2">
+          {!guessOnly && (
+            <>
+              <div>
+                <button className="bg-blue-200 border-2 m-2 p-2">
+                  <Link href={`/profiles`}>
+                    <a>back to my profiles</a>
+                  </Link>
+                </button>
+              </div>
+              <div>
+                <button className="bg-blue-200 border-2 m-2 p-2">
+                  <Link href={`/profiles/${result?.handle}/publications`}>
+                    <a>go to my publication</a>
+                  </Link>
+                </button>
+              </div>
+              <div>
+                <Link href={`/profiles/${handle}/update-profile`}>
+                  <button className="border-2 p-2 bg-blue-300">
+                    <a>Update this profile</a>
+                  </button>
+                </Link>
+              </div>
+            </>
+          )}
           {loading && <div>...loading</div>}
           {result && !loading && (
             <div>
               {/* Profile Detail */}
-              <ProfileCard profile={result} />
+              <ProfileCard profile={result} guessOnly={guessOnly} />
             </div>
           )}
           {!result && !loading && <NoRecord />}

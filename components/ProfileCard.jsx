@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const ProfileCard = ({ profile }) => {
+const ProfileCard = ({ profile, guessOnly }) => {
   // Note: I found profile.picture is already null
   const coverPicUrl = profile.coverPicture?.original?.url;
   const { stats } = profile;
@@ -15,18 +15,21 @@ const ProfileCard = ({ profile }) => {
       <div>location: {profile.location}</div>
       <div>website: {profile.website}</div>
       <div>twitterUrl: {profile.twitterUrl}</div>
-      <div>handle: {profile.handle}</div>
-      <div>ownedBy: {profile.ownedBy}</div>
       {/* TODO: need to check if coverPicUrl is valid, before rending */}
       <img height={100} width={100} src={coverPicUrl} />
-      <div className="my-2 font-bold">stats</div>
       <div>totalFollowers: {stats?.totalFollowers}</div>
       <div>totalFollowing: {stats?.totalFollowing}</div>
-      <div>totalPosts: {stats?.totalPosts}</div>
-      <div>totalComments: {stats?.totalComments}</div>
-      <div>totalMirrors: {stats?.totalMirrors}</div>
-      <div>totalPublications: {stats?.totalPublications}</div>
-      <div>totalCollects: {stats?.totalCollects}</div>
+      {!guessOnly && (
+        <>
+          <div>handle: {profile.handle}</div>
+          <div>ownedBy: {profile.ownedBy}</div>
+          <div>totalPosts: {stats?.totalPosts}</div>
+          <div>totalComments: {stats?.totalComments}</div>
+          <div>totalMirrors: {stats?.totalMirrors}</div>
+          <div>totalPublications: {stats?.totalPublications}</div>
+          <div>totalCollects: {stats?.totalCollects}</div>
+        </>
+      )}
     </div>
   );
 };

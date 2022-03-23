@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const MIMETYPE = ["image/png", "image/jpeg"];
 
-const CommentCard = ({ comment }) => {
+const CommentCard = ({ comment, showLinkToPublicProfile }) => {
   const { stats, metadata, profile, mainPost, commentOn, firstComment } = comment;
   const media0MemeType = metadata?.media?.[0]?.original?.mimeType;
   const media0Url = metadata?.media?.[0]?.original?.url;
@@ -18,11 +18,15 @@ const CommentCard = ({ comment }) => {
         <span>
           owner: {profile?.handle}#{profile?.id}
         </span>
-        <button className="bg-blue-200 m-2 p-2">
-          <Link href={`/profiles/${profile?.handle}`}>
-            <a>Go to Profile</a>
-          </Link>
-        </button>
+        {showLinkToPublicProfile && (
+          <span>
+            <button className="bg-blue-200 m-2 p-2">
+              <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
+                <a>Go to Public Profile</a>
+              </Link>
+            </button>
+          </span>
+        )}
       </div>
       <div className="my-2 font-bold">PublicationStats</div>
       <div>totalAmountOfMirrors: {stats?.totalAmountOfMirrors}</div>

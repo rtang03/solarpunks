@@ -6,9 +6,15 @@ const LensContext = React.createContext({
   defaultProfile: "",
   setDefaultProfile: () => {},
   defaultHandle: "",
-  setDefaultHandle: () => { },
+  setDefaultHandle: () => {},
   fetchDefaultProfileCount: 0,
-  setFetchDefaultPofileCount: () => { }
+  setFetchDefaultPofileCount: () => {},
+  friendList: [],
+  setFriendList: () => {},
+  last5VisitProfiles: [],
+  setLast5VisitProfiles: () => {},
+  last5VisitPublications: [],
+  setLast5VisitPublications: () => {},
 });
 
 export const LensProvider = LensContext.Provider;

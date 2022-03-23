@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: false,
   images: {
-    domains: ["ipfs.io"],
+    domains: ["ipfs.io", "abc.com"],
   },
 };
