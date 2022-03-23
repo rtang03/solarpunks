@@ -1,38 +1,26 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
-import Layout from "../../../../components/Layout";
-import LensContext from "../../../../components/LensContext";
-import ConnectWalletMessage from "../../../../components/ConnectWalletMessage";
-import { useSendTransWithSig } from "../../../../hooks/useSendTransWithSig";
-import { useRouter } from "next/router";
-import { SEARCH } from "../../../../graphql/search";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useSendTransWithSig } from "../../../../../hooks/useSendTransWithSig";
+import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage";
+import Layout from "../../../../../components/Layout";
+import LensContext from "../../../../../components/LensContext";
 
-const CreatePostPage = ({ dev }) => {
-  const FUNC = "createPostTypedData";
-  const CONTRACT_FUNC_NAME = "postWithSig";
+const CreateCommentPage = ({ dev }) => {
+  const FUNC = "createCommentTypedData";
+  const CONTRACT_FUNC_NAME = "commentWithSig";
   const { account, isAuthenticated } = useMoralis();
-  const { isLensReady } = useContext(LensContext);
+  const { isLensReady, defaultProfile } = useContext(LensContext);
   const router = useRouter();
-  const { handle } = router.query;
+  const { user, publicationid } = router.query;
+  const [handle, profileId] = user.split("#");
 
-  // Step 0. Search profile based on pathname
-  const {
-    loading: searchProfileLoading,
-    data: searchResult,
-    error: searchProfileError,
-  } = useQuery(SEARCH, {
-    variables: { request: { query: handle, type: "PROFILE" } },
-    skip: !handle,
-  });
-  searchProfileError && console.error("searchProfileError: ", searchProfileError);
-  const profileId = searchResult?.search?.items?.[0]?.profileId;
-
-  // Step 1. createPostTypedData at LensAPI
-  const [_create, { data, error, loading }] = useMutation(CREATE_POST_TYPED_DATA);
+  // Step 1. createCommentTypedData at LensAPI
+  const [_create, { data, error, loading }] = useMutation(CREATE_COMMENT_TYPED_DATA);
 
   // txHash is used for querying Indexer
   const typedDataTxHash = data?.[FUNC]?.txHash;
@@ -55,6 +43,8 @@ const CreatePostPage = ({ dev }) => {
     contractPayload: {
       profileId: typedData?.value?.profileId,
       contentURI: typedData?.value?.contentURI,
+      profileIdPointed: typedData?.value?.profileIdPointed,
+      pubIdPointed: typedData?.value?.pubIdPointed,
       collectModule: typedData?.value?.collectModule,
       collectModuleData: typedData?.value?.collectModuleData,
       referenceModule: typedData?.value?.referenceModule,
@@ -62,9 +52,10 @@ const CreatePostPage = ({ dev }) => {
     },
   });
 
-  const create = async ({ contentURI, profileId }) => {
+  const create = ({ profileId, publicationId, contentURI }) => {
     const request = {
       profileId,
+      publicationId,
       contentURI,
       collectModule: {
         emptyCollectModule: true,
@@ -73,12 +64,11 @@ const CreatePostPage = ({ dev }) => {
         followerOnlyReferenceModule: false,
       },
     };
-    // when profileId is not found, may throw strange ApolloError.
-    // This is strange, but ignore it first.
+
     try {
       _create({ variables: { request } });
     } catch (e) {
-      console.error("unexpected error [creatPost]: ", e);
+      console.error("unexpected error [creatComment]: ", e);
     }
   };
 
@@ -108,16 +98,16 @@ const CreatePostPage = ({ dev }) => {
           })}
           onSubmit={async ({ contentURI }, { setSubmitting }) => {
             setSubmitting(true);
-            create({ profileId, contentURI });
+            create({ profileId: defaultProfile, contentURI, publicationId: publicationid });
             setSubmitting(false);
           }}
         >
           {({ errors, values, isSubmitting }) => (
             <Form>
               <div>
-                <Link href={`/profiles/${handle}/publications`}>
+                <Link href={`/explore/${handle}%23${profileId}/publications/${publicationid}`}>
                   <button className="border-2 p-2 bg-blue-300">
-                    <a>Back to my publications</a>
+                    <a>Back to previous publication</a>
                   </button>
                 </Link>
               </div>
@@ -125,6 +115,7 @@ const CreatePostPage = ({ dev }) => {
                 <div className="m-10">
                   e.g. "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN"
                 </div>
+                <div>ContentURI need to comply with Openseas metadata standard</div>
                 <span className="p-2 m-2">
                   <label htmlFor="name">contentURI*</label>
                 </span>
@@ -144,13 +135,13 @@ const CreatePostPage = ({ dev }) => {
                     name="contentURI"
                     placeholder=""
                   />
+                  {/* Input Error */}
+                  {errors?.contentURI && (
+                    <div>
+                      <ErrorMessage name="contentURI" />
+                    </div>
+                  )}
                 </span>
-                {/* Input Error */}
-                {errors?.contentURI && (
-                  <div>
-                    <ErrorMessage name="contentURI" />
-                  </div>
-                )}
               </div>
               <button
                 disabled={
@@ -163,10 +154,10 @@ const CreatePostPage = ({ dev }) => {
                   !!errors?.contentURI ||
                   !!transaction
                 }
-                className="bg-blue-500 m-2 p-2 border-2"
+                className="bg-blue-300 m-2 p-2 border-2"
                 type="submit"
               >
-                {!data && !loading && "Create Post"}
+                {!data && !loading && "Create Comment"}
                 {loading && "Preparing"}
                 {isSignTypedDataLoading && "Signing"}
                 {isSendTransLoading && "Submitting"}
@@ -228,16 +219,16 @@ const CreatePostPage = ({ dev }) => {
   );
 };
 
-export default CreatePostPage;
+export default CreateCommentPage;
 
-const CREATE_POST_TYPED_DATA = gql`
-  mutation ($request: CreatePublicPostRequest!) {
-    createPostTypedData(request: $request) {
+const CREATE_COMMENT_TYPED_DATA = gql`
+  mutation ($request: CreatePublicCommentRequest!) {
+    createCommentTypedData(request: $request) {
       id
       expiresAt
       typedData {
         types {
-          PostWithSig {
+          CommentWithSig {
             name
             type
           }
@@ -252,6 +243,8 @@ const CREATE_POST_TYPED_DATA = gql`
           nonce
           deadline
           profileId
+          profileIdPointed
+          pubIdPointed
           contentURI
           collectModule
           collectModuleData
@@ -263,119 +256,75 @@ const CREATE_POST_TYPED_DATA = gql`
   }
 `;
 
-// Step 1 result: after successful run of Step 1: createPostTypedData
 // {
-//   "createPostTypedData": {
-//     "id": "0d4bb40e-fcd3-48fc-902f-ac2b11dcc1af",
-//     "expiresAt": "2022-03-19T10:35:55.000Z",
+//   "createCommentTypedData": {
+//     "id": "714a6c37-7d59-4875-bf01-d9507a38ac21",
+//     "expiresAt": "2022-03-20T15:05:00.000Z",
 //     "typedData": {
 //       "types": {
-//         "PostWithSig": [
+//         "CommentWithSig": [
 //           {
 //             "name": "profileId",
-//             "type": "uint256",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "uint256"
 //           },
 //           {
 //             "name": "contentURI",
-//             "type": "string",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "string"
+//           },
+//           {
+//             "name": "profileIdPointed",
+//             "type": "uint256"
+//           },
+//           {
+//             "name": "pubIdPointed",
+//             "type": "uint256"
 //           },
 //           {
 //             "name": "collectModule",
-//             "type": "address",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "address"
 //           },
 //           {
 //             "name": "collectModuleData",
-//             "type": "bytes",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "bytes"
 //           },
 //           {
 //             "name": "referenceModule",
-//             "type": "address",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "address"
 //           },
 //           {
 //             "name": "referenceModuleData",
-//             "type": "bytes",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "bytes"
 //           },
 //           {
 //             "name": "nonce",
-//             "type": "uint256",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "uint256"
 //           },
 //           {
 //             "name": "deadline",
-//             "type": "uint256",
-//             "__typename": "EIP712TypedDataField"
+//             "type": "uint256"
 //           }
-//         ],
-//         "__typename": "CreatePostEIP712TypedDataTypes"
+//         ]
 //       },
 //       "domain": {
 //         "name": "Lens Protocol Profiles",
 //         "chainId": 80001,
 //         "version": "1",
-//         "verifyingContract": "0xd7B3481De00995046C7850bCe9a5196B7605c367",
-//         "__typename": "EIP712TypedDataDomain"
+//         "verifyingContract": "0xd7B3481De00995046C7850bCe9a5196B7605c367"
 //       },
 //       "value": {
-//         "nonce": 0,
-//         "deadline": 1647686155,
+//         "nonce": 10,
+//         "deadline": 1647788700,
 //         "profileId": "0x21",
-//         "contentURI": "https://ipfs.io/ipfs/QmSsYRx3LpDAb1GZQm7zZ1AuHZjfbPkD6J7s9r41xu1mf8",
+//         "profileIdPointed": "0x21",
+//         "pubIdPointed": "0x08",
+//         "contentURI": "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN",
 //         "collectModule": "0xb96e42b5579e76197B4d2EA710fF50e037881253",
 //         "collectModuleData": "0x",
 //         "referenceModule": "0x0000000000000000000000000000000000000000",
-//         "referenceModuleData": "0x",
-//         "__typename": "CreatePostEIP712TypedDataValue"
+//         "referenceModuleData": "0x"
 //       },
-//       "__typename": "CreatePostEIP712TypedData"
+//       "__typename": "CreateCommentEIP712TypedData"
 //     },
-//     "__typename": "CreatePostBroadcastItemResult"
+//     "__typename": "CreateCommentBroadcastItemResult"
 //   }
 // }
-
-// Step 2 result: Transaction receipt
-// {
-//   "hash": "0x14cecd0ff74bece12269bdb63036b2e2818c14b407c6cb8e52aa5387c6e25b20",
-//   "type": 2,
-//   "accessList": null,
-//   "blockHash": null,
-//   "blockNumber": null,
-//   "transactionIndex": null,
-//   "confirmations": 0,
-//   "from": "0xc93b8F86c949962f3B6D01C4cdB5fC4663b1af0A",
-//   "gasPrice": {
-//     "type": "BigNumber",
-//     "hex": "0x83eb3da7"
-//   },
-//   "maxPriorityFeePerGas": {
-//     "type": "BigNumber",
-//     "hex": "0x83eb3d99"
-//   },
-//   "maxFeePerGas": {
-//     "type": "BigNumber",
-//     "hex": "0x83eb3da7"
-//   },
-//   "gasLimit": {
-//     "type": "BigNumber",
-//     "hex": "0x0377ea"
-//   },
-//   "to": "0xd7B3481De00995046C7850bCe9a5196B7605c367",
-//   "value": {
-//     "type": "BigNumber",
-//     "hex": "0x00"
-//   },
-//   "nonce": 0,
-//   "data": "0x3b508132000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000210000000000000000000000000000000000000000000000000000000000000140000000000000000000000000b96e42b5579e76197b4d2ea710ff50e03788125300000000000000000000000000000000000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001e0000000000000000000000000000000000000000000000000000000000000001c4d0c2a7d9d5d23adf893dec04a6ae85ef13f3d16b69dc8fc44227968e7f5620f16a43cd86049052ce0fcf365f5f118d0781d9169a3ad9b91e7908581877dba16000000000000000000000000000000000000000000000000000000006235ea16000000000000000000000000000000000000000000000000000000000000004368747470733a2f2f697066732e696f2f697066732f516d5373595278334c7044416231475a516d377a5a314175485a6a6662506b44364a3773397234317875316d6638000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
-//   "r": "0x7a6eea407508fe79414b1176d04c934113f3c1edc690e8e2e802cadba380c9da",
-//   "s": "0x7d7034b2dce4b0ad2d8bdfbb914665e54a2c649a6af513f99d44b4fe7f8fb54e",
-//   "v": 1,
-//   "creates": null,
-//   "chainId": 0
-// }
-
-// https://mumbai.polygonscan.com/tx/0x14cecd0ff74bece12269bdb63036b2e2818c14b407c6cb8e52aa5387c6e25b20

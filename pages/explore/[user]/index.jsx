@@ -1,0 +1,69 @@
+import Layout from "../../../components/Layout";
+import ConnectWalletMessage from "../../../components/ConnectWalletMessage";
+import LensContext from "../../../components/LensContext";
+import { useMoralis } from "react-moralis";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import Profile from "../../../components/Profile";
+import includes from "lodash/includes";
+import slice from "lodash/slice";
+import Link from "next/link";
+
+const PublicUserPage = () => {
+  const { friendList, setFriendList, isLensReady, last5VisitProfiles, setLast5VisitProfiles } =
+    useContext(LensContext);
+  const { account, isAuthenticated } = useMoralis();
+  const router = useRouter();
+
+  // user in pathname may be incorrectly typed
+  const { user } = router.query;
+  const [handle, profileId] = user.split("#");
+  const isValidUser = !!handle && !!profileId;
+
+  // guest is a valdiated user name
+  const guest = isValidUser ? user : null;
+
+  // when guest is not in last5VisitProfiles
+  useEffect(() => {
+    if (guest && !includes(last5VisitProfiles, guest)) {
+      if (last5VisitProfiles.length >= 5) {
+        setLast5VisitProfiles([guest, ...slice(last5VisitProfiles, 0, 4)]);
+      } else {
+        setLast5VisitProfiles([guest, ...last5VisitProfiles]);
+      }
+    }
+  }, [setLast5VisitProfiles, last5VisitProfiles, guest]);
+
+  return (
+    <Layout>
+      {!(account && isAuthenticated) && <ConnectWalletMessage />}
+      {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
+      {account && isAuthenticated && isLensReady && (
+        <>
+          {!isValidUser ? (
+            <div>Malformed username; (e.g. john#0x01)</div>
+          ) : (
+            <div>
+              <span className="m-2">
+                <button className="bg-blue-200 m-2 p-2">
+                  <Link href={`/explore`}>
+                    <a>Go to explore page</a>
+                  </Link>
+                </button>
+              </span>
+              <div>about {user}</div>
+              <Profile handle={handle} isPublicProfile={true} />
+              <button className="border-2 bg-blue-300 m-2 p-2">
+                <Link href={`/explore/${user.replace("#", "%23")}/follow`}>
+                  <a>Follow {handle}</a>
+                </Link>
+              </button>
+            </div>
+          )}
+        </>
+      )}
+    </Layout>
+  );
+};
+
+export default PublicUserPage;

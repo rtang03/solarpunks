@@ -8,7 +8,7 @@ import LensContext from "../../components/LensContext";
 import ConnectWalletMessage from "../../components/ConnectWalletMessage";
 import Layout from "../../components/Layout";
 
-const CreateProfile = ({ dev }) => {
+const CreateProfilePage = ({ dev }) => {
   const FUNC = "createProfile";
   const { account, isAuthenticated } = useMoralis();
   const { isLensReady } = useContext(LensContext);
@@ -172,7 +172,7 @@ const CreateProfile = ({ dev }) => {
   );
 };
 
-export default CreateProfile;
+export default CreateProfilePage;
 
 const CREATE_PROFILE = gql`
   mutation ($request: CreateProfileRequest!) {

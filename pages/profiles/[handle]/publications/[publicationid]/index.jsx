@@ -1,19 +1,18 @@
 import { useRouter } from "next/router";
-import Layout from "../../components/Layout";
-import Profile from "../../components/Profile";
+import Layout from "../../../../../components/Layout";
+import Publication from "../../../../../components/Publication";
 import { useMoralis } from "react-moralis";
-import ConnectWalletMessage from "../../components/ConnectWalletMessage";
 
-const ProfilePage = () => {
+const PublicationPage = () => {
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
-  const handle = router.query.handle;
+  const { handle, publicationid } = router.query;
 
   return (
     <Layout>
       {account && isAuthenticated ? (
         <>
-          <Profile handle={handle} dev={true} />
+          <Publication handle={handle} publicationId={publicationid} />
         </>
       ) : (
         <ConnectWalletMessage />
@@ -22,5 +21,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
-
+export default PublicationPage;

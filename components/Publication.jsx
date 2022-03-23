@@ -12,6 +12,7 @@ const PublicationComponent = ({ handle, publicationId }) => {
   const { loading, data, error } = useQuery(GET_PUBLICATION, {
     variables: { request: { publicationId } },
     skip: !publicationId || !isLensReady,
+    pollInterval: 1000,
   });
 
   const result = data?.[FUNC];

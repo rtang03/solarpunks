@@ -4,7 +4,8 @@ import Image from "next/image";
 
 const MIMETYPE = ["image/png", "image/jpeg"];
 
-const PostCard = ({ post }) => {
+// when using Timeline query. The result Post has no stats fields
+const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
   const { stats, metadata, profile } = post;
   const media0MemeType = metadata?.media?.[0]?.original?.mimeType;
   const media0Url = metadata?.media?.[0]?.original?.url;
@@ -18,16 +19,24 @@ const PostCard = ({ post }) => {
         <span>
           owner: {profile?.handle}#{profile?.id}
         </span>
-        <button className="bg-blue-200 m-2 p-2">
-          <Link href={`/profiles/${profile?.handle}`}>
-            <a>Go to Profile</a>
-          </Link>
-        </button>
+        {showLinkToPublicProfile && (
+          <span>
+            <button className="bg-blue-200 m-2 p-2">
+              <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
+                <a>Go to Public Profile</a>
+              </Link>
+            </button>
+          </span>
+        )}
       </div>
-      <div className="my-2 font-bold">PublicationStats</div>
-      <div>totalAmountOfMirrors: {stats?.totalAmountOfMirrors}</div>
-      <div>totalAmountOfCollects: {stats?.totalAmountOfCollects}</div>
-      <div>totalAmountOfComments: {stats?.totalAmountOfComments}</div>
+      {!hideStats && (
+        <>
+          <div className="my-2 font-bold">PublicationStats</div>
+          <div>totalAmountOfMirrors: {stats?.totalAmountOfMirrors}</div>
+          <div>totalAmountOfCollects: {stats?.totalAmountOfCollects}</div>
+          <div>totalAmountOfComments: {stats?.totalAmountOfComments}</div>
+        </>
+      )}
       <div className="my-2 font-bold">Metadata</div>
       <div>metadata-name: {metadata?.name}</div>
       <div>metadata-description: {metadata?.description}</div>
@@ -40,7 +49,7 @@ const PostCard = ({ post }) => {
         </div>
       ))}
       <div>
-        {isDisplayable ? <Image width={100} height={100} src={media0Url} /> : <>no image</>}
+        <Image width={100} height={100} src={media0Url} />
       </div>
       <div>ownedBy: {profile.ownedBy}</div>
       <div>createdAt: {post.createdAt}</div>

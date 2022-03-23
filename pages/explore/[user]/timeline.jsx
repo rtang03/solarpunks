@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import ConnectWalletMessage from "../../../components/ConnectWalletMessage";
 import Layout from "../../../components/Layout";
 import LensContext from "../../../components/LensContext";
@@ -8,23 +7,14 @@ import { useContext } from "react";
 import { SEARCH } from "../../../graphql/search";
 import Timeline from "../../../components/Timeline";
 import NoRecord from "../../../components/NoRecord";
+import Link from "next/link";
 
 const TimelinePage = () => {
-  const FUNC = "search";
   const { account, isAuthenticated } = useMoralis();
   const { isLensReady } = useContext(LensContext);
   const router = useRouter();
-  const handle = router.query.handle;
-
-  // search profile based on pathname
-  const { loading, data, error } = useQuery(SEARCH, {
-    variables: { request: { query: handle, type: "PROFILE" } },
-    skip: !handle,
-  });
-
-  error && console.error("error in searching profile: ", error);
-
-  const profileId = data?.[FUNC]?.items?.[0].profileId;
+  const user = router.query.user;
+  const [handle, profileId] = user.split("#");
 
   return (
     <Layout>
@@ -32,10 +22,23 @@ const TimelinePage = () => {
       {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
       {account && isAuthenticated && isLensReady && (
         <>
+          <div>
+            <Link href={`/explore/${handle}%23${profileId}`}>
+              <a>
+                <button className="bg-blue-300">Back to My Public Profile Page</button>
+              </a>
+            </Link>
+          </div>
           {profileId ? (
             <>
-              <div>My Favorite Timeline</div>
-              <Timeline handle={handle} profileId={profileId} showComment={true} />
+              {user && <div>about {user}</div>}
+              <Timeline
+                handle={handle}
+                profileId={profileId}
+                showComment={true}
+                canComment={true}
+                canCollect={true}
+              />
             </>
           ) : (
             <NoRecord />

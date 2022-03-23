@@ -9,6 +9,7 @@ import { GET_PROFILES } from "../graphql/getProfiles";
 
 const Layout = ({ children, home }) => {
   const { account, isAuthenticated } = useMoralis();
+
   const {
     isLensReady,
     defaultProfile,
@@ -23,12 +24,13 @@ const Layout = ({ children, home }) => {
    * Fetch default profile once
    */
   const FUNC = "profiles";
-  const { data, error } = useQuery(GET_PROFILES, {
+  const { data, error, refetch } = useQuery(GET_PROFILES, {
     variables: { request: { limit: 1, ownedBy: account } },
-    skip: defaultProfile.startsWith("0x") || fetchDefaultProfileCount !== 0 || !account,
+    skip: fetchDefaultProfileCount !== 0 || !account,
   });
   const profileId = data?.[FUNC]?.items?.[0]?.id;
   const handle = data?.[FUNC]?.items?.[0]?.handle;
+
   useEffect(() => {
     if (profileId) {
       setDefaultProfile(profileId);
@@ -36,9 +38,16 @@ const Layout = ({ children, home }) => {
       setFetchDefaultPofileCount(fetchDefaultProfileCount + 1);
     }
   }, [data]);
-  error && console.error("fail fetch default profile", error);
 
-  const user = defaultProfile && defaultHandle && `${defaultHandle}#${defaultProfile}`;
+  // handling when switching metamask accounts
+  useEffect(() => {
+    if (account) {
+      setFetchDefaultPofileCount(0);
+      refetch();
+    }
+  }, [account]);
+
+  error && console.error("fail fetch default profile", error);
 
   return (
     <div>
@@ -47,10 +56,10 @@ const Layout = ({ children, home }) => {
         {account && isAuthenticated && <Authenticate />}
         {account && isAuthenticated && isLensReady && (
           <>
-            <Link href="/dashboard">
+            <Link href="/explore">
               <span className="mx-2">
                 <button className="border-2 p-2">
-                  <a>Dashboard</a>
+                  <a>Explore</a>
                 </button>
               </span>
             </Link>
