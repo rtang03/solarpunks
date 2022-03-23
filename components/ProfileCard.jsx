@@ -23,11 +23,11 @@ const ProfileCard = ({ profile, guessOnly }) => {
         <>
           <div>handle: {profile.handle}</div>
           <div>ownedBy: {profile.ownedBy}</div>
-          <div>totalPosts: {stats?.totalPosts}</div>
-          <div>totalComments: {stats?.totalComments}</div>
-          <div>totalMirrors: {stats?.totalMirrors}</div>
-          <div>totalPublications: {stats?.totalPublications}</div>
-          <div>totalCollects: {stats?.totalCollects}</div>
+          {stats?.totalPosts > 0 && <div>totalPosts: {stats?.totalPosts}</div>}
+          {stats?.totalComments > 0 && <div>totalComments: {stats?.totalComments}</div>}
+          {stats?.totalMirrors > 0 && <div>totalMirrors: {stats?.totalMirrors}</div>}
+          {stats?.totalPublications > 0 && <div>totalPublications: {stats?.totalPublications}</div>}
+          {stats?.totalCollects > 0 && <div>totalCollects: {stats?.totalCollects}</div>}
         </>
       )}
     </div>
