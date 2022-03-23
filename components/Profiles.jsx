@@ -33,7 +33,7 @@ const ProfilesComponent = ({ cursor, dev }) => {
     <div class="mt-10">
       {!isLensReady ? (
         <div class="LensCon">
-          <div class="LensIcon" >🌿</div>2. Lens is not active
+          <div class="LensIcon" >🌿</div>Connect to Lens
         </div>
       ) : (
         <>
