@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const ProfileCard = ({ profile, guessOnly }) => {
+const ProfileCard = ({ profile, isPublicProfile }) => {
   // Note: I found profile.picture is already null
   const coverPicUrl = profile.coverPicture?.original?.url;
   const { stats } = profile;
@@ -19,7 +19,7 @@ const ProfileCard = ({ profile, guessOnly }) => {
       <img height={100} width={100} src={coverPicUrl} />
       <div>totalFollowers: {stats?.totalFollowers}</div>
       <div>totalFollowing: {stats?.totalFollowing}</div>
-      {!guessOnly && (
+      {!isPublicProfile && (
         <>
           <div>handle: {profile.handle}</div>
           <div>ownedBy: {profile.ownedBy}</div>

@@ -18,7 +18,7 @@ import Link from "next/link";
  * 3. DON'T use Apollo Playground to update URL type field, with blank "". That will break the record, and Apollo will refuse to serve you.
  * 4. ALL UI input of URL field MUST be VALIDATED
  */
-const UpdateProfile = ({ dev }) => {
+const UpdateProfilePage = ({ dev }) => {
   const FUNC = "updateProfile";
   const { account, isAuthenticated } = useMoralis();
   const { isLensReady } = useContext(LensContext);
@@ -233,7 +233,7 @@ const UpdateProfile = ({ dev }) => {
   );
 };
 
-export default UpdateProfile;
+export default UpdateProfilePage;
 
 const UPDATE_PROFILE = gql`
   mutation ($request: UpdateProfileRequest!) {

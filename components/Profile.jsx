@@ -18,7 +18,7 @@ const CURSOR = 0;
  * TODO: Following and Followers are long, should be later moved into separate page, with pagination
  */
 
-const ProfileComponent = ({ handle, dev, guessOnly }) => {
+const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
   const FUNC = "search";
   const { account } = useMoralis();
   const { isLensReady } = useContext(LensContext);
@@ -74,7 +74,7 @@ const ProfileComponent = ({ handle, dev, guessOnly }) => {
         <div>Lens is not active</div>
       ) : (
         <div className="p-2">
-          {!guessOnly && (
+          {!isPublicProfile && (
             <>
               <div>
                 <button className="bg-blue-200 border-2 m-2 p-2">
@@ -104,7 +104,7 @@ const ProfileComponent = ({ handle, dev, guessOnly }) => {
           {result && !loading && (
             <div>
               {/* Profile Detail */}
-              <ProfileCard profile={result} guessOnly={guessOnly} />
+              <ProfileCard profile={result} isPublicProfile={isPublicProfile} />
             </div>
           )}
           {!result && !loading && <NoRecord />}

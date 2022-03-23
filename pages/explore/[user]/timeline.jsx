@@ -35,7 +35,7 @@ const TimelinePage = () => {
               <Timeline
                 handle={handle}
                 profileId={profileId}
-                showComment={false}
+                showComment={true}
                 canComment={true}
                 canCollect={true}
               />

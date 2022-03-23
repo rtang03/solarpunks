@@ -51,8 +51,8 @@ const PublicUserPage = () => {
                   </Link>
                 </button>
               </span>
-              <div>PROFILE</div>
-              <Profile handle={handle} guestOnly={true} />
+              <div>about {user}</div>
+              <Profile handle={handle} isPublicProfile={true} />
               <button className="border-2 bg-blue-300 m-2 p-2">
                 <Link href={`/explore/${user.replace("#", "%23")}/follow`}>
                   <a>Follow {handle}</a>
