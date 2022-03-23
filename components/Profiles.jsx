@@ -2,7 +2,6 @@ import { gql, useQuery } from "@apollo/client";
 import NoRecord from "./NoRecord";
 import Error from "./Error";
 import { JSONTree } from "react-json-tree";
-import Link from "next/link";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import LensContext from "./LensContext";
@@ -37,50 +36,46 @@ const ProfilesComponent = ({ cursor, dev }) => {
         </div>
       ) : (
         <>
-          <h1>Profiles</h1>
-          <div class="">
+          <div class="text-5xl font-exo mb-5 text-night-100">Profiles</div>
+          <div>
             {!isLensReady && <div class="LensIcon">Lens is not active</div>}
           </div>
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
-            <div>
+            <div class="grid xl:grid-cols-3 xl:px-0 px-10 gap-2">
+              
               {items?.map(({ name, id, handle }, key) => (
-                <div className="border-2 m-2" key={key}>
+                <div className="bg-glass-100 rounded-lg relative h-auto" key={key}>
                   {/* Profile Summary */}
-                  <div className="m-2 p-2">
-                    <div>
-                      {defaultUser === `${handle}#${id}` ? (
-                        <span className="font-bold">Active</span>
-                      ) : (
-                        <button
-                          className="border-2 bg-blue-100"
-                          onClick={() => {
-                            setDefaultProfile(id);
-                            setDefaultHandle(handle);
-                          }}
-                        >
-                          Make Active
-                        </button>
-                      )}
-                    </div>
-                    <span>
-                      {name && `${name} |`} {`${handle}#${id}`}
-                    </span>
-                    <span className="m-2">
-                      <button className="bg-blue-200 m-2 p-2">
-                        <Link href={`/profiles/${handle}`}>
-                          <a>Details</a>
-                        </Link>
-                      </button>
-                    </span>
+  
+                    
+                  <div class="text-2xl text-white m-3 pr-16 text-left">
+                    <div class="mb-2">{name && `${name}`}</div>
+                    <span class="text-xl">{`🌿${handle}#${id}`}</span>
+                    
                   </div>
-                  <span className="m-2">
-                    <button className="bg-blue-200 m-2 p-2">
-                      <Link href={`/profiles/${handle}/publications`}>
-                        <a>Go to my publications</a>
-                      </Link>
-                    </button>
-                  </span>
+                  <div>
+
+                  </div>
+                  <a class="grid grid-cols-3">
+                  {defaultUser === `${handle}#${id}` ? (
+                    <span class="font-exo text-night-100 bg-solar-100 rounded-bl-lg p-5 h-15 w-25 animate-pulse">✔️ Current</span>
+                  ) : (
+                    <span
+                      class="font-exo text-white bg-cyber-100 rounded-bl-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer"
+                      onClick={() => {
+                        setDefaultProfile(id);
+                        setDefaultHandle(handle);
+                      }}
+                    >
+                      😴 Switch
+                    </span>
+                  )}
+                  <a class="font-exo text-white bg-cyber-100 p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer" 
+                  href={`/profiles/${handle}`}>⚙️ Settings</a>
+                  <a class="font-exo text-white bg-cyber-100 rounded-br-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer"
+                  href={`/profiles/${handle}/publications`}>🍃 Post</a>
+                  </a>                      
                 </div>
               ))}
             </div>
