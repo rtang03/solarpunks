@@ -74,11 +74,18 @@ const ExplorePage = () => {
           {friendList.map((friend, index) => (
             <div key={index}>
               <span className="mx-2">{friend}</span>
-              <Link href={`/explore/${friend.replace("#", "%23")}`}>
-                <a>
-                  <span className="mx-2 underlined bg-blue-300">Details</span>
-                </a>
-              </Link>
+              <span>
+                <Link href={`/explore/${friend.replace("#", "%23")}`}>
+                  <a>
+                    <span className="mx-2 underlined bg-blue-300">Profile Details</span>
+                  </a>
+                </Link>
+              </span>
+              <span>
+                <Link href={`/explore/${friend.replace("#", "%23")}/timeline`}>
+                  <a><span className="mx-2 underlined bg-blue-300">Timeline</span></a>
+                </Link>
+              </span>
             </div>
           ))}
           <div>

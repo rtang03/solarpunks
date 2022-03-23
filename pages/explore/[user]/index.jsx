@@ -5,7 +5,6 @@ import { useMoralis } from "react-moralis";
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import Profile from "../../../components/Profile";
-import Timeline from "../../../components/Timeline";
 import includes from "lodash/includes";
 import slice from "lodash/slice";
 import Link from "next/link";
@@ -21,19 +20,19 @@ const PublicUserPage = () => {
   const [handle, profileId] = user.split("#");
   const isValidUser = !!handle && !!profileId;
 
-  // guess is a valdiated user name
-  const guess = isValidUser && user;
+  // guest is a valdiated user name
+  const guest = isValidUser ? user : null;
 
-  // when guess is not in last5VisitProfiles
+  // when guest is not in last5VisitProfiles
   useEffect(() => {
-    if (guess && !includes(last5VisitProfiles, guess)) {
+    if (guest && !includes(last5VisitProfiles, guest)) {
       if (last5VisitProfiles.length >= 5) {
-        setLast5VisitProfiles([guess, ...slice(last5VisitProfiles, 0, 4)]);
+        setLast5VisitProfiles([guest, ...slice(last5VisitProfiles, 0, 4)]);
       } else {
-        setLast5VisitProfiles([guess, ...last5VisitProfiles]);
+        setLast5VisitProfiles([guest, ...last5VisitProfiles]);
       }
     }
-  }, [setLast5VisitProfiles, last5VisitProfiles, guess]);
+  }, [setLast5VisitProfiles, last5VisitProfiles, guest]);
 
   return (
     <Layout>
@@ -53,13 +52,12 @@ const PublicUserPage = () => {
                 </button>
               </span>
               <div>PROFILE</div>
-              <Profile handle={handle} guessOnly={true} />
+              <Profile handle={handle} guestOnly={true} />
               <button className="border-2 bg-blue-300 m-2 p-2">
                 <Link href={`/explore/${user.replace("#", "%23")}/follow`}>
                   <a>Follow {handle}</a>
                 </Link>
               </button>
-              <Timeline profileId={profileId} showLinkToPublicProfile={true} />
             </div>
           )}
         </>

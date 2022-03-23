@@ -18,8 +18,6 @@ const FollowingCard = ({ following }) => {
   const totalPublications = stats?.totalPublications;
   const totalCollects = stats?.totalCollects;
 
-  console.log("following")
-
   return (
     <div className="border-2 my-2">
       <div>{user}</div>

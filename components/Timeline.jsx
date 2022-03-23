@@ -3,11 +3,20 @@ import NoRecord from "./NoRecord";
 import PostCard from "./PostCard";
 import CommentCard from "./CommentCard";
 import { JSONTree } from "react-json-tree";
+import Link from "next/link";
 
 const PAGESIZE = 20;
 const CURSOR = 0;
 
-const Timeline = ({ profileId, dev, showLinkToPublicProfile, showComment }) => {
+const Timeline = ({
+  handle,
+  profileId,
+  dev,
+  showLinkToPublicProfile,
+  showComment,
+  canComment,
+  canCollect,
+}) => {
   const FUNC = "timeline";
   const { data, loading, error } = useQuery(GET_TIMELINE2, {
     variables: {
@@ -45,6 +54,30 @@ const Timeline = ({ profileId, dev, showLinkToPublicProfile, showComment }) => {
                     showLinkToPublicProfile={showLinkToPublicProfile}
                     hideStats={true}
                   />
+                  <div className="m-5">
+                    <span className="mx-2">
+                      {canComment && (
+                        <Link
+                          href={`/explore/${handle}%23${profileId}/publications/${item.id}/create-comment`}
+                        >
+                          <a>
+                            <button className="bg-blue-300 p-2">Create Comment</button>
+                          </a>
+                        </Link>
+                      )}
+                    </span>
+                    <span className="mx-2">
+                      {canCollect && (
+                        <Link
+                          href={`/explore/${handle}%23${profileId}/publications/${item.id}/collect`}
+                        >
+                          <a>
+                            <button className="bg-blue-300 p-2">Collect Me</button>
+                          </a>
+                        </Link>
+                      )}
+                    </span>
+                  </div>
                 </div>
               ) : (
                 <div>Unknow item</div>
