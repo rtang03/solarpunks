@@ -9,12 +9,12 @@ const Login = () => {
   const { account, isAuthenticated } = useMoralis();
   const [isLensAPIAuthenticated, setLensAPIAuthenticated] = useState(false);
 
-  return <div class="MainScreen">
-    <div class="MainBoard">
-      <div class="Board1">Friends</div>
-      <div class="Board2">Punk Cities Places</div>
-      <div class="Board3">Feed</div>
-      <div class="Board2">My post</div>
+  return <div className="MainScreen">
+    <div className="MainBoard">
+      <div className="Board1">Friends</div>
+      <div className="Board2">Punk Cities Places</div>
+      <div className="Board3">Feed</div>
+      <div className="Board2">My post</div>
     </div>
   </div>;
 };

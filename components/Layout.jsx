@@ -55,28 +55,44 @@ const Layout = ({ children, home }) => {
         <Account />
         {account && isAuthenticated && <Authenticate />}
         {account && isAuthenticated && isLensReady && (
-          <a class="hud3" href="/dashboard">Dashboard</a>)}
-        {account && isAuthenticated && isLensReady && (  
-          <a class="hud3" href="/profiles">Profiles</a>)}
+          <Link href="/dashboard">
+            <a className="hud3">Dashboard</a>
+          </Link>
+        )}
         {account && isAuthenticated && isLensReady && (
-        <a class="hud4" href={`/profiles/${defaultHandle}/publications/create-post`}>Create Post</a>)}
+          <Link href="/profiles">
+            <a className="hud3">Profiles</a>
+          </Link>
+        )}
+        {account && isAuthenticated && isLensReady && (
+          <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
+            <a className="hud4">Create Post</a>
+          </Link>
+        )}
       </nav>
       <main>{children}</main>
-      <nav class="bottom-hud">
-      {account && (<div class="huda"> 🔥 Gas</div>)} 
-      {account && isAuthenticated && isLensReady && (
-      <a class="hud3" href="/profiles/create-profile">Create Profile</a>)}
-      
+      <nav className="bottom-hud">
+        {account && <div className="huda"> 🔥 Gas</div>}
         {account && isAuthenticated && isLensReady && (
-        <a class="hud3" href={`/profiles/${defaultHandle}/timeline`}>Timeline</a>)}
+          <Link href="/profiles/create-profile">
+            <a className="hud3">Create Profile</a>
+          </Link>
+        )}
+
         {account && isAuthenticated && isLensReady && (
-        <a href="/explore">Explore</a>)}
-        {account && isAuthenticated && isLensReady && (
-        <a href={`/profiles/${defaultHandle}/timeline`}>Timeline</a>)}
-      {account && (<div class="hudb"> ⚡ Energy</div>)}
-      {account && (<div class="hudb"> 💽 Chips</div>)}
-      {account && (<div class="hudc"> 🪨 Carbon</div>)}  
-    </nav>
+          <Link href={`/profiles/${defaultHandle}/timeline`}>
+            <a className="hud3">Timeline</a>
+          </Link>
+        )}
+        {/* {account && isAuthenticated && isLensReady && (
+          <Link href="/explore">
+            <a>Explore</a>
+          </Link>
+        )} */}
+        {account && <div className="hudb"> ⚡ Energy</div>}
+        {account && <div className="hudb"> 💽 Chips</div>}
+        {account && <div className="hudc"> 🪨 Carbon</div>}
+      </nav>
     </div>
   );
 };

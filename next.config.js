@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: false,
   images: {
-    domains: ["ipfs.io", "abc.com"],
+    domains: ["ipfs.io", "mypinata.cloud", "abc.com"],
   },
 };
