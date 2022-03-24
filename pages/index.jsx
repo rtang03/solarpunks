@@ -19,7 +19,7 @@ const Home = () => {
     <Layout home={true}>
       <div className="flex min-h-screen flex-col items-center justify-center py-2">
         <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
-          <h1 className="text-2xl font-bold">Welcome to Decentralized Social</h1>
+          <img src="https://punkcities.mypinata.cloud/ipfs/QmQjKTrUkUhtv9Luxm6zSxnzGoN92ABqFWTZHQAsxzXL4k" class="w-1/2"/>
           {account && isAuthenticated && (
             <div className="m-5 border-2">
               9. Follow profileId "x021" (switch to other account first)
