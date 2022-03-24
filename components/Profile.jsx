@@ -10,9 +10,9 @@ import ProfileCard from "./ProfileCard";
 import FollowerCard from "./FollowerCard";
 import FollowingCard from "./FollowingCard";
 import { useMoralis } from "react-moralis";
+import Pagination from "./Pagination";
 
-const PAGESIZE = 20;
-const CURSOR = 0;
+const PAGESIZE = 1;
 
 /**
  * TODO: Following and Followers are long, should be later moved into separate page, with pagination
@@ -36,24 +36,28 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
     data: followersData,
     loading: followersLoading,
     error: followersError,
+    refetch: refetchFollowers,
   } = useQuery(GET_FOLLOWERS, {
     variables: {
       request: {
         profileId: result?.profileId,
         limit: PAGESIZE,
-        cursor: CURSOR,
       },
     },
     skip: !data,
     pollInterval: 1000,
   });
   const followers = followersData?.followers?.items;
+  const followersNext = followersData?.followers?.pageInfo?.next;
+  const followersPrev = followersData?.followers?.pageInfo?.prev;
+  const followersTotalCount = followersData?.followers?.pageInfo?.totalCount;
 
   // fetch following
   const {
     data: followingsData,
     loading: followingsLoading,
     error: followingsError,
+    refetch: refetchFollowing,
   } = useQuery(GET_FOLLOWING, {
     variables: {
       request: {
@@ -65,11 +69,14 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
     pollInterval: 1000,
   });
   const followings = followingsData?.following?.items;
+  const followingsNext = followingsData?.following?.pageInfo?.next;
+  const followingsPrev = followingsData?.following?.pageInfo?.prev;
+  const followingsTotalCount = followingsData?.following?.pageInfo?.totalCount;
 
   error && console.error("fetch profile error: ", error);
   followersError && console.error("fetch followers error: ", followersError);
   followingsError && console.error("fetch followings error: ", followingsError);
-
+console.log(followings)
   return (
     <div className="MainCon2">
       {!isLensReady ? (
@@ -98,8 +105,8 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
                   <div>Dev Mode</div>
                   <JSONTree data={error} hideRoot={true} />
                 </>
-                )}
-                {/* TODO: REVISIT HERE. IT IS PLACED AT WRONG LOCATION */}
+              )}
+              {/* TODO: REVISIT HERE. IT IS PLACED AT WRONG LOCATION */}
               <div className="mt-20">
                 <Link>
                   <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles`}>
@@ -115,23 +122,57 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
           {/* Fetch Followers */}
           <div className="font-bold my-2">Followers</div>
           {followersLoading && <div>...loading followers</div>}
-          {followers?.length === 0 && <div>No followers</div>}
-          {followers?.length >= 0 && (
+          {followers?.length === 0 && <div>No more followers</div>}
+          {followers?.length > 0 && (
             <>
               {followers.map((follower, index) => (
                 <FollowerCard key={index} follower={follower} />
               ))}
+              <Pagination
+                next={() =>
+                  refetchFollowers({
+                    request: {
+                      profileId: result?.profileId,
+                      limit: PAGESIZE,
+                      cursor: followersNext,
+                    },
+                  })
+                }
+                prev={() =>
+                  refetchFollowers({
+                    request: {
+                      profileId: result?.profileId,
+                      limit: PAGESIZE,
+                      cursor: followersPrev,
+                    },
+                  })
+                }
+                totalCount={followersTotalCount}
+              />
             </>
           )}
           {/* Fetch Followings */}
           <div className="font-bold my-2">Followings</div>
           {followingsLoading && <div>...loading followings</div>}
-          {followings?.length === 0 && <div>No followings</div>}
-          {followings?.length >= 0 && (
+          {followings?.length === 0 && <div>No more followings</div>}
+          {followings?.length > 0 && (
             <>
               {followings.map((following, index) => (
                 <FollowingCard key={index} following={following} />
               ))}
+              <Pagination
+                next={() =>
+                  refetchFollowing({
+                    request: { address: account, limit: PAGESIZE, cursor: followingsNext },
+                  })
+                }
+                prev={() =>
+                  refetchFollowing({
+                    request: { address: account, limit: PAGESIZE, cursor: followingsPrev },
+                  })
+                }
+                totalCount={followingsTotalCount}
+              />
             </>
           )}
         </div>

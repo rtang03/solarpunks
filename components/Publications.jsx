@@ -5,20 +5,18 @@ import { JSONTree } from "react-json-tree";
 import Link from "next/link";
 import { useContext } from "react";
 import LensContext from "./LensContext";
-import PostCard from "./PostCard";
+import Pagination from "./Pagination";
 
-const PAGESIZE = 20;
-const CURSOR = 0;
+const PAGESIZE = 5;
 
 const Publications = ({ profileId, handle, publicationTypes, dev }) => {
   const FUNC = "publications";
   const { isLensReady } = useContext(LensContext);
 
-  const { data, error, loading } = useQuery(GET_PUBLICATIONS, {
+  const { data, error, loading, refetch } = useQuery(GET_PUBLICATIONS, {
     variables: {
       request: {
         limit: PAGESIZE,
-        cursor: CURSOR,
         profileId,
         publicationTypes, // ["POST", "COMMENT", "MIRROR"]
         // future use
@@ -31,6 +29,9 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
 
   const isActiveRecord = data?.[FUNC]?.items?.length > 0;
   const items = isActiveRecord ? data?.[FUNC]?.items : null;
+  const nextCursor = data?.[FUNC]?.pageInfo?.next;
+  const prevCursor = data?.[FUNC]?.pageInfo?.prev;
+  const totalCount = data?.[FUNC]?.pageInfo?.totalCount;
 
   return (
     <>
@@ -60,7 +61,14 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
             <>
               {items?.map((item, key) => (
                 <div className="border-2 m-2" key={key}>
-                  {publicationTypes}: {item.id}
+                  <span>
+                    <div>
+                      {publicationTypes}: {item.id}
+                    </div>
+                    <div>name: {item?.metadata?.name}</div>
+                    <div>description: {item?.metadata?.description}</div>
+                  </span>
+
                   <span className="m-2">
                     <button className="bg-blue-200 m-2 p-2">
                       <Link href={`/profiles/${handle}/publications/${item.id}`}>
@@ -70,6 +78,29 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
                   </span>
                 </div>
               ))}
+              <Pagination
+                next={() =>
+                  refetch({
+                    request: {
+                      limit: PAGESIZE,
+                      profileId,
+                      publicationTypes,
+                      cursor: nextCursor,
+                    },
+                  })
+                }
+                prev={() =>
+                  refetch({
+                    request: {
+                      limit: PAGESIZE,
+                      profileId,
+                      publicationTypes,
+                      cursor: prevCursor,
+                    },
+                  })
+                }
+                totalCount={totalCount}
+              />
             </>
           ) : (
             <NoRecord />
