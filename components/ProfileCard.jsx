@@ -6,30 +6,42 @@ const ProfileCard = ({ profile, isPublicProfile }) => {
   const { stats } = profile;
 
   return (
-    <div>
-      <div className="my-2 font-bold">
-        {profile.handle}#{profile.profileId}
+    <div class="font-exo">
+      
+      <div class="grid grid-cols-2">
+      <div class="justify-self-center">
+        <img class="h-96 w-96 rounded-lg bg-glass-100 mb-20 " src={coverPicUrl} />
       </div>
-      <div>name: {profile.name}</div>
-      <div>bio: {profile.bio}</div>
-      <div>location: {profile.location}</div>
-      <div>website: {profile.website}</div>
-      <div>twitterUrl: {profile.twitterUrl}</div>
-      {/* TODO: need to check if coverPicUrl is valid, before rending */}
-      <img height={100} width={100} src={coverPicUrl} />
-      <div>totalFollowers: {stats?.totalFollowers}</div>
-      <div>totalFollowing: {stats?.totalFollowing}</div>
-      {!isPublicProfile && (
-        <>
-          <div>handle: {profile.handle}</div>
-          <div>ownedBy: {profile.ownedBy}</div>
-          {stats?.totalPosts > 0 && <div>totalPosts: {stats?.totalPosts}</div>}
-          {stats?.totalComments > 0 && <div>totalComments: {stats?.totalComments}</div>}
-          {stats?.totalMirrors > 0 && <div>totalMirrors: {stats?.totalMirrors}</div>}
-          {stats?.totalPublications > 0 && <div>totalPublications: {stats?.totalPublications}</div>}
-          {stats?.totalCollects > 0 && <div>totalCollects: {stats?.totalCollects}</div>}
-        </>
-      )}
+      <div class="text-left text-lg mt-3 -m-16">
+        <div class="text-3xl text-night-100 mb-3 pr-16 text-left">
+          <div class="my-3">☀️ {profile.name}</div>
+          <div class="my-3">🌿{profile.handle}#{profile.profileId}</div>
+          <div class="my-3">🐋 @{profile.twitterUrl}</div>
+          <div class="my-3">🌐{profile.website}</div>
+          <span>🗺️ {profile.location}</span>
+          <div class="text-base my-3">{profile.ownedBy}</div>
+          
+        </div>
+       
+        
+        <div class="text-lg mt-3 mb-10">{profile.bio}</div>
+        
+        
+        
+      </div>
+      
+        {/* TODO: need to check if coverPicUrl is valid, before rending */}
+        <div class="col-span-2 grid grid-cols-4 text-xl gap-3 text-white">
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">🪴</div>Followers: {stats?.totalFollowers}</div>
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">🍃</div> Following: {stats?.totalFollowing}</div>
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">🌱</div> Posts: {stats?.totalPosts}</div>
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">🪞</div>  Mirrors: {stats?.totalMirrors}</div>
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">🎁</div>  Collects: {stats?.totalCollects}</div>
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">📜</div>  Publications: {stats?.totalPublications}</div>
+          <div class="bg-glass-100 rounded-lg"><div class="text-5xl m-3">💬</div>  Comments: {stats?.totalComments}</div>
+          
+        </div>
+      </div>
     </div>
   );
 };

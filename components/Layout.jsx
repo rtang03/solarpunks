@@ -51,50 +51,32 @@ const Layout = ({ children, home }) => {
 
   return (
     <div>
-      <nav className="container bg-gray-300 py-5">
+      <nav className="top-hud">
         <Account />
         {account && isAuthenticated && <Authenticate />}
         {account && isAuthenticated && isLensReady && (
-          <>
-            <Link href="/explore">
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Explore</a>
-                </button>
-              </span>
-            </Link>
-            <Link href="/profiles">
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Profiles</a>
-                </button>
-              </span>
-            </Link>
-            <Link href="/profiles/create-profile">
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Create Profile</a>
-                </button>
-              </span>
-            </Link>
-            <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Create Post</a>
-                </button>
-              </span>
-            </Link>
-            <Link href={`/profiles/${defaultHandle}/timeline`}>
-              <span className="mx-2">
-                <button className="border-2 p-2">
-                  <a>Timeline</a>
-                </button>
-              </span>
-            </Link>
-          </>
-        )}
+          <a class="hud3" href="/dashboard">Dashboard</a>)}
+        {account && isAuthenticated && isLensReady && (  
+          <a class="hud3" href="/profiles">Profiles</a>)}
+        {account && isAuthenticated && isLensReady && (
+        <a class="hud4" href={`/profiles/${defaultHandle}/publications/create-post`}>Create Post</a>)}
       </nav>
       <main>{children}</main>
+      <nav class="bottom-hud">
+      {account && (<div class="huda"> 🔥 Gas</div>)} 
+      {account && isAuthenticated && isLensReady && (
+      <a class="hud3" href="/profiles/create-profile">Create Profile</a>)}
+      
+        {account && isAuthenticated && isLensReady && (
+        <a class="hud3" href={`/profiles/${defaultHandle}/timeline`}>Timeline</a>)}
+        {account && isAuthenticated && isLensReady && (
+        <a href="/explore">Explore</a>)}
+        {account && isAuthenticated && isLensReady && (
+        <a href={`/profiles/${defaultHandle}/timeline`}>Timeline</a>)}
+      {account && (<div class="hudb"> ⚡ Energy</div>)}
+      {account && (<div class="hudb"> 💽 Chips</div>)}
+      {account && (<div class="hudc"> 🪨 Carbon</div>)}  
+    </nav>
     </div>
   );
 };

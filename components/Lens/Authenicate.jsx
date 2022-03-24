@@ -56,25 +56,25 @@ const Auth = () => {
   authError && console.error(authError);
 
   return (
-    <span>
+    <span className="">
       {account && isAuthenticated ? (
         <>
           {isLensReady ? (
-            <button disabled={authLoading || isLensReady} className="connect-btn-no-hover">
-              {user || "Lens Ready"}
+            <button disabled={authLoading || isLensReady} class="bg-cyber-100 py-1 w-full h-full">
+              🌿 {user || "Lens Ready"}
             </button>
           ) : (
-            <button
+            <button 
               disabled={authLoading || isLensReady}
-              className="connect-btn-no-hover"
+              class="bg-glass-100 animate-pulse py-1 w-full h-full rounded-br-lg hover:bg-cyber-100 hover:animate-none"
               onClick={async () => authenticate()}
             >
-              Use Lens
+             🌿 Connect to Lens
             </button>
           )}
         </>
       ) : (
-        <div>Please connect your wallet.</div>
+        <div>2. Connect to Lens</div>
       )}
       {challengeError && <p>Oops! Fail to obtain challenge</p>}
       {authError && <p>Oops! Fail to authenicate LensAPI</p>}
