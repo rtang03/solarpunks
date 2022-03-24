@@ -4,11 +4,10 @@ import PostCard from "./PostCard";
 import CommentCard from "./CommentCard";
 import { JSONTree } from "react-json-tree";
 import Link from "next/link";
-import Pagination from "./Pagination";
 
-const PAGESIZE = 1;
+const PAGESIZE = 20;
+const CURSOR = 0;
 
-// Note: pagination need improvment
 const Timeline = ({
   handle,
   profileId,
@@ -19,20 +18,16 @@ const Timeline = ({
   canCollect,
 }) => {
   const FUNC = "timeline";
-  const { data, loading, error, refetch } = useQuery(GET_TIMELINE2, {
+  const { data, loading, error } = useQuery(GET_TIMELINE2, {
     variables: {
-      request: {
-        limit: PAGESIZE,
-        profileId,
-      },
+      request: { limit: PAGESIZE, cursor: CURSOR, profileId },
     },
     skip: !profileId,
+    notifyOnNetworkStatusChange: true,
   });
   const isActiveRecord = data?.[FUNC]?.items?.length > 0;
   const items = isActiveRecord ? data?.[FUNC]?.items : null;
-  const nextCursor = data?.[FUNC]?.pageInfo?.next;
-  const prevCursor = data?.[FUNC]?.pageInfo?.prev;
-  const totalCount = data?.[FUNC]?.pageInfo?.totalCount;
+  
 
   return (
     <div>
@@ -90,19 +85,6 @@ const Timeline = ({
               )}
             </div>
           ))}
-          <Pagination
-            nextHandle={() =>
-              refetch({
-                request: { limit: PAGESIZE, cursor: nextCursor, profileId },
-              })
-            }
-            prevHandle={() =>
-              refetch({
-                request: { limit: PAGESIZE, cursor: prevCursor, profileId },
-              })
-            }
-            totalCount={totalCount}
-          />
         </>
       ) : (
         <NoRecord />
