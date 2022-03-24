@@ -45,9 +45,10 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
       },
     },
     skip: !data,
+    pollInterval: 1000,
   });
   const followers = followersData?.followers?.items;
-  
+
   // fetch following
   const {
     data: followingsData,
@@ -61,6 +62,7 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
       },
     },
     skip: !account,
+    pollInterval: 1000,
   });
   const followings = followingsData?.following?.items;
 
