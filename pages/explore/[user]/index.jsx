@@ -8,6 +8,7 @@ import Profile from "../../../components/Profile";
 import includes from "lodash/includes";
 import slice from "lodash/slice";
 import Link from "next/link";
+import { gql, useQuery } from "@apollo/client";
 
 const PublicUserPage = () => {
   const { friendList, setFriendList, isLensReady, last5VisitProfiles, setLast5VisitProfiles } =
@@ -34,6 +35,23 @@ const PublicUserPage = () => {
     }
   }, [setLast5VisitProfiles, last5VisitProfiles, guest]);
 
+  // Check if I am a follower of this profileId
+  const {
+    data: doesFollowData,
+    loading: doesFollowLoading,
+    error: doesFollowError,
+  } = useQuery(DOES_FOLLOW, {
+    variables: {
+      request: { followInfos: [{ followerAddress: account, profileId }] },
+    },
+    skip: !account || !profileId,
+    pollInterval: 1000,
+  });
+  doesFollowError && console.error("fail to query doesFollowData: ", doesFollowError);
+
+  // process doesFollow result
+  const doesFollowResult = doesFollowData?.doesFollow?.[0]?.follows;
+
   return (
     <Layout>
       {!(account && isAuthenticated) && <ConnectWalletMessage />}
@@ -53,11 +71,17 @@ const PublicUserPage = () => {
               </span>
               <div>about {user}</div>
               <Profile handle={handle} isPublicProfile={true} />
-              <button className="border-2 bg-blue-300 m-2 p-2">
-                <Link href={`/explore/${user.replace("#", "%23")}/follow`}>
-                  <a>Follow {handle}</a>
-                </Link>
-              </button>
+              {doesFollowResult ? (
+                <div className="font-bold m-5">You Followed</div>
+              ) : (
+                <div>
+                  <button className="border-2 bg-blue-300 m-2 p-2">
+                    <Link href={`/explore/${user.replace("#", "%23")}/follow`}>
+                      <a>Follow {handle}</a>
+                    </Link>
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </>
@@ -67,3 +91,13 @@ const PublicUserPage = () => {
 };
 
 export default PublicUserPage;
+
+const DOES_FOLLOW = gql`
+  query ($request: DoesFollowRequest!) {
+    doesFollow(request: $request) {
+      followerAddress
+      profileId
+      follows
+    }
+  }
+`;

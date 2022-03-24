@@ -6,30 +6,70 @@ import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage
 import Layout from "../../../../../components/Layout";
 import LensContext from "../../../../../components/LensContext";
 import Collect from "../../../../../components/Collect";
-// import { shortenAddress } from "../../../../../lib/shortenAddress";
 import Link from "next/link";
 
 const CollectPage = () => {
   const { account, isAuthenticated } = useMoralis();
-  const { isLensReady, defaultProfile } = useContext(LensContext);
+  const { isLensReady } = useContext(LensContext);
   const router = useRouter();
   const { user, publicationid } = router.query;
   const [handle, profileId] = user.split("#");
 
-  const { data, loading, error } = useQuery(HAS_COLLECTED, {
+  // Step 1: Check if I am a follower of this profileId
+  // It must be a follower, before you can collect
+  const {
+    data: doesFollowData,
+    loading: doesFollowLoading,
+    error: doesFollowError,
+  } = useQuery(DOES_FOLLOW, {
+    variables: {
+      request: { followInfos: [{ followerAddress: account, profileId }] },
+    },
+    skip: !account || !profileId,
+    pollInterval: 1000,
+  });
+
+  doesFollowError && console.error("fail to query doesFollowData: ", doesFollowError);
+
+  // process doesFollow result
+  const doesFollowResult = doesFollowData?.doesFollow?.[0]?.follows;
+  const doesFollowResultProfileId = doesFollowData?.doesFollow?.[0]?.profileId;
+  const doesFollowResultAddress = doesFollowData?.doesFollow?.[0]?.followerAddress;
+
+  // below code should be unnecessary, to verify the returning info is correct. Can remove later.
+  doesFollowResult &&
+    doesFollowResultProfileId !== profileId &&
+    console.error("unknown error, profileId should be the same");
+
+  // End of Step 1
+
+  // Step 2: Check if this is already collected
+  const {
+    data: hasCollectedData,
+    loading: hasCollectedLoading,
+    error: hasCollectedError,
+  } = useQuery(HAS_COLLECTED, {
     variables: {
       request: { collectRequests: { walletAddress: account, publicationIds: [publicationid] } },
     },
     skip: !account,
+    pollInterval: 1000,
   });
+  // process hasCollect result
+  const hasCollectedResult = hasCollectedData?.hasCollected?.[0].results?.[0];
+  const walletAddress = hasCollectedData?.hasCollected?.[0].walletAddress;
+  const collected = hasCollectedResult?.collected;
+  const collectedTimes = hasCollectedResult?.collectedTimes;
 
-  const result = data?.hasCollected?.[0].results?.[0];
-  const walletAddress = data?.hasCollected?.[0].walletAddress;
-  const collected = result?.collected;
-  const collectedTimes = result?.collectedTimes;
-  const canCollect = publicationid === result?.publicationId && !collected && collectedTimes === 0;
+  hasCollectedError && console.error("fail to query HasCollected: ", hasCollectedError);
+  // End of Step 2
 
-  error && console.error("fail to query HasCollected: ", error);
+  const isLoading = doesFollowLoading || hasCollectedLoading;
+  const canCollect =
+    publicationid === hasCollectedResult?.publicationId &&
+    !collected &&
+    collectedTimes === 0 &&
+    doesFollowResult;
 
   return (
     <Layout>
@@ -37,7 +77,7 @@ const CollectPage = () => {
         <>
           {isLensReady && (
             <div>
-              {loading && <div>...loading</div>}
+              {isLoading && <div>...loading</div>}
               <div>
                 <Link href={`/explore/${handle}%23${profileId}/timeline`}>
                   <button className="border-2 p-2 bg-blue-300">
@@ -52,18 +92,29 @@ const CollectPage = () => {
                   </button>
                 </Link>
               </div>
-              {data && (
+              {hasCollectedResult && (
                 <div className="m-5 border-2">
-                  This item is{" "}
-                  {collected ? `collected for ${collectedTimes} times` : "not collected"}, by
-                  {walletAddress}
+                  {collected
+                    ? `You have collected it for ${collectedTimes} times `
+                    : "You are not collector"}
+                  ,
                 </div>
               )}
-              {canCollect ? (
-                <Collect user={user} publicationid={publicationid} />
-              ) : (
-                <div>cannot be collected</div>
+              {!doesFollowResult && (
+                <>
+                  <div>
+                    You are not follower. Cannot Collect. Please follow below publication owner.
+                  </div>
+                  <div>
+                    <Link href={`/explore/${handle}%23${profileId}`}>
+                      <button className="border-2 p-2 bg-blue-300">
+                        <a>Go</a>
+                      </button>
+                    </Link>
+                  </div>
+                </>
               )}
+              {canCollect && <Collect user={user} publicationid={publicationid} />}
             </div>
           )}
         </>
@@ -85,6 +136,16 @@ const HAS_COLLECTED = gql`
         publicationId
         collectedTimes
       }
+    }
+  }
+`;
+
+const DOES_FOLLOW = gql`
+  query ($request: DoesFollowRequest!) {
+    doesFollow(request: $request) {
+      followerAddress
+      profileId
+      follows
     }
   }
 `;
