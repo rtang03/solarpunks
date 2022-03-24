@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/rtang03/solarpunks/tree/HEAD)
 
-[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.6...HEAD)
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.7...HEAD)
+
+**Merged pull requests:**
+
+- collect / doesFollow Check / hasCollected check [\#33](https://github.com/rtang03/solarpunks/pull/33) ([rtang03](https://github.com/rtang03))
+
+## [v0.7](https://github.com/rtang03/solarpunks/tree/v0.7) (2022-03-23)
+
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.6...v0.7)
 
 **Closed issues:**
 
