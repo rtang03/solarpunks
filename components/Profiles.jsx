@@ -45,12 +45,12 @@ const ProfilesComponent = ({ cursor, dev }) => {
             <div class="grid xl:grid-cols-3 xl:px-0 px-10 gap-2">
               
               {items?.map(({ name, id, handle }, key) => (
-                <div className="bg-glass-100 rounded-lg relative h-auto" key={key}>
+                <div className="bg-glass-100 rounded-lg h-auto" key={key}>
                   {/* Profile Summary */}
   
                     
                   <div class="text-2xl text-white m-3 pr-16 text-left">
-                    <div class="mb-2">{name && `${name}`}</div>
+                    <div class="mb-2">☀️ {name && `${name}`}</div>
                     <span class="text-xl">{`🌿${handle}#${id}`}</span>
                     
                   </div>
@@ -59,7 +59,7 @@ const ProfilesComponent = ({ cursor, dev }) => {
                   </div>
                   <a class="grid grid-cols-3">
                   {defaultUser === `${handle}#${id}` ? (
-                    <span class="font-exo text-night-100 bg-solar-100 rounded-bl-lg p-5 h-15 w-25 animate-pulse">✔️ Current</span>
+                    <span class="font-exo text-night-100 bg-solar-100 rounded-bl-lg p-5 h-auto w-25 animate-pulse">✔️ Current</span>
                   ) : (
                     <span
                       class="font-exo text-white bg-cyber-100 rounded-bl-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer"

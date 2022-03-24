@@ -21,37 +21,21 @@ const ProfileComponent = ({ handle, dev }) => {
   const user = `${result?.handle}#${result?.profileId}}`;
 
   return (
-    <>
+    <div class="MainCon2">
       {!isLensReady ? (
         <div>Lens is not active</div>
       ) : (
-        <div className="border-2 p-2">
-          <div>
-            <button className="bg-blue-200 border-2 m-2 p-2">
-              <Link href={`/profiles`}>
-                <a>back to my profiles</a>
-              </Link>
-            </button>
-          </div>
-          <div>
-            <button className="bg-blue-200 border-2 m-2 p-2">
-              <Link href={`/profiles/${result?.handle}/publications`}>
-                <a>go to my publication</a>
-              </Link>
-            </button>
-          </div>
-          <div>
-            <Link href={`/profiles/${handle}/update-profile`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Update this profile</a>
-              </button>
-            </Link>
-          </div>
+        <div className="p-2">
+
+          
+          
+
           {loading && <div>...loading</div>}
           {result && !loading && (
-            <div>
+            <div class="relative">
               {/* Profile Detail */}
               <ProfileCard profile={result} />
+              <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3" href={`/profiles/${handle}/update-profile`}><div>⚙️</div> Update</a>
             </div>
           )}
           {!result && !loading && <NoRecord />}
@@ -64,11 +48,16 @@ const ProfileComponent = ({ handle, dev }) => {
                   <JSONTree data={error} hideRoot={true} />
                 </>
               )}
+              <div class="mt-20">
+                <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles`}>back to my profiles</a>
+                <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles/${result?.handle}/publications`}>go to my publication</a>
+              </div>
             </>
           )}
+          
         </div>
       )}
-    </>
+    </div>
   );
 };
 
