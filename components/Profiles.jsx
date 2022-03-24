@@ -5,6 +5,7 @@ import { JSONTree } from "react-json-tree";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import LensContext from "./LensContext";
+import Link from "next/link";
 
 const PAGESIZE = 20;
 
@@ -29,53 +30,55 @@ const ProfilesComponent = ({ cursor, dev }) => {
   const items = isActiveRecord ? data?.[FUNC]?.items : null;
 
   return (
-    <div class="mt-10">
+    <div className="mt-10">
       {!isLensReady ? (
-        <div class="LensCon">
-          <div class="LensIcon" >🌿</div>Connect to Lens
+        <div className="LensCon">
+          <div className="LensIcon">🌿</div>Connect to Lens
         </div>
       ) : (
         <>
-          <div class="text-5xl font-exo mb-5 text-night-100">Profiles</div>
-          <div>
-            {!isLensReady && <div class="LensIcon">Lens is not active</div>}
-          </div>
+          <div className="text-5xl font-exo mb-5 text-night-100">Profiles</div>
+          <div>{!isLensReady && <div className="LensIcon">Lens is not active</div>}</div>
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
-            <div class="grid xl:grid-cols-3 xl:px-0 px-10 gap-2">
-              
+            <div className="grid xl:grid-cols-3 xl:px-0 px-10 gap-2">
               {items?.map(({ name, id, handle }, key) => (
                 <div className="bg-glass-100 rounded-lg h-auto" key={key}>
                   {/* Profile Summary */}
-  
-                    
-                  <div class="text-2xl text-white m-3 pr-16 text-left">
-                    <div class="mb-2">☀️ {name && `${name}`}</div>
-                    <span class="text-xl">{`🌿${handle}#${id}`}</span>
-                    
-                  </div>
-                  <div>
 
+                  <div className="text-2xl text-white m-3 pr-16 text-left">
+                    <div className="mb-2">☀️ {name && `${name}`}</div>
+                    <span className="text-xl">{`🌿${handle}#${id}`}</span>
                   </div>
-                  <a class="grid grid-cols-3">
-                  {defaultUser === `${handle}#${id}` ? (
-                    <span class="font-exo text-night-100 bg-solar-100 rounded-bl-lg p-5 h-auto w-25 animate-pulse">✔️ Current</span>
-                  ) : (
-                    <span
-                      class="font-exo text-white bg-cyber-100 rounded-bl-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer"
-                      onClick={() => {
-                        setDefaultProfile(id);
-                        setDefaultHandle(handle);
-                      }}
-                    >
-                      😴 Switch
-                    </span>
-                  )}
-                  <a class="font-exo text-white bg-cyber-100 p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer" 
-                  href={`/profiles/${handle}`}>⚙️ Settings</a>
-                  <a class="font-exo text-white bg-cyber-100 rounded-br-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer"
-                  href={`/profiles/${handle}/publications`}>🍃 Post</a>
-                  </a>                      
+                  <div></div>
+                  {/* TODO: REVISIT */}
+                  <div className="grid grid-cols-3">
+                    {defaultUser === `${handle}#${id}` ? (
+                      <span className="font-exo text-night-100 bg-solar-100 rounded-bl-lg p-5 h-auto w-25 animate-pulse">
+                        ✔️ Current
+                      </span>
+                    ) : (
+                      <span
+                        className="font-exo text-white bg-cyber-100 rounded-bl-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer"
+                        onClick={() => {
+                          setDefaultProfile(id);
+                          setDefaultHandle(handle);
+                        }}
+                      >
+                        😴 Switch
+                      </span>
+                    )}
+                    <Link href={`/profiles/${handle}`}>
+                      <a className="font-exo text-white bg-cyber-100 p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer">
+                        ⚙️ Settings
+                      </a>
+                    </Link>
+                    <Link href={`/profiles/${handle}/publications`}>
+                      <a className="font-exo text-white bg-cyber-100 rounded-br-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer">
+                        🍃 Post
+                      </a>
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>

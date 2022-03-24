@@ -71,19 +71,22 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
   followingsError && console.error("fetch followings error: ", followingsError);
 
   return (
-    <div class="MainCon2">
+    <div className="MainCon2">
       {!isLensReady ? (
         <div>Lens is not active</div>
       ) : (
         <div className="p-2">
           {loading && <div>...loading</div>}
           {result && !loading && (
-            <div class="relative">
+            <div className="relative">
               {/* Profile Detail */}
 
-               <ProfileCard profile={result} isPublicProfile={isPublicProfile} />
-              <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3" href={`/profiles/${handle}/update-profile`}><div>⚙️</div> Update</a>
-
+              <ProfileCard profile={result} isPublicProfile={isPublicProfile} />
+              <Link href={`/profiles/${handle}/update-profile`}>
+                <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3">
+                  <div>⚙️</div> Update
+                </a>
+              </Link>
             </div>
           )}
           {!result && !loading && <NoRecord />}
@@ -95,10 +98,17 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
                   <div>Dev Mode</div>
                   <JSONTree data={error} hideRoot={true} />
                 </>
-              )}
-              <div class="mt-20">
-                <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles`}>back to my profiles</a>
-                <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles/${result?.handle}/publications`}>go to my publication</a>
+                )}
+                {/* TODO: REVISIT HERE. IT IS PLACED AT WRONG LOCATION */}
+              <div className="mt-20">
+                <Link>
+                  <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles`}>
+                    back to my profiles
+                  </a>
+                </Link>
+                <Link href={`/profiles/${result?.handle}/publications`}>
+                  <a className="bg-blue-200 border-2 m-2 p-2">go to my publication</a>
+                </Link>
               </div>
             </>
           )}

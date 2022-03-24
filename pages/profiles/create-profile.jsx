@@ -30,14 +30,15 @@ const CreateProfilePage = ({ dev }) => {
 
   return (
     <Layout>
-      <div class="MainCon">
-        {!(account && isAuthenticated) && <ConnectWalletMessage class="bg-white" />}
-        {!(account && isAuthenticated && isLensReady) && 
-        <div class="LensCon">
-          <div class="LensIcon" >🌿</div>2. Lens is not active
-        </div>}
+      <div className="MainCon">
+        {!(account && isAuthenticated) && <ConnectWalletMessage className="bg-white" />}
+        {!(account && isAuthenticated && isLensReady) && (
+          <div className="LensCon">
+            <div className="LensIcon">🌿</div>2. Lens is not active
+          </div>
+        )}
       </div>
-      
+
       {account && isAuthenticated && isLensReady && (
         <Formik
           initialValues={{ handle: "", profilePictureUri: "", followNFTURI: "" }}
@@ -67,31 +68,46 @@ const CreateProfilePage = ({ dev }) => {
           }}
         >
           {({ values, errors, touched, isSubmitting }) => (
-            <Form class="bg-glass-100 mx-96 px-20 py-6 rounded-lg font-exo text-lg text-white text-center">
+            <Form className="bg-glass-100 mx-96 px-20 py-6 rounded-lg font-exo text-lg text-white text-center">
               {loading && <div>...loading</div>}
               {/* Field1: Handle */}
               <div className="text-left m-10">
-                <h1 class="text-5xl text-center pb-14">New 🌿Lens Profile</h1>
+                <h1 className="text-5xl text-center pb-14">New 🌿Lens Profile</h1>
                 <span className="p-2 m-2">
-                  <label class="text-2xl" htmlFor="handle">*Choose your 🌿 Lens' handle:</label>
+                  <label className="text-2xl" htmlFor="handle">
+                    *Choose your 🌿 Lens' handle:
+                  </label>
                 </span>
                 <span className="p-2 m-2">
-                  <Field class="rounded p-2 text-night-100 w-96" id="handle" name="handle" placeholder="Your name on 🌿 lens" />{/* Input Error */}
-                {errors?.handle && (
-                  <a class="pl-5 animate-ping text-solar-100">
-                    <ErrorMessage name="handle" />
-                  </a>
-                )}
+                  <Field
+                    className="rounded p-2 text-night-100 w-96"
+                    id="handle"
+                    name="handle"
+                    placeholder="Your name on 🌿 lens"
+                  />
+                  {/* Input Error */}
+                  {/* I change from a to div. */}
+                  {errors?.handle && (
+                    <div className="pl-5 animate-ping text-solar-100">
+                      <ErrorMessage name="handle" />
+                    </div>
+                  )}
                 </span>
-               
               </div>
               {/* Field2: profilePictureUri */}
               <div className="text-left m-10">
                 <span className="p-2 m-2">
-                  <label class="text-2xl" htmlFor="profilePictureUri">Paste your 🖼️ profilePictureUri:</label>
+                  <label className="text-2xl" htmlFor="profilePictureUri">
+                    Paste your 🖼️ profilePictureUri:
+                  </label>
                 </span>
                 <span className="p-2 m-2">
-                  <Field class="rounded p-2 text-night-100 w-88" id="handle" name="profilePictureUri" placeholder="🖼️profilePictureUri" />
+                  <Field
+                    className="rounded p-2 text-night-100 w-88"
+                    id="handle"
+                    name="profilePictureUri"
+                    placeholder="🖼️profilePictureUri"
+                  />
                 </span>
                 {/* Input Error */}
                 {errors?.profilePictureUri && (
@@ -102,9 +118,16 @@ const CreateProfilePage = ({ dev }) => {
               </div>
               {/* Field3: followNFTURI */}
               <div className="text left m-10">
-                <label class=" text-2xl text-solar-500" htmlFor="followNFTURI">Paste your 🖼️ followNFTURI:</label>
+                <label className=" text-2xl text-solar-500" htmlFor="followNFTURI">
+                  Paste your 🖼️ followNFTURI:
+                </label>
                 <span className="p-2 m-2">
-                  <Field class="rounded p-2 text-night-100" id="followNFTURI" name="followNFTURI" placeholder="followNFTURI" />
+                  <Field
+                    className="rounded p-2 text-night-100"
+                    id="followNFTURI"
+                    name="followNFTURI"
+                    placeholder="followNFTURI"
+                  />
                 </span>
                 {/* Input Error */}
                 <p className="text-solar-500 m-5">

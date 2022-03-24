@@ -60,13 +60,13 @@ const Auth = () => {
       {account && isAuthenticated ? (
         <>
           {isLensReady ? (
-            <button disabled={authLoading || isLensReady} class="bg-cyber-100 py-1 w-full h-full">
+            <button disabled={authLoading || isLensReady} className="bg-cyber-100 py-1 w-full h-full">
               🌿 {user || "Lens Ready"}
             </button>
           ) : (
             <button 
               disabled={authLoading || isLensReady}
-              class="bg-glass-100 animate-pulse py-1 w-full h-full rounded-br-lg hover:bg-cyber-100 hover:animate-none"
+              className="bg-glass-100 animate-pulse py-1 w-full h-full rounded-br-lg hover:bg-cyber-100 hover:animate-none"
               onClick={async () => authenticate()}
             >
              🌿 Connect to Lens

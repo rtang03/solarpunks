@@ -2,9 +2,7 @@ import { gql, useMutation } from "@apollo/client";
 import { Formik, Form } from "formik";
 import { useMoralis } from "react-moralis";
 import { useContext } from "react";
-import Link from "next/link";
 import { useSendTransWithSig } from "../hooks/useSendTransWithSig";
-import Layout from "./Layout";
 import LensContext from "./LensContext";
 
 const Collect = ({ user, publicationid, dev }) => {
