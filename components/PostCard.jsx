@@ -41,7 +41,6 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
       <div>metadata-name: {metadata?.name}</div>
       <div>metadata-description: {metadata?.description}</div>
       <div>metadata-content: {metadata?.content}</div>
-      <div>metadata-name: {metadata?.name}</div>
       {Object.entries(metadata?.attributes)?.map(([key, value], index) => (
         <div key={index}>
           <span>{key}</span>

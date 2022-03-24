@@ -91,12 +91,12 @@ const Timeline = ({
             </div>
           ))}
           <Pagination
-            nextHandle={() =>
+            next={() =>
               refetch({
                 request: { limit: PAGESIZE, cursor: nextCursor, profileId },
               })
             }
-            prevHandle={() =>
+            prev={() =>
               refetch({
                 request: { limit: PAGESIZE, cursor: prevCursor, profileId },
               })
