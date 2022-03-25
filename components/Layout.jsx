@@ -161,8 +161,6 @@ const Layout = ({ children, home }) => {
             <a className="hud3">Timeline</a>
           </Link>
         )}
-        {account && <div className="hudb"> ⚡ Energy</div>}
-        {account && <div className="hudc"> 💽 Chips</div>}
         {account && (
           <div className="hudb">
             <span> ⚡ Energy</span>
