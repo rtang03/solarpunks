@@ -163,13 +163,13 @@ const Layout = ({ children, home }) => {
         )}
         {account && (
           <div className="hudb">
-            <span> ⚡ Energy</span>
+            <span> ⚡ </span>
             <span className="mx-2">{energy?.toString() ?? "N/A"}</span>
           </div>
         )}
         {account && (
-          <div className="hudb">
-            <span> 💽 Chips</span>
+          <div className="hudc">
+            <span> 💽 </span>
             <span className="mx-2">{chip?.toString() ?? "N/A"}</span>
           </div>
         )}
