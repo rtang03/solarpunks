@@ -56,7 +56,12 @@ module.exports = {
                 
                 glass: {
                     100: "#19191a71",
+                    200: "#19191a00",
+                    300: "#fdb04e71",
+                    400: "#fdb04e00",
                 },
+
+                
 
                 "bookmark-purple": "#5267DF",
                 "bookmark-red": "#fa5959",

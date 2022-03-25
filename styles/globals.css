@@ -5,6 +5,9 @@
 @tailwind utilities;
 
 @layer components {
+
+  /* Buttons */
+
   .connect-btn {
     @apply connect-block-text mx-4 rounded-lg border-2
   border-gray-600 px-4 text-base hover:bg-gray-700
@@ -24,6 +27,37 @@
     px-4 
   }
 
+  /* Modals */
+  .WalletModal {
+    @apply my-8 inline-block w-full max-w-md 
+    transform overflow-hidden rounded-2xl 
+    bg-cyber-100 p-6 text-left align-middle 
+    shadow-xl transition-all
+    animate-pulse
+    font-exo
+    text-center
+    text-2xl
+    hover:animate-none
+  }
+
+  .WalletButton {
+    @apply
+    m-2 h-28 w-96 cursor-pointer rounded-lg
+    p-2 text-center 
+    animate-ping
+    hover:animate-none
+    hover:text-white
+    hover:bg-gradient-to-r from-glass-200 via-glass-300 to-glass-200
+  }
+
+  .WalletClose {
+    @apply 
+    justify-center 
+    text-night-100 
+    hover:animate-spin hover:text-solar-100
+  }
+
+  /* Hud */ 
   .top-hud { 
     @apply xl:mx-96 fixed grid grid-cols-5 items-center top-0 left-0 right-0
     rounded-b-lg
@@ -130,6 +164,8 @@
     border-none
     rounded-tr-lg
   }
+
+/* Screens*/
 
   .MainScreen { 
     @apply

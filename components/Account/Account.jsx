@@ -29,12 +29,12 @@ const Account = () => {
           handleClose={closeWalletDialogModal}
           title="Connect Wallet"
         >
-          <div>
+          <div >
             {/* Using MetaMask */}
             <div className="text-center">
               {connectors.map(({ title, icon, connectorId }, key) => (
                 <button
-                  className="m-2 h-28 w-96 cursor-pointer rounded-md border-2 p-2 text-center hover:border-blue-500"
+                  className="WalletButton"
                   key={key}
                   disabled={isAuthenticating}
                   onClick={async () => {
@@ -54,13 +54,15 @@ const Account = () => {
             </div>
 
             {/* Close Button */}
-            <div className="mt-4">
+            <div className="mt-12">
               <button
                 type="button"
-                className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                className="WalletClose"
                 onClick={closeWalletDialogModal}
               >
-                Close
+                <svg class="h-10 w-10 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
               </button>
               {/* TODO: enhance me */}
               {authError && authError.message}
