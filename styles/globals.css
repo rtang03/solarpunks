@@ -44,10 +44,21 @@
     @apply
     m-2 h-28 w-96 cursor-pointer rounded-lg
     p-2 text-center 
-    animate-ping
+    text-white
     hover:animate-none
     hover:text-white
     hover:bg-gradient-to-r from-glass-200 via-glass-300 to-glass-200
+  }
+
+  .WalletDisconnect {
+    @apply
+    mt-12 h-28 w-96 cursor-pointer rounded-lg
+    p-2 text-center 
+    bg-gradient-to-r from-glass-400 via-glass-100 to-glass-400
+    text-solar-100
+    hover:text-white
+    hover:animate-ping
+    hover:bg-gradient-to-r from-glass-200 via-glass-100 to-glass-200
   }
 
   .WalletClose {

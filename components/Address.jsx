@@ -36,7 +36,7 @@ const Address = props => {
       height="26"
       viewBox="0 0 24 24"
       strokeWidth="2"
-      stroke="#1780FF"
+      stroke="#F6AF55"
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -57,7 +57,7 @@ const Address = props => {
   return (
     <>
       {address && (
-        <div className="flex m-3 h-15">
+        <div className="flex">
           <div>{props?.shortAddress ? shortenAddress(address, props.chars) : address}</div>
           {props?.copyable && (isClicked ? <Check /> : <Copy />)}
         </div>

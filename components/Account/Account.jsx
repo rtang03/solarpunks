@@ -78,13 +78,13 @@ const Account = () => {
       <button type="button" onClick={openAuthDialogModal} className="hud1con">
         {shortenAddress(account)}
       </button>
-      <DialogModal isOpen={isAuthDialogOpen} handleClose={closeAuthDialogModal} title="Account">
+      <DialogModal isOpen={isAuthDialogOpen} handleClose={closeAuthDialogModal} title="This is your account">
         <>
-          <div className="m-2 rounded border-2">
+          <div className="-mt-8 inline-block text-white">
             <Address copyable={true} shortAddress={true} chars={5} />
             {explorerURL && (
               <a
-                className="m-2 p-2 underline"
+                className="m-2 p-2 underline text-lg text-night-100 hover:text-solar-100"
                 target="_blank"
                 rel="noreferrer"
                 href={`${explorerURL}/address/${account}`}
@@ -95,7 +95,7 @@ const Account = () => {
           </div>
 
           <button
-            className="border-2 p-2 m-2"
+            className="WalletDisconnect"
             onClick={async () => {
               await logout();
               window.localStorage.removeItem("connectorId");
@@ -107,13 +107,15 @@ const Account = () => {
 
           {/* Close Button */}
           <div className="mt-4">
-            <button
-              type="button"
-              className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-              onClick={closeAuthDialogModal}
-            >
-              Close
-            </button>
+          <button
+                type="button"
+                className="WalletClose"
+                onClick={closeWalletDialogModal}
+              >
+                <svg class="h-10 w-10 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              </button>
           </div>
         </>
       </DialogModal>
