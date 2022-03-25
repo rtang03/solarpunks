@@ -42,7 +42,7 @@ const Layout = ({ children, home }) => {
   const FUNC = "profiles";
   const { data, error, refetch } = useQuery(GET_PROFILES, {
     variables: { request: { limit: 1, ownedBy: account } },
-    skip: fetchDefaultProfileCount !== 0 || !account,
+    skip: fetchDefaultProfileCount !== 0 || !account || defaultProfile,
   });
   const profileId = data?.[FUNC]?.items?.[0]?.id;
   const handle = data?.[FUNC]?.items?.[0]?.handle;

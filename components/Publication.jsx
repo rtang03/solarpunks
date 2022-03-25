@@ -16,6 +16,7 @@ const PublicationComponent = ({ handle, publicationId }) => {
   });
 
   const result = data?.[FUNC];
+  console.log(data);
 
   return (
     <>
@@ -158,6 +159,11 @@ const GET_PUBLICATION = gql`
     name
     description
     content
+    cover {
+      original {
+        url
+      }
+    }
     media {
       original {
         ...MediaFields

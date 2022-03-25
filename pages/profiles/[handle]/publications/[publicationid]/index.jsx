@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import Layout from "../../../../../components/Layout";
 import Publication from "../../../../../components/Publication";
+import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage";
 import { useMoralis } from "react-moralis";
 
 const PublicationPage = () => {

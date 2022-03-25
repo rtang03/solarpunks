@@ -9,8 +9,8 @@ const Home = () => {
     <Layout home={true}>
       <div className="flex min-h-screen flex-col items-center justify-center py-2">
         {/* <div className="mt-32">
-          <Link href="/fetch">
-            <a>Fetch</a>
+          <Link href="/new-place">
+            <a>NewPlace</a>
           </Link>
         </div> */}
         <main className="flex w-full flex-1 flex-col items-center justify-center px-20 text-center">
