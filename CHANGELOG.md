@@ -2,7 +2,15 @@
 
 ## [Unreleased](https://github.com/rtang03/solarpunks/tree/HEAD)
 
-[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.9...HEAD)
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.10...HEAD)
+
+**Merged pull requests:**
+
+- UI fixing in profile related ui [\#40](https://github.com/rtang03/solarpunks/pull/40) ([rtang03](https://github.com/rtang03))
+
+## [v0.10](https://github.com/rtang03/solarpunks/tree/v0.10) (2022-03-25)
+
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.9...v0.10)
 
 **Closed issues:**
 
