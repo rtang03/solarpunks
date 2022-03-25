@@ -92,7 +92,9 @@ const ProfileComponent = ({ handle, dev, isPublicProfile, canFollow }) => {
   return (
     <div className="MainCon2">
       {!isLensReady ? (
-        <div>Lens is not active</div>
+        <div className="LensCon">
+          <div className="LensIcon">🌿</div>Connect to Lens
+        </div>
       ) : (
         <div className="p-2">
           {loading && <div>...loading</div>}

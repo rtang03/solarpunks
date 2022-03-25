@@ -37,7 +37,9 @@ const Publications = ({ profileId, handle, publicationTypes, dev, isPublicPublic
   return (
     <>
       {!isLensReady ? (
-        <div>Lens is not active</div>
+        <div className="LensCon">
+          <div className="LensIcon">🌿</div>Connect to Lens
+        </div>
       ) : (
         <>
           <h1>Publications</h1>

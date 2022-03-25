@@ -20,7 +20,9 @@ const PublicationComponent = ({ handle, profileId, publicationId, isPublicPublic
   return (
     <>
       {!isLensReady ? (
-        <div>Lens is not active</div>
+        <div className="LensCon">
+          <div className="LensIcon">🌿</div>Connect to Lens
+        </div>
       ) : (
         <div className="border-2 p-2">
           <div>
