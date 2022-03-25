@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- fix broken link in /explore/\[user\]/publications [\#43](https://github.com/rtang03/solarpunks/pull/43) ([rtang03](https://github.com/rtang03))
 - UI fixing in profile related ui [\#40](https://github.com/rtang03/solarpunks/pull/40) ([rtang03](https://github.com/rtang03))
 
 ## [v0.10](https://github.com/rtang03/solarpunks/tree/v0.10) (2022-03-25)
