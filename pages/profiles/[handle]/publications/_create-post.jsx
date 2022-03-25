@@ -1,7 +1,8 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { useMoralis } from "react-moralis";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Layout from "../../../../components/Layout";
 import LensContext from "../../../../components/LensContext";
 import ConnectWalletMessage from "../../../../components/ConnectWalletMessage";
@@ -9,7 +10,6 @@ import { useSendTransWithSig } from "../../../../hooks/useSendTransWithSig";
 import { useRouter } from "next/router";
 import { SEARCH } from "../../../../graphql/search";
 import Link from "next/link";
-import NewPlace from "../../../../components/NewPlace";
 
 const CreatePostPage = ({ dev }) => {
   const FUNC = "createPostTypedData";
@@ -18,9 +18,6 @@ const CreatePostPage = ({ dev }) => {
   const { isLensReady } = useContext(LensContext);
   const router = useRouter();
   const { handle } = router.query;
-
-  // for obtaining contentURL from child NewPage component
-  const [contentUrl, setContentUrl] = useState();
 
   // Step 0. Search profile based on pathname
   const {
@@ -97,116 +94,135 @@ const CreatePostPage = ({ dev }) => {
 
   const nonce = data?.[FUNC]?.typedData?.value?.nonce;
 
-  contentUrl && console.log("contenturl: ", contentUrl);
-
   return (
     <Layout>
       {!(account && isAuthenticated) && <ConnectWalletMessage />}
       {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
       {account && isAuthenticated && isLensReady && (
-        <>
-          <div>
-            <Link href={`/profiles/${handle}/publications`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Back to my publications</a>
-              </button>
-            </Link>
-          </div>
-          <div>
-            <div> Step 1: Upload Your Favorite Image to IPFS</div>
-            <NewPlace setParentContentURL={setContentUrl} />
-          </div>
-          <Formik
-            initialValues={{}}
-            onSubmit={async ({}, { setSubmitting }) => {
-              setSubmitting(true);
-              create({ profileId, contentURI: contentUrl });
-              setSubmitting(false);
-            }}
-          >
-            {({ errors, values, isSubmitting }) => (
-              <Form>
-                <div>Step 2: Create Post</div>
-                {contentUrl ? (
-                  <div>Your image: {contentUrl}</div>
-                ) : (
-                  <div>Please complete step 1.</div>
-                )}
-                <button
-                  disabled={
-                    !contentUrl ||
-                    !profileId ||
-                    isSubmitting ||
-                    isIndexedLoading ||
-                    loading ||
-                    isSignTypedDataLoading ||
-                    isSendTransLoading ||
-                    !!errors?.contentURI ||
-                    !!transaction
-                  }
-                  className="bg-blue-500 m-2 p-2 border-2"
-                  type="submit"
-                >
-                  {!data && !loading && "Create Post"}
-                  {loading && "Preparing"}
-                  {isSignTypedDataLoading && "Signing"}
-                  {isSendTransLoading && "Submitting"}
-                  {transaction && "Done"}
-                </button>
-                {/* PROGRESS */}
-                <div>
-                  {loading && <div>...creating</div>}
-                  {isIndexedLoading && <div>...indexing</div>}
-                  {isSignTypedDataLoading && <div>...signing</div>}
-                  {isSendTransLoading && <div>...submittig</div>}
+        <Formik
+          initialValues={{
+            contentURI: "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN",
+          }}
+          validationSchema={Yup.object().shape({
+            contentURI: Yup.string().url("url format required").required("Required field"),
+          })}
+          onSubmit={async ({ contentURI }, { setSubmitting }) => {
+            setSubmitting(true);
+            create({ profileId, contentURI });
+            setSubmitting(false);
+          }}
+        >
+          {({ errors, values, isSubmitting }) => (
+            <Form>
+              <div>
+                <Link href={`/profiles/${handle}/publications`}>
+                  <button className="border-2 p-2 bg-blue-300">
+                    <a>Back to my publications</a>
+                  </button>
+                </Link>
+              </div>
+              <div className="m-10">
+                <div className="m-10">
+                  e.g. "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN"
                 </div>
-                {/* MESSAGE SECTION */}
-                {/* Display Error */}
-                {error && <div className="border-2">error: {error.message}</div>}
-                {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
-                {transError && <div className="border-2">Oops!! transError</div>}
-                {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
-                {/* Success */}
-                {data && <div>create typed data successfully</div>}
-                {transaction && <div>submit transaction successfully</div>}
-                {transactionReceipt && <div>transaction receipt returned</div>}
-                {transaction && <div>nonce: {nonce}</div>}
-                {transaction && (
+                <span className="p-2 m-2">
+                  <label htmlFor="name">contentURI*</label>
+                </span>
+                <span className="p-2 m-2 border-2">
+                  <Field
+                    disabled={
+                      !profileId ||
+                      isSubmitting ||
+                      isIndexedLoading ||
+                      loading ||
+                      isSignTypedDataLoading ||
+                      isSendTransLoading ||
+                      !!errors?.contentURI ||
+                      !!transaction
+                    }
+                    id="contentURI"
+                    name="contentURI"
+                    placeholder=""
+                  />
+                </span>
+                {/* Input Error */}
+                {errors?.contentURI && (
                   <div>
-                    <a
-                      className="m-2 p-2 underline"
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
-                    >
-                      View on Explorer
-                    </a>
-                    <span>note: indexing may take a while.</span>
+                    <ErrorMessage name="contentURI" />
                   </div>
                 )}
-                {/* when Dev-mode is ON */}
-                {dev && data && (
-                  <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>
-                )}
-                {dev && transaction && (
-                  <>
-                    <div>Submitted transaction</div>
-                    <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
-                  </>
-                )}
-                {dev && transactionReceipt && (
-                  <>
-                    <div>Transaction receipt</div>
-                    <pre className="text-left w-64">
-                      {JSON.stringify(transactionReceipt, null, 2)}
-                    </pre>
-                  </>
-                )}
-                {/* END OF MESSAGE SECTION */}
-              </Form>
-            )}
-          </Formik>
-        </>
+              </div>
+              <button
+                disabled={
+                  !profileId ||
+                  isSubmitting ||
+                  isIndexedLoading ||
+                  loading ||
+                  isSignTypedDataLoading ||
+                  isSendTransLoading ||
+                  !!errors?.contentURI ||
+                  !!transaction
+                }
+                className="bg-blue-500 m-2 p-2 border-2"
+                type="submit"
+              >
+                {!data && !loading && "Create Post"}
+                {loading && "Preparing"}
+                {isSignTypedDataLoading && "Signing"}
+                {isSendTransLoading && "Submitting"}
+                {transaction && "Done"}
+              </button>
+              {/* PROGRESS */}
+              <div>
+                {loading && <div>...creating</div>}
+                {isIndexedLoading && <div>...indexing</div>}
+                {isSignTypedDataLoading && <div>...signing</div>}
+                {isSendTransLoading && <div>...submittig</div>}
+              </div>
+              {/* MESSAGE SECTION */}
+              {/* Display Error */}
+              {error && <div className="border-2">error: {error.message}</div>}
+              {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
+              {transError && <div className="border-2">Oops!! transError</div>}
+              {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
+              {/* Success */}
+              {data && <div>create typed data successfully</div>}
+              {transaction && <div>submit transaction successfully</div>}
+              {transactionReceipt && <div>transaction receipt returned</div>}
+              {transaction && <div>nonce: {nonce}</div>}
+              {transaction && (
+                <div>
+                  <a
+                    className="m-2 p-2 underline"
+                    target="_blank"
+                    rel="noreferrer"
+                    href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
+                  >
+                    View on Explorer
+                  </a>
+                  <span>note: indexing may take a while.</span>
+                </div>
+              )}
+              {/* when Dev-mode is ON */}
+              {dev && data && <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>}
+              {dev && transaction && (
+                <>
+                  <div>Submitted transaction</div>
+                  <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
+                </>
+              )}
+              {dev && transactionReceipt && (
+                <>
+                  <div>Transaction receipt</div>
+                  <pre className="text-left w-64">
+                    {JSON.stringify(transactionReceipt, null, 2)}
+                  </pre>
+                </>
+              )}
+              {/* END OF MESSAGE SECTION */}
+            </Form>
+          )}
+        </Formik>
       )}
     </Layout>
   );

@@ -14,7 +14,7 @@ const LensContext = React.createContext({
   last5VisitProfiles: [],
   setLast5VisitProfiles: () => {},
   last5VisitPublications: [],
-  setLast5VisitPublications: () => {},
+  setLast5VisitPublications: () => { },
 });
 
 export const LensProvider = LensContext.Provider;

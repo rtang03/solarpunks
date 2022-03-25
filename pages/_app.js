@@ -6,8 +6,6 @@ import Head from "next/head";
 import { LensProvider } from "../components/LensContext";
 import { useState, useMemo } from "react";
 
-
-
 const MoralisContextProvider = dynamic(() => import("../components/MoralisContext"), {
   ssr: false,
 });

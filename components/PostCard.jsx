@@ -7,10 +7,10 @@ const MIMETYPE = ["image/png", "image/jpeg"];
 // when using Timeline query. The result Post has no stats fields
 const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
   const { stats, metadata, profile } = post;
-  const media0MemeType = metadata?.media?.[0]?.original?.mimeType;
-  const media0Url = metadata?.media?.[0]?.original?.url;
-  const isDisplayable = includes(MIMETYPE, media0MemeType);
-
+  let imgSrc = metadata?.media?.[0]?.original?.url || metadata?.cover?.original?.url;
+  if (imgSrc?.startsWith("ipfs://")) 
+    imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
+console.log(post)
   return (
     <div>
       <div>Type: {post.__typename}</div>
@@ -41,14 +41,15 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
       <div>metadata-name: {metadata?.name}</div>
       <div>metadata-description: {metadata?.description}</div>
       <div>metadata-content: {metadata?.content}</div>
-      {Object.entries(metadata?.attributes)?.map(([key, value], index) => (
+      {metadata?.attributes?.map((attribute, index) => (
         <div key={index}>
-          <span>{key}</span>
-          <span>{value}</span>
+          <div>displayType: {attribute.displayType}</div>
+          <div>traitType: {attribute.traitType}</div>
+          <div>value: {attribute.value}</div>
         </div>
       ))}
       <div>
-        <Image width={100} height={100} src={media0Url} />
+        {imgSrc ? <Image width={100} height={100} src={imgSrc} /> : <div>No image found</div>}
       </div>
       <div>ownedBy: {profile.ownedBy}</div>
       <div>createdAt: {post.createdAt}</div>

@@ -76,7 +76,7 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
   error && console.error("fetch profile error: ", error);
   followersError && console.error("fetch followers error: ", followersError);
   followingsError && console.error("fetch followings error: ", followingsError);
-console.log(followings)
+  
   return (
     <div className="MainCon2">
       {!isLensReady ? (

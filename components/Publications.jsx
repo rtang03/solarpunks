@@ -25,6 +25,7 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
         // commentsOf: string internalPublicationId <== may no use
       },
     },
+    pollInterval: 1000,
   });
 
   const isActiveRecord = data?.[FUNC]?.items?.length > 0;
