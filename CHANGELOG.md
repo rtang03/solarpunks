@@ -10,6 +10,7 @@
 
 **Merged pull requests:**
 
+- create-post with NewPlace form [\#39](https://github.com/rtang03/solarpunks/pull/39) ([rtang03](https://github.com/rtang03))
 - add energy and chip fetching [\#38](https://github.com/rtang03/solarpunks/pull/38) ([rtang03](https://github.com/rtang03))
 
 ## [v0.9](https://github.com/rtang03/solarpunks/tree/v0.9) (2022-03-24)
