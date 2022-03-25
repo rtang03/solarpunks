@@ -31,7 +31,6 @@ const TimelinePage = () => {
           </div>
           {profileId ? (
             <>
-              {user && <div>about {user}</div>}
               <Timeline
                 handle={handle}
                 profileId={profileId}

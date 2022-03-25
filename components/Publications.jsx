@@ -9,7 +9,7 @@ import Pagination from "./Pagination";
 
 const PAGESIZE = 5;
 
-const Publications = ({ profileId, handle, publicationTypes, dev }) => {
+const Publications = ({ profileId, handle, publicationTypes, dev, isPublicPublications }) => {
   const FUNC = "publications";
   const { isLensReady } = useContext(LensContext);
 
@@ -22,7 +22,7 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
         // future use
         // collectedBy: '0x434783647389'
         // sources: string[]
-        // commentsOf: string internalPublicationId <== may no use
+        // commentsOf: string internalPublicationId
       },
     },
     pollInterval: 1000,
@@ -40,22 +40,6 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
         <div>Lens is not active</div>
       ) : (
         <>
-          <div>
-            <span className="m-2">
-              <button className="bg-blue-200 m-2 p-2">
-                <Link href={`/dashboard`}>
-                  <a>Go to dashboard</a>
-                </Link>
-              </button>
-            </span>
-            <span className="m-2">
-              <button className="bg-blue-200 m-2 p-2">
-                <Link href={`/profiles/${handle}`}>
-                  <a>Go to My profile</a>
-                </Link>
-              </button>
-            </span>
-          </div>
           <h1>Publications</h1>
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
@@ -72,7 +56,13 @@ const Publications = ({ profileId, handle, publicationTypes, dev }) => {
 
                   <span className="m-2">
                     <button className="bg-blue-200 m-2 p-2">
-                      <Link href={`/profiles/${handle}/publications/${item.id}`}>
+                      <Link
+                        href={
+                          isPublicPublications
+                            ? `/explore/${handle}%23${profileId}/publications/${item.id}`
+                            : `/profiles/${handle}/publications/${item.id}`
+                        }
+                      >
                         <a>Details</a>
                       </Link>
                     </button>
