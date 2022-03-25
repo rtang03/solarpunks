@@ -69,7 +69,6 @@ const PublicUserPage = () => {
                   </Link>
                 </button>
               </span>
-              <div>about {user}</div>
               <Profile handle={handle} isPublicProfile={true} />
               {doesFollowResult ? (
                 <div className="font-bold m-5">You Followed</div>

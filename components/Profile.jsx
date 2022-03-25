@@ -4,13 +4,14 @@ import NoRecord from "./NoRecord";
 import Error from "./Error";
 import { JSONTree } from "react-json-tree";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import LensContext from "./LensContext";
 import ProfileCard from "./ProfileCard";
 import FollowerCard from "./FollowerCard";
 import FollowingCard from "./FollowingCard";
 import { useMoralis } from "react-moralis";
 import Pagination from "./Pagination";
+import DialogModal from "./DialogModal";
 
 const PAGESIZE = 1;
 
@@ -52,6 +53,11 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
   const followersPrev = followersData?.followers?.pageInfo?.prev;
   const followersTotalCount = followersData?.followers?.pageInfo?.totalCount;
 
+  // Toggle Dialog for Followers
+  const [isFollowersDialogOpen, setIsFollowersDialogOpen] = useState(false);
+  const closeFollowersDialogModal = () => setIsFollowersDialogOpen(false);
+  const openFollowersDialogModal = () => setIsFollowersDialogOpen(true);
+
   // fetch following
   const {
     data: followingsData,
@@ -73,10 +79,16 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
   const followingsPrev = followingsData?.following?.pageInfo?.prev;
   const followingsTotalCount = followingsData?.following?.pageInfo?.totalCount;
 
+  // Toggle Dialog for Followers
+  const [isFollowingsDialogOpen, setIsFollowingsDialogOpen] = useState(false);
+  const closeFollowingsDialogModal = () => setIsFollowingsDialogOpen(false);
+  const openFollowingsDialogModal = () => setIsFollowingsDialogOpen(true);
+
+  // Console Error
   error && console.error("fetch profile error: ", error);
   followersError && console.error("fetch followers error: ", followersError);
   followingsError && console.error("fetch followings error: ", followingsError);
-  
+
   return (
     <div className="MainCon2">
       {!isLensReady ? (
@@ -88,7 +100,13 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
             <div className="relative">
               {/* Profile Detail */}
 
-              <ProfileCard profile={result} isPublicProfile={isPublicProfile} />
+              <ProfileCard
+                profile={result}
+                handle={handle}
+                isPublicProfile={isPublicProfile}
+                openFollowersDialogModal={openFollowersDialogModal}
+                openFollowingsDialogModal={openFollowingsDialogModal}
+              />
               <Link href={`/profiles/${handle}/update-profile`}>
                 <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3">
                   <div>⚙️</div> Update
@@ -106,75 +124,79 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
                   <JSONTree data={error} hideRoot={true} />
                 </>
               )}
-              {/* TODO: REVISIT HERE. IT IS PLACED AT WRONG LOCATION */}
-              <div className="mt-20">
-                <Link>
-                  <a className="bg-blue-200 border-2 m-2 p-2" href={`/profiles`}>
-                    back to my profiles
-                  </a>
-                </Link>
-                <Link href={`/profiles/${result?.handle}/publications`}>
-                  <a className="bg-blue-200 border-2 m-2 p-2">go to my publication</a>
-                </Link>
-              </div>
             </>
           )}
-          {/* Fetch Followers */}
-          <div className="font-bold my-2">Followers</div>
-          {followersLoading && <div>...loading followers</div>}
-          {followers?.length === 0 && <div>No more followers</div>}
-          {followers?.length > 0 && (
+          {/* Followers Dialogue Modal */}
+          <DialogModal
+            isOpen={isFollowersDialogOpen}
+            handleClose={closeFollowersDialogModal}
+            title="Followers"
+          >
             <>
-              {followers.map((follower, index) => (
-                <FollowerCard key={index} follower={follower} />
-              ))}
-              <Pagination
-                next={() =>
-                  refetchFollowers({
-                    request: {
-                      profileId: result?.profileId,
-                      limit: PAGESIZE,
-                      cursor: followersNext,
-                    },
-                  })
-                }
-                prev={() =>
-                  refetchFollowers({
-                    request: {
-                      profileId: result?.profileId,
-                      limit: PAGESIZE,
-                      cursor: followersPrev,
-                    },
-                  })
-                }
-                totalCount={followersTotalCount}
-              />
+              {followersLoading && <div>...loading followers</div>}
+              {followers?.length === 0 && <div>No more followers</div>}
+              {followers?.length > 0 && (
+                <>
+                  {followers.map((follower, index) => (
+                    <FollowerCard key={index} follower={follower} />
+                  ))}
+                  <Pagination
+                    next={() =>
+                      refetchFollowers({
+                        request: {
+                          profileId: result?.profileId,
+                          limit: PAGESIZE,
+                          cursor: followersNext,
+                        },
+                      })
+                    }
+                    prev={() =>
+                      refetchFollowers({
+                        request: {
+                          profileId: result?.profileId,
+                          limit: PAGESIZE,
+                          cursor: followersPrev,
+                        },
+                      })
+                    }
+                    totalCount={followersTotalCount}
+                  />
+                </>
+              )}
             </>
-          )}
+          </DialogModal>
           {/* Fetch Followings */}
-          <div className="font-bold my-2">Followings</div>
-          {followingsLoading && <div>...loading followings</div>}
-          {followings?.length === 0 && <div>No more followings</div>}
-          {followings?.length > 0 && (
+          {/* <div className="font-bold my-2">Followings</div> */}
+          <DialogModal
+            isOpen={isFollowingsDialogOpen}
+            handleClose={closeFollowingsDialogModal}
+            title="Followings"
+          >
             <>
-              {followings.map((following, index) => (
-                <FollowingCard key={index} following={following} />
-              ))}
-              <Pagination
-                next={() =>
-                  refetchFollowing({
-                    request: { address: account, limit: PAGESIZE, cursor: followingsNext },
-                  })
-                }
-                prev={() =>
-                  refetchFollowing({
-                    request: { address: account, limit: PAGESIZE, cursor: followingsPrev },
-                  })
-                }
-                totalCount={followingsTotalCount}
-              />
+              {followingsLoading && <div>...loading followings</div>}
+              {followings?.length === 0 && <div>No more followings</div>}
+              {followings?.length > 0 && (
+                <>
+                  {followings.map((following, index) => (
+                    <FollowingCard key={index} following={following} />
+                  ))}
+                  <Pagination
+                    next={() =>
+                      refetchFollowing({
+                        request: { address: account, limit: PAGESIZE, cursor: followingsNext },
+                      })
+                    }
+                    prev={() =>
+                      refetchFollowing({
+                        request: { address: account, limit: PAGESIZE, cursor: followingsPrev },
+                      })
+                    }
+                    totalCount={followingsTotalCount}
+                  />
+                </>
+              )}
             </>
-          )}
+          </DialogModal>
         </div>
       )}
     </div>

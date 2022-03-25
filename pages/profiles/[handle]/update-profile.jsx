@@ -105,7 +105,7 @@ const UpdateProfilePage = ({ dev }) => {
               {loading && <div>...loading</div>}
               {!searchResult && !loading && <div>No search result error</div>}
               <div className="font-bold">
-                {profileToUpdate?.handle}#{profileToUpdate?.profileId}
+                Edit {profileToUpdate?.handle}#{profileToUpdate?.profileId}
               </div>
               {/* Field1: name */}
               <div className="m-10">
