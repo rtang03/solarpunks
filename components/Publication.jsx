@@ -6,7 +6,7 @@ import { useContext } from "react";
 import LensContext from "./LensContext";
 import PostCard from "./PostCard";
 
-const PublicationComponent = ({ handle, publicationId }) => {
+const PublicationComponent = ({ handle, profileId, publicationId, isPublicPublication }) => {
   const FUNC = "publication";
   const { isLensReady } = useContext(LensContext);
   const { loading, data, error } = useQuery(GET_PUBLICATION, {
@@ -16,7 +16,6 @@ const PublicationComponent = ({ handle, publicationId }) => {
   });
 
   const result = data?.[FUNC];
-  console.log(data);
 
   return (
     <>
@@ -25,14 +24,24 @@ const PublicationComponent = ({ handle, publicationId }) => {
       ) : (
         <div className="border-2 p-2">
           <div>
-            <Link href={`/profiles/${handle}/publications/create-comment`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Create Comment</a>
-              </button>
-            </Link>
+            {isPublicPublication && result && (
+              <Link
+                href={`/explore/${handle}%23${profileId}/publications/${result.id}/create-comment`}
+              >
+                <button className="border-2 p-2 bg-blue-300">
+                  <a>Create Comment</a>
+                </button>
+              </Link>
+            )}
           </div>
           <button className="bg-blue-200 border-2 m-2 p-2">
-            <Link href={`/profiles/${handle}/publications`}>
+            <Link
+              href={
+                isPublicPublication
+                  ? `/explore/${handle}%23${profileId}/publications`
+                  : `/profiles/${handle}/publications`
+              }
+            >
               <a>Back to my publications</a>
             </Link>
           </button>

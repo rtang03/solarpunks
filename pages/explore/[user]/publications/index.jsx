@@ -1,15 +1,15 @@
-import { useRouter } from "next/router";
-import Layout from "../../../../../components/Layout";
-import Publication from "../../../../../components/Publication";
-import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage";
-import LensContext from "../../../../../components/LensContext";
 import { useMoralis } from "react-moralis";
+import Layout from "../../../../components/Layout";
+import LensContext from "../../../../components/LensContext";
+import Publications from "../../../../components/Publications";
+import ConnectWalletMessage from "../../../../components/ConnectWalletMessage";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 
-const PublicPublicationPage = () => {
+const PublicPublicationsPage = () => {
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
-  const { user, publicationid } = router.query;
+  const { user } = router.query;
   const { isLensReady } = useContext(LensContext);
   const [handle, profileId] = user.split("#");
   const isValidUser = !!handle && !!profileId;
@@ -23,12 +23,14 @@ const PublicPublicationPage = () => {
           {!isValidUser ? (
             <div>Malformed username; (e.g. john#0x01)</div>
           ) : (
-            <Publication
-              handle={handle}
-              profileId={profileId}
-              publicationId={publicationid}
-              isPublicPublication={true}
-            />
+            <>
+              <Publications
+                profileId={profileId}
+                handle={handle}
+                publicationTypes={["POST"]}
+                isPublicPublications={true}
+              />
+            </>
           )}
         </>
       )}
@@ -36,4 +38,4 @@ const PublicPublicationPage = () => {
   );
 };
 
-export default PublicPublicationPage;
+export default PublicPublicationsPage;

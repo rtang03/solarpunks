@@ -4,6 +4,7 @@ import { signText } from "../../lensApi/ethers.service";
 import { setAuthenticationToken } from "../../lensApi/state";
 import { useEffect, useContext } from "react";
 import LensContext from "../LensContext";
+import Link from "next/link";
 
 const GET_CHALLENGE = gql`
   query ($request: ChallengeRequest!) {
@@ -60,16 +61,21 @@ const Auth = () => {
       {account && isAuthenticated ? (
         <>
           {isLensReady ? (
-            <button disabled={authLoading || isLensReady} className="bg-cyber-100 py-1 w-full h-full">
-              🌿 {user || "Lens Ready"}
+            <button
+              disabled={authLoading || isLensReady}
+              className="bg-cyber-100 py-1 w-full h-full"
+            >
+              <Link href={`/profiles/${user.split("#")[0]}`}>
+                <a>🌿 {user || "Lens Ready"}</a>
+              </Link>
             </button>
           ) : (
-            <button 
+            <button
               disabled={authLoading || isLensReady}
               className="bg-glass-100 animate-pulse py-1 w-full h-full rounded-br-lg hover:bg-cyber-100 hover:animate-none"
               onClick={async () => authenticate()}
             >
-             🌿 Connect to Lens
+              🌿 Connect to Lens
             </button>
           )}
         </>

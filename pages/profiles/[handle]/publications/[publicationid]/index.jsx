@@ -11,12 +11,18 @@ const PublicationPage = () => {
 
   return (
     <Layout>
-      {account && isAuthenticated ? (
+      {!(account && isAuthenticated) && <ConnectWalletMessage />}
+      {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
+      {account && isAuthenticated && isLensReady && (
         <>
-          <Publication handle={handle} publicationId={publicationid} />
+          {!isValidUser ? (
+            <div>Malformed username; (e.g. john#0x01)</div>
+          ) : (
+            <>
+              <Publication handle={handle} publicationId={publicationid} />
+            </>
+          )}
         </>
-      ) : (
-        <ConnectWalletMessage />
       )}
     </Layout>
   );

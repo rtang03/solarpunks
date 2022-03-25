@@ -53,7 +53,13 @@ const ProfileCard = ({
           <div className="bg-glass-100 rounded-lg">
             <div className="text-5xl m-3">🎁</div> Collects: {stats?.totalCollects}
           </div>
-          <Link href={`/profiles/${handle}/publications`}>
+          <Link
+            href={
+              isPublicProfile
+                ? `/explore/${handle}%23${profile.profileId}/publications`
+                : `/profiles/${handle}/publications`
+            }
+          >
             <a>
               <div className="bg-glass-100 rounded-lg hover:cursor-pointer">
                 <div className="text-5xl m-3">📜</div> Publications: {stats?.totalPublications}

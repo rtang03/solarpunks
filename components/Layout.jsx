@@ -102,11 +102,6 @@ const Layout = ({ children, home }) => {
             <a className="hud3">Dashboard</a>
           </Link>
         )}
-        {/* {account && isAuthenticated && isLensReady && (
-          <Link href="/profiles">
-            <a className="hud3">Profiles</a>
-          </Link>
-        )} */}
         {account && isAuthenticated && isLensReady && (
           <Menu>
             <Menu.Button className="hud3">Profiles</Menu.Button>
