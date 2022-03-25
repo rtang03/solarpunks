@@ -90,7 +90,7 @@ const ProfileComponent = ({ handle, dev, isPublicProfile, canFollow }) => {
   followingsError && console.error("fetch followings error: ", followingsError);
 
   return (
-    <div className="MainCon2">
+    <div className="">
       {!isLensReady ? (
         <div className="LensCon">
           <div className="LensIcon">🌿</div>Connect to Lens

@@ -10,7 +10,8 @@ const ProfilePage = () => {
   const handle = router.query.handle;
 
   return (
-    <Layout>
+    <Layout >
+      <div className="MainCon2">
       {account && isAuthenticated ? (
         <>
           <Profile handle={handle} dev={true} />
@@ -18,6 +19,7 @@ const ProfilePage = () => {
       ) : (
         <ConnectWalletMessage />
       )}
+      </div>
     </Layout>
   );
 };
