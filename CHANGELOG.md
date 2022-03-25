@@ -2,10 +2,19 @@
 
 ## [Unreleased](https://github.com/rtang03/solarpunks/tree/HEAD)
 
-[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.8...HEAD)
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.9...HEAD)
+
+**Closed issues:**
+
+- March 23 Todo [\#31](https://github.com/rtang03/solarpunks/issues/31)
+
+## [v0.9](https://github.com/rtang03/solarpunks/tree/v0.9) (2022-03-24)
+
+[Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.8...v0.9)
 
 **Merged pull requests:**
 
+- Add pagination [\#36](https://github.com/rtang03/solarpunks/pull/36) ([rtang03](https://github.com/rtang03))
 - fix UI issue [\#35](https://github.com/rtang03/solarpunks/pull/35) ([rtang03](https://github.com/rtang03))
 - Merge of main into UI2 [\#29](https://github.com/rtang03/solarpunks/pull/29) ([HabacucMX](https://github.com/HabacucMX))
 - Follow functions merge [\#20](https://github.com/rtang03/solarpunks/pull/20) ([HabacucMX](https://github.com/HabacucMX))
