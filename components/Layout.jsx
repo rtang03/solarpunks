@@ -161,6 +161,8 @@ const Layout = ({ children, home }) => {
             <a className="hud3">Timeline</a>
           </Link>
         )}
+        {account && <div className="hudb"> ⚡ Energy</div>}
+        {account && <div className="hudc"> 💽 Chips</div>}
         {account && (
           <div className="hudb">
             <span> ⚡ Energy</span>
@@ -173,7 +175,6 @@ const Layout = ({ children, home }) => {
             <span className="mx-2">{chip?.toString() ?? "N/A"}</span>
           </div>
         )}
-        {account && <div className="hudc"> 🪨 Carbon</div>}
       </nav>
     </div>
   );
