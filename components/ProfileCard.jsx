@@ -25,15 +25,12 @@ const ProfileCard = ({
               🌿{profile.handle}#{profile.profileId}
             </div>
             <div className="my-3">🐋 @{profile.twitterUrl}</div>
-            <div className="my-3">🌐{profile.website}</div>
+            <div className="my-3">🌐 {profile.website}</div>
             <span>🗺️ {profile.location}</span>
             <div className="text-base my-3">{profile.ownedBy}</div>
           </div>
-
           <div className="text-lg mt-3 mb-10">{profile.bio}</div>
         </div>
-
-        {/* TODO: need to check if coverPicUrl is valid, before rending */}
         <div className="col-span-2 grid grid-cols-4 text-xl gap-3 text-white">
           <div
             className="bg-glass-100 rounded-lg hover:cursor-pointer"

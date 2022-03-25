@@ -19,7 +19,7 @@ const PAGESIZE = 1;
  * TODO: Following and Followers are long, should be later moved into separate page, with pagination
  */
 
-const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
+const ProfileComponent = ({ handle, dev, isPublicProfile, canFollow }) => {
   const FUNC = "search";
   const { account } = useMoralis();
   const { isLensReady } = useContext(LensContext);
@@ -99,7 +99,6 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
           {result && !loading && (
             <div className="relative">
               {/* Profile Detail */}
-
               <ProfileCard
                 profile={result}
                 handle={handle}
@@ -107,11 +106,20 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
                 openFollowersDialogModal={openFollowersDialogModal}
                 openFollowingsDialogModal={openFollowingsDialogModal}
               />
-              <Link href={`/profiles/${handle}/update-profile`}>
-                <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3">
-                  <div>⚙️</div> Update
-                </a>
-              </Link>
+              {!isPublicProfile && (
+                <Link href={`/profiles/${handle}/update-profile`}>
+                  <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3">
+                    <div>⚙️</div> Update
+                  </a>
+                </Link>
+              )}
+              {isPublicProfile && canFollow && (
+                <Link href={`/explore/${handle}%23${result.profileId}/follow`}>
+                  <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3">
+                    <div>🏃‍♀️</div> Follow
+                  </a>
+                </Link>
+              )}
             </div>
           )}
           {!result && !loading && <NoRecord />}
@@ -166,7 +174,6 @@ const ProfileComponent = ({ handle, dev, isPublicProfile }) => {
             </>
           </DialogModal>
           {/* Fetch Followings */}
-          {/* <div className="font-bold my-2">Followings</div> */}
           <DialogModal
             isOpen={isFollowingsDialogOpen}
             handleClose={closeFollowingsDialogModal}

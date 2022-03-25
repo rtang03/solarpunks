@@ -53,7 +53,7 @@ const UpdateProfilePage = ({ dev }) => {
     <Layout>
       {!(account && isAuthenticated) && <ConnectWalletMessage />}
       {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
-      {account && isAuthenticated && isLensReady && (
+      {account && isAuthenticated && isLensReady && searchResult && (
         <Formik
           initialValues={{
             name: profileToUpdate?.name || "",

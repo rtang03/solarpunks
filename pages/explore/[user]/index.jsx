@@ -11,7 +11,7 @@ import Link from "next/link";
 import { gql, useQuery } from "@apollo/client";
 
 const PublicUserPage = () => {
-  const { friendList, setFriendList, isLensReady, last5VisitProfiles, setLast5VisitProfiles } =
+  const { isLensReady, last5VisitProfiles, setLast5VisitProfiles, defaultHandle, defaultProfile } =
     useContext(LensContext);
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
@@ -52,6 +52,9 @@ const PublicUserPage = () => {
   // process doesFollow result
   const doesFollowResult = doesFollowData?.doesFollow?.[0]?.follows;
 
+  // not following yourself
+  const youAreVisitingYourself = user === `${defaultHandle}#${defaultProfile}`;
+
   return (
     <Layout>
       {!(account && isAuthenticated) && <ConnectWalletMessage />}
@@ -62,25 +65,12 @@ const PublicUserPage = () => {
             <div>Malformed username; (e.g. john#0x01)</div>
           ) : (
             <div>
-              <span className="m-2">
-                <button className="bg-blue-200 m-2 p-2">
-                  <Link href={`/explore`}>
-                    <a>Go to explore page</a>
-                  </Link>
-                </button>
-              </span>
-              <Profile handle={handle} isPublicProfile={true} />
-              {doesFollowResult ? (
-                <div className="font-bold m-5">You Followed</div>
-              ) : (
-                <div>
-                  <button className="border-2 bg-blue-300 m-2 p-2">
-                    <Link href={`/explore/${user.replace("#", "%23")}/follow`}>
-                      <a>Follow {handle}</a>
-                    </Link>
-                  </button>
-                </div>
-              )}
+              <Profile
+                handle={handle}
+                isPublicProfile={true}
+                canFollow={!doesFollowResult && !youAreVisitingYourself}
+              />
+              {doesFollowResult && <div className="font-bold m-5">You Followed</div>}
             </div>
           )}
         </>
