@@ -22,8 +22,14 @@ const ExplorePage = () => {
 
   return (
     <Layout>
-      {!(account && isAuthenticated) && <ConnectWalletMessage />}
-      {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
+      <div className="MainCon">
+        {!(account && isAuthenticated) && <ConnectWalletMessage />}
+        {!(account && isAuthenticated && isLensReady) && (
+          <div className="LensCon">
+            <div className="LensIcon">🌿</div>Lens is not active
+          </div>
+        )}
+      </div>
       {account && isAuthenticated && isLensReady && (
         <div className="border-2 m-2 p-10">
           <Formik

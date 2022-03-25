@@ -34,7 +34,7 @@ const CreateProfilePage = ({ dev }) => {
         {!(account && isAuthenticated) && <ConnectWalletMessage className="bg-white" />}
         {!(account && isAuthenticated && isLensReady) && (
           <div className="LensCon">
-            <div className="LensIcon">🌿</div>2. Lens is not active
+            <div className="LensIcon">🌿</div>Lens is not active
           </div>
         )}
       </div>

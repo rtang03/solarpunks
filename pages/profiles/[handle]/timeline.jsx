@@ -28,8 +28,14 @@ const TimelinePage = () => {
 
   return (
     <Layout>
-      {!(account && isAuthenticated) && <ConnectWalletMessage />}
-      {!(account && isAuthenticated && isLensReady) && <div>Lens is not active</div>}
+      <div className="MainCon">
+        {!(account && isAuthenticated) && <ConnectWalletMessage />}
+        {!(account && isAuthenticated && isLensReady) && (
+          <div className="LensCon">
+            <div className="LensIcon">🌿</div>Lens is not active
+          </div>
+        )}
+      </div>
       {account && isAuthenticated && isLensReady && (
         <>
           {profileId ? (
