@@ -13,11 +13,6 @@ const ProfilePage = () => {
     <Layout>
       {account && isAuthenticated ? (
         <>
-          <Link href={`/profiles/${handle}/publications`}>
-            <button className="bg-blue-300">
-              <a>Go to my publication</a>
-            </button>
-          </Link>
           <Profile handle={handle} dev={true} />
         </>
       ) : (
