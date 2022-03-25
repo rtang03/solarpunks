@@ -7,6 +7,9 @@ import LensContext from "./LensContext";
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "../graphql/getProfiles";
 import { Menu, Transition } from "@headlessui/react";
+import { useQueryPunkCities } from "../hooks/useQueryPunkCities";
+
+const PUNKCITIES_ADDRESS = "0x092BBe9022D421940B6D74799179267e5c822895";
 
 const MyLink = props => {
   const { href, children, ...rest } = props;
@@ -61,6 +64,33 @@ const Layout = ({ children, home }) => {
   }, [account]);
 
   error && console.error("fail fetch default profile", error);
+
+  // query energy
+  const {
+    data: energy,
+    error: energyError,
+    loading: energyLoading,
+  } = useQueryPunkCities(
+    PUNKCITIES_ADDRESS,
+    "energyPerAddress",
+    account,
+    // testing with "0xecb4c1245665e8a1f43826355aab0dd6bf336e05",
+  );
+
+  // query energy
+  const {
+    data: chip,
+    error: chipError,
+    loading: chipLoading,
+  } = useQueryPunkCities(
+    PUNKCITIES_ADDRESS,
+    "chipPerAddress",
+    account,
+    // testing with "0xc6AEadbb68a277cDB5137700650755669F1cC475",
+  );
+
+  energyError && console.error("fail to fetch energy ", energyError);
+  chipError && console.error("fail to fetch chip ", chipError);
 
   return (
     <div>
@@ -131,8 +161,18 @@ const Layout = ({ children, home }) => {
             <a className="hud3">Timeline</a>
           </Link>
         )}
-        {account && <div className="hudb"> ⚡ Energy</div>}
-        {account && <div className="hudb"> 💽 Chips</div>}
+        {account && (
+          <div className="hudb">
+            <span> ⚡ Energy</span>
+            <span className="mx-2">{energy?.toString() ?? "N/A"}</span>
+          </div>
+        )}
+        {account && (
+          <div className="hudb">
+            <span> 💽 Chips</span>
+            <span className="mx-2">{chip?.toString() ?? "N/A"}</span>
+          </div>
+        )}
         {account && <div className="hudc"> 🪨 Carbon</div>}
       </nav>
     </div>
