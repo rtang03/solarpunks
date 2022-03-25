@@ -132,8 +132,7 @@ const Layout = ({ children, home }) => {
           </Link>
         )}
         {account && <div className="hudb"> ⚡ Energy</div>}
-        {account && <div className="hudb"> 💽 Chips</div>}
-        {account && <div className="hudc"> 🪨 Carbon</div>}
+        {account && <div className="hudc"> 💽 Chips</div>}
       </nav>
     </div>
   );
