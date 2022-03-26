@@ -4,8 +4,9 @@ import { useState } from "react";
 import mime from "mime";
 import * as Yup from "yup";
 import { v4 as uuidv4 } from "uuid";
+import GridLoader from "react-spinners/GridLoader";
 
-const NewPlace = ({ setParentContentURL }) => {
+const NewPost = ({ setParentContentURL }) => {
   const NFT_STORAGE_TOKEN = process.env.NEXT_PUBLIC_NFT_TOKEN;
   const [image, setImage] = useState(null);
   const [contentType, setContentType] = useState("");
@@ -110,40 +111,35 @@ const NewPlace = ({ setParentContentURL }) => {
       >
         {({ errors, values, isSubmitting }) => (
           <Form>
-            <div className="m-5">
+            <div className="ProPost">
               {/* Field1 name */}
-              <div className="m-2">
-                <span className="p-2 m-2">
-                  <label htmlFor="name">Name*</label>
-                </span>
-                <span className="p-2 m-2 border-2">
+              <div className="m-5 col-span-2 text-center ">
+                  <label className="ProLabel" htmlFor="name">Name*</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="name"
                     name="name"
-                    placeholder="How this place is named in your city?"
+                    placeholder="What are you thinking?"
+                    className="ProField"
                   />
-                </span>
                 {/* Input Error */}
                 {errors?.name && (
-                  <div className="m-2">
+                  <div className="">
                     <ErrorMessage name="name" />
                   </div>
                 )}
               </div>
               {/* Field2 description */}
-              <div className="m-5">
-                <span className="p-2 m-2">
-                  <label htmlFor="description">Description</label>
-                </span>
-                <span className="p-2 m-2 border-2">
+              <div className="m-5 col-span-2 text-center" >
+                  <label className="ProLabel " htmlFor="description">Description</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
+                    as="textarea"
                     id="description"
                     name="description"
                     placeholder="description"
+                    className="ProField"
                   />
-                </span>
                 {/* Input Error */}
                 {errors?.description && (
                   <div>
@@ -153,17 +149,14 @@ const NewPlace = ({ setParentContentURL }) => {
               </div>
               {/* Field3 tag */}
               <div className="m-5">
-                <span className="p-2 m-2">
-                  <label htmlFor="tag">Tag</label>
-                </span>
-                <span className="p-2 m-2 border-2">
+                  <label className="ProLabel" htmlFor="tag">Tags for your post 🏷️</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="tag"
                     name="tag"
                     placeholder="Camping, Climbing, Nature"
+                    className="ProField"
                   />
-                </span>
                 {/* Input Error */}
                 {errors?.tag && (
                   <div>
@@ -173,17 +166,14 @@ const NewPlace = ({ setParentContentURL }) => {
               </div>
               {/* Field4 tokenId */}
               <div className="m-5">
-                <span className="p-2 m-2">
-                  <label htmlFor="tokenId">Token ID</label>
-                </span>
-                <span className="p-2 m-2 border-2">
+                  <label className="ProLabel" htmlFor="tokenId">Tag a Lens Friend 🌿</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="tokenId"
                     name="tokenId"
                     placeholder="tokenId"
+                    className="ProField"
                   />
-                </span>
                 {errors?.tokenId && (
                   <div>
                     <ErrorMessage name="tokenId" />
@@ -192,17 +182,14 @@ const NewPlace = ({ setParentContentURL }) => {
               </div>
               {/* Field5 location */}
               <div className="m-5">
-                <span className="p-2 m-2">
-                  <label htmlFor="location">Location</label>
-                </span>
-                <span className="p-2 m-2 border-2">
+                  <label className="ProLabel" htmlFor="location">Tag a Punk Cities place 🏢</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="location"
                     name="location"
                     placeholder="location"
+                    className="ProField"
                   />
-                </span>
                 {errors?.location && (
                   <div>
                     <ErrorMessage name="location" />
@@ -211,31 +198,28 @@ const NewPlace = ({ setParentContentURL }) => {
               </div>
               {/* Field5 placeType */}
               <div className="m-5">
-                <span className="p-2 m-2">
-                  <label htmlFor="placeType">Type of Place</label>
-                </span>
-                <span className="p-2 m-2 border-2">
+                  <label className="ProLabel" htmlFor="placeType">Purpuse on your post 🌌</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="placeType"
                     name="placeType"
-                    placeholder="placeType"
+                    placeholder="Choose 💖💡🤝🏽☀️💽🌿"
+                    className="ProField"
                   />
-                </span>
                 {errors?.placeType && (
                   <div>
                     <ErrorMessage name="placeType" />
                   </div>
                 )}
               </div>
-              <div className="m-2">
+            </div>
+            <div className="m-5 text-center text-white">
+            <div className="mb-10 ">🖼️ Add media to your post!</div>
                 <label className="file">
-                  Take and upload a photo of the place
                   <input type="file" disabled={!!contentUrl} onChange={captureFile} />
-                  <span className=""></span>
                 </label>
               </div>
-              <div className="m-5">
+              <div className="m-5 text-center">
                 {contentUrl ? (
                   <button disabled={true} className="bg-blue-500 m-2 p-2 border-2" type="submit">
                     DONE
@@ -243,8 +227,8 @@ const NewPlace = ({ setParentContentURL }) => {
                 ) : (
                   <>
                     {isSubmitting ? (
-                      <button className="bg-blue-500 m-2 p-2 border-2" disabled={true}>
-                        ...Uploading
+                      <button className="" disabled={true}>
+                        <GridLoader color="white"/>
                       </button>
                     ) : (
                       <button
@@ -256,7 +240,7 @@ const NewPlace = ({ setParentContentURL }) => {
                           !values?.name ||
                           !!error?.tokenId
                         }
-                        className="bg-blue-500 m-2 p-2 border-2"
+                        className="ProButton"
                         type="submit"
                       >
                         Upload Image
@@ -265,9 +249,8 @@ const NewPlace = ({ setParentContentURL }) => {
                   </>
                 )}
                 {contentUrl && <div>Image successfully upload</div>}
-                {error && <div>Image upload error</div>}
+                {error && <a class="text-white mt-5">Oops, something failed!</a>}
               </div>
-            </div>
           </Form>
         )}
       </Formik>
@@ -275,4 +258,4 @@ const NewPlace = ({ setParentContentURL }) => {
   );
 };
 
-export default NewPlace;
+export default NewPost;
