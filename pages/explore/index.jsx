@@ -89,9 +89,20 @@ const ExplorePage = () => {
               </span>
               <span>
                 <Link href={`/explore/${friend.replace("#", "%23")}/timeline`}>
-                  <a><span className="mx-2 underlined bg-blue-300">Timeline</span></a>
+                  <a>
+                    <span className="mx-2 underlined bg-blue-300">Timeline</span>
+                  </a>
                 </Link>
               </span>
+              {friend?.split("#")[0] !== defaultHandle && friend?.split("#")[1] !== defaultProfile && (
+                <span>
+                  <Link href={`/explore/${friend.replace("#", "%23")}/follow`}>
+                    <a>
+                      <span className="mx-2 underlined bg-blue-300">Follow</span>
+                    </a>
+                  </Link>
+                </span>
+              )}
             </div>
           ))}
           <div>
