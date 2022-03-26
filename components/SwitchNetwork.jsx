@@ -85,7 +85,12 @@ const SwitchNetworkDialog = () => {
           >
             Polygon Mainnet
           </button>
-
+          <button
+            onClick={() => handleNetworkSwitch("mumbai")}
+            className="mt-2 mb-2 btn btn-primary submit-button focus:ring focus:outline-none w-full"
+          >
+            Polygon Mumbai
+          </button>
           <ErrorMessage message={error} />
         </div>
       </main>
