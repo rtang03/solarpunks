@@ -1,4 +1,5 @@
 import { shortenAddress } from "../lib/shortenAddress";
+import { FaTwitterSquare, FaGlobe, FaGlobeAmericas, FaRegUserCircle } from "react-icons/fa";
 
 const FollowingCard = ({ following }) => {
   const { profile, totalAmountOfTimesFollowing } = following;
@@ -19,14 +20,42 @@ const FollowingCard = ({ following }) => {
   const totalCollects = stats?.totalCollects;
 
   return (
-    <div className="border-2 m-10 py-10">
+    <div className="m-10 py-10 text-left">
       <div className="my-5 font-bold">{user}</div>
       {name && <div>Name: {name}</div>}
-      {bio && <div>Bio: {bio}</div>}
-      {location && <div>Location: {location}</div>}
-      {website && <div>Website: {website}</div>}
-      {twitterUrl && <div>Twitter: {twitterUrl}</div>}
-      {ownedBy && <div>Owner: {shortenAddress(ownedBy)}</div>}
+      {bio && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaRegUserCircle />
+          </span>{" "}
+          {bio}
+        </div>
+      )}
+      {location && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaGlobeAmericas />
+          </span>{" "}
+          {location}
+        </div>
+      )}
+      {website && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaGlobe />
+          </span>{" "}
+          {website}
+        </div>
+      )}
+      {twitterUrl && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaTwitterSquare />
+          </span>{" "}
+          {twitterUrl}
+        </div>
+      )}
+      {ownedBy && <div>{shortenAddress(ownedBy)}</div>}
       {totalFollowers > 0 && <div>Followers: {totalFollowers}</div>}
       {totalFollowing > 0 && <div>Following: {totalFollowing}</div>}
       {totalPosts > 0 && <div>Posts: {totalPosts}</div>}

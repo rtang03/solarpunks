@@ -1,19 +1,15 @@
 import Link from "next/link";
-import includes from "lodash/includes";
 import Image from "next/image";
 
-const MIMETYPE = ["image/png", "image/jpeg"];
-
-const CommentCard = ({ comment, showLinkToPublicProfile }) => {
+const CommentCard = ({ comment, showLinkToPublicProfile, hideTraits, hideImage, hideStats }) => {
   const { stats, metadata, profile, mainPost, commentOn } = comment;
-  const media0MemeType = metadata?.media?.[0]?.original?.mimeType;
-  const media0Url = metadata?.media?.[0]?.original?.url;
-  const isDisplayable = includes(MIMETYPE, media0MemeType);
   const totalAmountOfMirrors = stats?.totalAmountOfMirrors;
   const totalAmountOfCollects = stats?.totalAmountOfCollects;
   const totalAmountOfComments = stats?.totalAmountOfComments;
   const firstComment = comment?.firstComment;
   const collectedBy = comment?.collectedBy;
+  let imgSrc = metadata?.media?.[0]?.original?.url || metadata?.cover?.original?.url;
+  if (imgSrc?.startsWith("ipfs://")) imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
 
   return (
     <div>
@@ -33,23 +29,33 @@ const CommentCard = ({ comment, showLinkToPublicProfile }) => {
           </span>
         )}
       </div>
-      <div className="my-2 font-bold">PublicationStats</div>
-      {totalAmountOfMirrors && <div>totalAmountOfMirrors: {totalAmountOfMirrors}</div>}
-      {totalAmountOfCollects && <div>totalAmountOfCollects: {totalAmountOfCollects}</div>}
-      {totalAmountOfComments && <div>totalAmountOfComments: {totalAmountOfComments}</div>}
+      {!hideStats && (
+        <>
+          <div className="my-2 font-bold">PublicationStats</div>
+          <div>Total Mirrors: {stats?.totalAmountOfMirrors}</div>
+          <div>Total Collects: {stats?.totalAmountOfCollects}</div>
+          <div>Total Comments: {stats?.totalAmountOfComments}</div>
+        </>
+      )}
       <div className="my-2 font-bold">Metadata</div>
       <div>metadata-name: {metadata?.name}</div>
       <div>metadata-description: {metadata?.description}</div>
       <div>metadata-content: {metadata?.content}</div>
       <div>metadata-name: {metadata?.name}</div>
-      {Object.entries(metadata?.attributes)?.map(([key, value], index) => (
-        <div key={index}>
-          <span>{key}</span>
-          <span>{value}</span>
-        </div>
-      ))}
+      {!hideTraits &&
+        metadata?.attributes?.map((attribute, index) => (
+          <div key={index}>
+            {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
+            <div>traitType: {attribute.traitType}</div>
+            <div>value: {attribute.value}</div>
+          </div>
+        ))}
       <div>
-        <Image width={100} height={100} src={media0Url} />
+        {!hideImage && (
+          <>
+            {imgSrc ? <Image width={100} height={100} src={imgSrc} /> : <div>No image found</div>}
+          </>
+        )}
       </div>
       <div>ownedBy: {profile.ownedBy}</div>
       <div>createdAt: {comment.createdAt}</div>

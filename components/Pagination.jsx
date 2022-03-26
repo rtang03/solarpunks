@@ -1,7 +1,7 @@
 import { FaStopCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRef } from "react";
 
-const Pagination = ({ next, prev, totalCount, loading, error }) => {
+const Pagination = ({ next, prev, totalCount, loading, error, pageSize = 1 }) => {
   const isReady = !loading && !error;
   const pageRef = useRef(1);
 
@@ -22,19 +22,25 @@ const Pagination = ({ next, prev, totalCount, loading, error }) => {
         </span>
         <span className="m-2 p-2">
           <button
-            disabled={pageRef.current === totalCount || !isReady}
+            disabled={
+              pageRef.current === totalCount || !isReady
+            }
             className="bg-red-200 p-2 rounded-md"
             onClick={() => {
-              pageRef.current++;
+              const total = pageRef.current + pageSize;
+              if (total > totalCount) {
+                pageRef.current = totalCount;
+              } else pageRef.current = pageRef.current + pageSize;
               next();
             }}
           >
             <FaChevronRight />
           </button>
         </span>
-        <span>
+        {/* BUG: Disable it temporary */}
+        {/* <span>
           Total: {pageRef.current}/{totalCount}
-        </span>
+        </span> */}
       </div>
       {!isReady && <div>....</div>}
     </>

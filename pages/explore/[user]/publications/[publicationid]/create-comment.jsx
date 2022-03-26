@@ -2,13 +2,14 @@ import { gql, useMutation } from "@apollo/client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useMoralis } from "react-moralis";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSendTransWithSig } from "../../../../../hooks/useSendTransWithSig";
 import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage";
 import Layout from "../../../../../components/Layout";
 import LensContext from "../../../../../components/LensContext";
+import NewPlace from "../../../../../components/NewPlace";
 
 const CreateCommentPage = ({ dev }) => {
   const FUNC = "createCommentTypedData";
@@ -18,6 +19,9 @@ const CreateCommentPage = ({ dev }) => {
   const router = useRouter();
   const { user, publicationid } = router.query;
   const [handle, profileId] = user.split("#");
+
+  // step 0. for obtaining contentURL from child NewPage component
+  const [contentUrl, setContentUrl] = useState();
 
   // Step 1. createCommentTypedData at LensAPI
   const [_create, { data, error, loading }] = useMutation(CREATE_COMMENT_TYPED_DATA);
@@ -84,6 +88,8 @@ const CreateCommentPage = ({ dev }) => {
 
   const nonce = data?.[FUNC]?.typedData?.value?.nonce;
 
+  contentUrl && console.log("contenturl: ", contentUrl);
+
   return (
     <Layout>
       <div className="MainCon">
@@ -95,131 +101,139 @@ const CreateCommentPage = ({ dev }) => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <Formik
-          initialValues={{
-            contentURI: "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN",
-          }}
-          validationSchema={Yup.object().shape({
-            contentURI: Yup.string().url("url format required").required("Required field"),
-          })}
-          onSubmit={async ({ contentURI }, { setSubmitting }) => {
-            setSubmitting(true);
-            create({ profileId: defaultProfile, contentURI, publicationId: publicationid });
-            setSubmitting(false);
-          }}
-        >
-          {({ errors, values, isSubmitting }) => (
-            <Form>
-              <div>
-                <Link href={`/explore/${handle}%23${profileId}/publications/${publicationid}`}>
-                  <button className="border-2 p-2 bg-blue-300">
-                    <a>Back to previous publication</a>
-                  </button>
-                </Link>
-              </div>
-              <div className="m-10">
-                <div className="m-10">
-                  e.g. "https://ipfs.io/ipfs/QmWPNB9D765bXgZVDYcrq4LnXgJwuY6ohr2NrDsMhA9vZN"
-                </div>
-                <div>ContentURI need to comply with Openseas metadata standard</div>
-                <span className="p-2 m-2">
-                  <label htmlFor="name">contentURI*</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field
-                    disabled={
-                      !profileId ||
-                      isSubmitting ||
-                      isIndexedLoading ||
-                      loading ||
-                      isSignTypedDataLoading ||
-                      isSendTransLoading ||
-                      !!errors?.contentURI ||
-                      !!transaction
-                    }
-                    id="contentURI"
-                    name="contentURI"
-                    placeholder=""
-                  />
-                  {/* Input Error */}
-                  {errors?.contentURI && (
-                    <div>
-                      <ErrorMessage name="contentURI" />
-                    </div>
-                  )}
-                </span>
-              </div>
-              <button
-                disabled={
-                  !profileId ||
-                  isSubmitting ||
-                  isIndexedLoading ||
-                  loading ||
-                  isSignTypedDataLoading ||
-                  isSendTransLoading ||
-                  !!errors?.contentURI ||
-                  !!transaction
-                }
-                className="bg-blue-300 m-2 p-2 border-2"
-                type="submit"
-              >
-                {!data && !loading && "Create Comment"}
-                {loading && "Preparing"}
-                {isSignTypedDataLoading && "Signing"}
-                {isSendTransLoading && "Submitting"}
-                {transaction && "Done"}
+        <>
+          <div>
+            <Link href={`/explore/${handle}%23${profileId}/publications/${publicationid}`}>
+              <button className="border-2 p-2 bg-blue-300">
+                <a>Back to previous publication</a>
               </button>
-              {/* PROGRESS */}
-              <div>
-                {loading && <div>...creating</div>}
-                {isIndexedLoading && <div>...indexing</div>}
-                {isSignTypedDataLoading && <div>...signing</div>}
-                {isSendTransLoading && <div>...submittig</div>}
-              </div>
-              {/* MESSAGE SECTION */}
-              {/* Display Error */}
-              {error && <div className="border-2">error: {error.message}</div>}
-              {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
-              {transError && <div className="border-2">Oops!! transError</div>}
-              {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
-              {/* Success */}
-              {data && <div>create typed data successfully</div>}
-              {transaction && <div>submit transaction successfully</div>}
-              {transactionReceipt && <div>transaction receipt returned</div>}
-              {transaction && <div>nonce: {nonce}</div>}
-              {transaction && (
+            </Link>
+          </div>
+          <div>
+            <div> Step 1: Upload Your Favorite Image to IPFS</div>
+            <NewPlace setParentContentURL={setContentUrl} />
+          </div>
+          <Formik
+            initialValues={{}}
+            onSubmit={async ({ contentURI }, { setSubmitting }) => {
+              setSubmitting(true);
+              create({
+                profileId: defaultProfile,
+                contentURI: contentUrl,
+                publicationId: publicationid,
+              });
+              setSubmitting(false);
+            }}
+          >
+            {({ errors, values, isSubmitting }) => (
+              <Form>
+                {/* <div className="m-10">
+                  <span className="p-2 m-2">
+                    <label htmlFor="name">contentURI*</label>
+                  </span>
+                  <span className="p-2 m-2 border-2">
+                    <Field
+                      disabled={
+                        !profileId ||
+                        isSubmitting ||
+                        isIndexedLoading ||
+                        loading ||
+                        isSignTypedDataLoading ||
+                        isSendTransLoading ||
+                        !!errors?.contentURI ||
+                        !!transaction
+                      }
+                      id="contentURI"
+                      name="contentURI"
+                      placeholder=""
+                    />
+                    {errors?.contentURI && (
+                      <div>
+                        <ErrorMessage name="contentURI" />
+                      </div>
+                    )}
+                  </span>
+                </div> */}
+                <div>Step 2: Create Comment</div>
+                {contentUrl ? (
+                  <div>Your image: {contentUrl}</div>
+                ) : (
+                  <div>Please complete step 1.</div>
+                )}
+                <button
+                  disabled={
+                    !profileId ||
+                    isSubmitting ||
+                    isIndexedLoading ||
+                    loading ||
+                    isSignTypedDataLoading ||
+                    isSendTransLoading ||
+                    !!errors?.contentURI ||
+                    !!transaction
+                  }
+                  className="bg-blue-300 m-2 p-2 border-2"
+                  type="submit"
+                >
+                  {!data && !loading && "Create Comment"}
+                  {loading && "Preparing"}
+                  {isSignTypedDataLoading && "Signing"}
+                  {isSendTransLoading && "Submitting"}
+                  {transaction && "Done"}
+                </button>
+                {/* PROGRESS */}
                 <div>
-                  <a
-                    className="m-2 p-2 underline"
-                    target="_blank"
-                    rel="noreferrer"
-                    href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
-                  >
-                    View on Explorer
-                  </a>
-                  <span>note: indexing may take a while.</span>
+                  {loading && <div>...creating</div>}
+                  {isIndexedLoading && <div>...indexing</div>}
+                  {isSignTypedDataLoading && <div>...signing</div>}
+                  {isSendTransLoading && <div>...submittig</div>}
                 </div>
-              )}
-              {/* when Dev-mode is ON */}
-              {dev && data && <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>}
-              {dev && transaction && (
-                <>
-                  <div>Submitted transaction</div>
-                  <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
-                </>
-              )}
-              {dev && transactionReceipt && (
-                <>
-                  <div>Transaction receipt</div>
-                  <pre className="text-left w-64">
-                    {JSON.stringify(transactionReceipt, null, 2)}
-                  </pre>
-                </>
-              )}
-              {/* END OF MESSAGE SECTION */}
-            </Form>
-          )}
-        </Formik>
+                {/* MESSAGE SECTION */}
+                {/* Display Error */}
+                {error && <div className="border-2">error: {error.message}</div>}
+                {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
+                {transError && <div className="border-2">Oops!! transError</div>}
+                {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
+                {/* Success */}
+                {data && <div>create typed data successfully</div>}
+                {transaction && <div>submit transaction successfully</div>}
+                {transactionReceipt && <div>transaction receipt returned</div>}
+                {transaction && <div>nonce: {nonce}</div>}
+                {transaction && (
+                  <div>
+                    <a
+                      className="m-2 p-2 underline"
+                      target="_blank"
+                      rel="noreferrer"
+                      href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
+                    >
+                      View on Explorer
+                    </a>
+                    <span>note: indexing may take a while.</span>
+                  </div>
+                )}
+                {/* when Dev-mode is ON */}
+                {dev && data && (
+                  <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>
+                )}
+                {dev && transaction && (
+                  <>
+                    <div>Submitted transaction</div>
+                    <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
+                  </>
+                )}
+                {dev && transactionReceipt && (
+                  <>
+                    <div>Transaction receipt</div>
+                    <pre className="text-left w-64">
+                      {JSON.stringify(transactionReceipt, null, 2)}
+                    </pre>
+                  </>
+                )}
+                {/* END OF MESSAGE SECTION */}
+              </Form>
+            )}
+          </Formik>
+        </>
       )}
     </Layout>
   );

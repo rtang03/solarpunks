@@ -29,9 +29,9 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats, hideTraits, hideIm
       {!hideStats && (
         <>
           <div className="my-2 font-bold">PublicationStats</div>
-          <div>totalAmountOfMirrors: {stats?.totalAmountOfMirrors}</div>
-          <div>totalAmountOfCollects: {stats?.totalAmountOfCollects}</div>
-          <div>totalAmountOfComments: {stats?.totalAmountOfComments}</div>
+          <div>Total Mirrors: {stats?.totalAmountOfMirrors}</div>
+          <div>Total Collects: {stats?.totalAmountOfCollects}</div>
+          <div>Total Comments: {stats?.totalAmountOfComments}</div>
         </>
       )}
       <div className="my-2 font-bold">Metadata</div>

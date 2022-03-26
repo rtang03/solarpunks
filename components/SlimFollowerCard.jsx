@@ -1,4 +1,5 @@
 import { shortenAddress } from "../lib/shortenAddress";
+import { FaTwitterSquare, FaGlobe, FaGlobeAmericas, FaRegUserCircle } from "react-icons/fa";
 
 const SlimFollowerCard = ({ follower }) => {
   const { wallet, totalAmountOfTimesFollowed } = follower;
@@ -24,11 +25,38 @@ const SlimFollowerCard = ({ follower }) => {
       <span>
         <div className="font-bold">{user}</div>
         <div>{shortenAddress(address)}</div>
-        {name && <div>Name: {name}</div>}
-        {bio && <div>Bio: {bio}</div>}
-        {location && <div>Location: {location}</div>}
-        {website && <div>Website: {website}</div>}
-        {twitterUrl && <div>Twitter: {twitterUrl}</div>}
+        {bio && (
+          <div className="my-3 flex flex-row">
+            <span className="mr-2">
+              <FaRegUserCircle />
+            </span>{" "}
+            {bio}
+          </div>
+        )}
+        {location && (
+          <div className="my-3 flex flex-row">
+            <span className="mr-2">
+              <FaGlobeAmericas />
+            </span>{" "}
+            {location}
+          </div>
+        )}
+        {website && (
+          <div className="my-3 flex flex-row">
+            <span className="mr-2">
+              <FaGlobe />
+            </span>{" "}
+            {website}
+          </div>
+        )}
+        {twitterUrl && (
+          <div className="my-3 flex flex-row">
+            <span className="mr-2">
+              <FaTwitterSquare />
+            </span>{" "}
+            {twitterUrl}
+          </div>
+        )}
       </span>
       <span>
         {totalFollowers > 0 && <div>Followers: {totalFollowers}</div>}

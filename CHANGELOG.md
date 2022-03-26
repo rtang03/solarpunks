@@ -15,6 +15,10 @@
 
 **Merged pull requests:**
 
+- add mumbai [\#50](https://github.com/rtang03/solarpunks/pull/50) ([rtang03](https://github.com/rtang03))
+- add switch network [\#49](https://github.com/rtang03/solarpunks/pull/49) ([rtang03](https://github.com/rtang03))
+- fix broken comment card [\#48](https://github.com/rtang03/solarpunks/pull/48) ([rtang03](https://github.com/rtang03))
+- add image upload to create-profile [\#47](https://github.com/rtang03/solarpunks/pull/47) ([rtang03](https://github.com/rtang03))
 - dashboard wiring done [\#44](https://github.com/rtang03/solarpunks/pull/44) ([rtang03](https://github.com/rtang03))
 - fix broken link in /explore/\[user\]/publications [\#43](https://github.com/rtang03/solarpunks/pull/43) ([rtang03](https://github.com/rtang03))
 - UI fixing in profile related ui [\#40](https://github.com/rtang03/solarpunks/pull/40) ([rtang03](https://github.com/rtang03))
@@ -31,6 +35,7 @@
 
 - create-post with NewPlace form [\#39](https://github.com/rtang03/solarpunks/pull/39) ([rtang03](https://github.com/rtang03))
 - add energy and chip fetching [\#38](https://github.com/rtang03/solarpunks/pull/38) ([rtang03](https://github.com/rtang03))
+- Add pagination [\#36](https://github.com/rtang03/solarpunks/pull/36) ([rtang03](https://github.com/rtang03))
 
 ## [v0.9](https://github.com/rtang03/solarpunks/tree/v0.9) (2022-03-24)
 
@@ -38,7 +43,6 @@
 
 **Merged pull requests:**
 
-- Add pagination [\#36](https://github.com/rtang03/solarpunks/pull/36) ([rtang03](https://github.com/rtang03))
 - fix UI issue [\#35](https://github.com/rtang03/solarpunks/pull/35) ([rtang03](https://github.com/rtang03))
 - Merge of main into UI2 [\#29](https://github.com/rtang03/solarpunks/pull/29) ([HabacucMX](https://github.com/HabacucMX))
 - Follow functions merge [\#20](https://github.com/rtang03/solarpunks/pull/20) ([HabacucMX](https://github.com/HabacucMX))
