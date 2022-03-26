@@ -4,10 +4,6 @@
 
 [Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.10...HEAD)
 
-**Fixed bugs:**
-
-- Add explorePublications [\#46](https://github.com/rtang03/solarpunks/pull/46) ([rtang03](https://github.com/rtang03))
-
 **Closed issues:**
 
 - March 25 UI todo [\#41](https://github.com/rtang03/solarpunks/issues/41)
@@ -15,6 +11,7 @@
 
 **Merged pull requests:**
 
+- add image upload to create-profile [\#47](https://github.com/rtang03/solarpunks/pull/47) ([rtang03](https://github.com/rtang03))
 - dashboard wiring done [\#44](https://github.com/rtang03/solarpunks/pull/44) ([rtang03](https://github.com/rtang03))
 - fix broken link in /explore/\[user\]/publications [\#43](https://github.com/rtang03/solarpunks/pull/43) ([rtang03](https://github.com/rtang03))
 - UI fixing in profile related ui [\#40](https://github.com/rtang03/solarpunks/pull/40) ([rtang03](https://github.com/rtang03))
@@ -35,6 +32,10 @@
 ## [v0.9](https://github.com/rtang03/solarpunks/tree/v0.9) (2022-03-24)
 
 [Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.8...v0.9)
+
+**Fixed bugs:**
+
+- Add explorePublications [\#46](https://github.com/rtang03/solarpunks/pull/46) ([rtang03](https://github.com/rtang03))
 
 **Merged pull requests:**
 
