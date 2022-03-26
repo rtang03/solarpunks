@@ -8,9 +8,8 @@ const MIMETYPE = ["image/png", "image/jpeg"];
 const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
   const { stats, metadata, profile } = post;
   let imgSrc = metadata?.media?.[0]?.original?.url || metadata?.cover?.original?.url;
-  if (imgSrc?.startsWith("ipfs://")) 
-    imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
-console.log(post)
+  if (imgSrc?.startsWith("ipfs://")) imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
+  console.log(post);
   return (
     <div>
       <div>Type: {post.__typename}</div>
@@ -43,7 +42,7 @@ console.log(post)
       <div>metadata-content: {metadata?.content}</div>
       {metadata?.attributes?.map((attribute, index) => (
         <div key={index}>
-          <div>displayType: {attribute.displayType}</div>
+          {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
           <div>traitType: {attribute.traitType}</div>
           <div>value: {attribute.value}</div>
         </div>

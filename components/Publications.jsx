@@ -9,14 +9,22 @@ import Pagination from "./Pagination";
 
 const PAGESIZE = 5;
 
-const Publications = ({ profileId, handle, publicationTypes, dev, isPublicPublications }) => {
+const Publications = ({
+  profileId,
+  handle,
+  publicationTypes,
+  dev,
+  isPublicPublications,
+  hideTitle,
+  pageSize,
+}) => {
   const FUNC = "publications";
   const { isLensReady } = useContext(LensContext);
 
   const { data, error, loading, refetch } = useQuery(GET_PUBLICATIONS, {
     variables: {
       request: {
-        limit: PAGESIZE,
+        limit: pageSize || PAGESIZE,
         profileId,
         publicationTypes, // ["POST", "COMMENT", "MIRROR"]
         // future use
@@ -42,20 +50,28 @@ const Publications = ({ profileId, handle, publicationTypes, dev, isPublicPublic
         </div>
       ) : (
         <>
-          <h1>Publications</h1>
+          {!hideTitle && <h1>Publications</h1>}
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
             <>
               {items?.map((item, key) => (
-                <div className="border-2 m-2" key={key}>
+                <div className="m-2 p-2 flex flex-row" key={key}>
                   <span>
                     <div>
                       {publicationTypes}: {item.id}
                     </div>
-                    <div>name: {item?.metadata?.name}</div>
-                    <div>description: {item?.metadata?.description}</div>
+                    <div>Name: {item?.metadata?.name}</div>
+                    <div>Description: {item?.metadata?.description}</div>
                   </span>
-
+                  <span>
+                    {item?.metadata?.attributes?.map((attribute, index) => (
+                      <div key={index}>
+                        {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
+                        <div>traitType: {attribute.traitType}</div>
+                        <div>value: {attribute.value}</div>
+                      </div>
+                    ))}
+                  </span>
                   <span className="m-2">
                     <button className="bg-blue-200 m-2 p-2">
                       <Link

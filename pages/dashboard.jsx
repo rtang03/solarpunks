@@ -7,13 +7,19 @@ import { useMoralis } from "react-moralis";
 import { useQueryPuckCitiesMetadata } from "../hooks/useQueryPuckCitiesMetadata";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Image from "next/image";
+import SlimFollowerCard from "../components/SlimFollowerCard";
 import Pagination from "../components/Pagination";
+import Publications from "../components/Publications";
+import { gql, useQuery } from "@apollo/client";
 
 const PUNKCITIES_ADDRESS = "0x092BBe9022D421940B6D74799179267e5c822895";
 
 const Dashboard = () => {
-  const { friendList, setFriendList, isLensReady } = useContext(LensContext);
+  const { friendList, setFriendList, isLensReady, defaultHandle, defaultProfile } =
+    useContext(LensContext);
   const { account, isAuthenticated } = useMoralis();
+
+  // PART 1: PunkCities
   const [city0, setCity0] = useState();
   const [city1, setCity1] = useState();
   const [city2, setCity2] = useState();
@@ -59,6 +65,28 @@ const Dashboard = () => {
 
   const next = () => setCurrentCity((currentCity + 1) % numberOfCities);
   const prev = () => setCurrentCity((currentCity + numberOfCities - 1) % numberOfCities);
+  // End of Part 1
+
+  // Part 2: My Followers
+  // fetch followers
+  const {
+    data: followersData,
+    loading: followersLoading,
+    error: followersError,
+    refetch: refetchFollowers,
+  } = useQuery(GET_FOLLOWERS, {
+    variables: {
+      request: {
+        profileId: defaultProfile,
+        limit: 1,
+      },
+    },
+  });
+  const followers = followersData?.followers?.items;
+  const followersNext = followersData?.followers?.pageInfo?.next;
+  const followersPrev = followersData?.followers?.pageInfo?.prev;
+  const followersTotalCount = followersData?.followers?.pageInfo?.totalCount;
+  // End of Part 2
 
   return (
     <Layout>
@@ -87,7 +115,16 @@ const Dashboard = () => {
             </div>
             <div className="Board2 divide-y-2">
               <div className="my-5">My Post</div>
-              <div className="text-md py-2"></div>
+              <div className="text-sm text-left py-2">
+                <Publications
+                  profileId={defaultProfile}
+                  handle={defaultHandle}
+                  publicationTypes={["POST"]}
+                  isPublicPublications={true}
+                  hideTitle={true}
+                  pageSize={3}
+                />
+              </div>
             </div>
             <div className="Board3 divide-y-2">
               {" "}
@@ -122,20 +159,52 @@ const Dashboard = () => {
                         <div className="ml-5 mb-2">value: {attribute.value}</div>
                       </div>
                     ))}
-                    <Image
-                      width={256}
-                      height={256}
-                      src={citiesArray?.[currentCity]?.image.replace(
-                        "ipfs://",
-                        "https://ipfs.io/ipfs/",
-                      )}
-                    />
+                    {citiesArray?.[currentCity]?.image && (
+                      <Image
+                        width={256}
+                        height={256}
+                        src={citiesArray?.[currentCity]?.image.replace(
+                          "ipfs://",
+                          "https://ipfs.io/ipfs/",
+                        )}
+                      />
+                    )}
                     <Pagination next={next} prev={prev} totalCount={numberOfCities || 0} />
                   </div>
                 )}
               </div>
             </div>
-            <div className="Board2">My Followers</div>
+            <div className="Board2 divide-y-2">
+              <div className="my-5">My Followers</div>
+              <div className="text-md py-2">
+                {followers?.[0] && (
+                  <>
+                    <SlimFollowerCard follower={followers[0]} />
+                    <Pagination
+                      next={() =>
+                        refetchFollowers({
+                          request: {
+                            profileId: defaultProfile,
+                            limit: 1,
+                            cursor: followersNext,
+                          },
+                        })
+                      }
+                      prev={() =>
+                        refetchFollowers({
+                          request: {
+                            profileId: defaultProfile,
+                            limit: 1,
+                            cursor: followersPrev,
+                          },
+                        })
+                      }
+                      totalCount={followersTotalCount}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -144,3 +213,72 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+const GET_FOLLOWERS = gql`
+  query ($request: FollowersRequest!) {
+    followers(request: $request) {
+      items {
+        wallet {
+          address
+          defaultProfile {
+            id
+            name
+            bio
+            location
+            website
+            twitterUrl
+            handle
+            picture {
+              ... on NftImage {
+                contractAddress
+                tokenId
+                uri
+                verified
+              }
+              ... on MediaSet {
+                original {
+                  url
+                  mimeType
+                }
+              }
+            }
+            coverPicture {
+              ... on NftImage {
+                contractAddress
+                tokenId
+                uri
+                verified
+              }
+              ... on MediaSet {
+                original {
+                  url
+                  mimeType
+                }
+              }
+            }
+            ownedBy
+            depatcher {
+              address
+              canUseRelay
+            }
+            stats {
+              totalFollowers
+              totalFollowing
+              totalPosts
+              totalComments
+              totalMirrors
+              totalPublications
+              totalCollects
+            }
+          }
+        }
+        totalAmountOfTimesFollowed
+      }
+      pageInfo {
+        prev
+        next
+        totalCount
+      }
+    }
+  }
+`;
