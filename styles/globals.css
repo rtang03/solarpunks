@@ -176,11 +176,45 @@
     rounded-tr-lg
   }
 
+
+/* Profiles */
+
+.ProfileGrid {
+  @apply
+  grid grid-cols-1
+  xl:grid-cols-2
+}
+
+.ProfilePic {
+  @apply
+  h-96 w-96 rounded-lg bg-glass-100 xl:mb-20
+}
+
+.ProfileData {
+  @apply
+  text-xl
+  xl:text-3xl text-night-100 mb-3 px-10 text-left
+}
+
+.StatsGrid {
+  @apply 
+  xl:col-span-2 grid grid-cols-4 text-xl gap-3 text-white
+}
+
+.StatsBg-Pointer {
+  @apply 
+  bg-glass-100 rounded-lg hover:cursor-pointer
+}
+
+.StatsBg {
+  @apply 
+  bg-glass-100 rounded-lg 
+}
+
 /* Screens*/
 
   .MainScreen { 
     @apply
-    min-h-screen
     flex 
     items-center 
     justify-center
@@ -190,7 +224,7 @@
     @apply
     flex 
     items-center
-    pt-32
+    pt-24
     justify-center
     align-middle
     grid
