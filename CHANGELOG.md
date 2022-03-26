@@ -4,6 +4,15 @@
 
 [Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.10...HEAD)
 
+**Fixed bugs:**
+
+- Add explorePublications [\#46](https://github.com/rtang03/solarpunks/pull/46) ([rtang03](https://github.com/rtang03))
+
+**Closed issues:**
+
+- March 25 UI todo [\#41](https://github.com/rtang03/solarpunks/issues/41)
+- March 24 Todo [\#37](https://github.com/rtang03/solarpunks/issues/37)
+
 **Merged pull requests:**
 
 - dashboard wiring done [\#44](https://github.com/rtang03/solarpunks/pull/44) ([rtang03](https://github.com/rtang03))
