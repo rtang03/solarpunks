@@ -21,7 +21,6 @@ const ExplorePublication = ({ sortCriteria, dev, pageSize }) => {
     },
   });
 
-  console.log(data);
   const isActiveRecord = data?.[FUNC]?.items?.length > 0;
   const items = isActiveRecord ? data?.[FUNC]?.items : null;
   const nextCursor = data?.[FUNC]?.pageInfo?.next;
@@ -32,27 +31,28 @@ const ExplorePublication = ({ sortCriteria, dev, pageSize }) => {
     <>
       {" "}
       {loading && <div>...loading</div>}
+      <div className="font-bold">
+        {sortCriteria === "TOP_COMMENTED" && "Top commented post in Solarpunks"}
+      </div>
+      <div className="font-bold">
+        {sortCriteria === "TOP_COLLECTED" && "Top collected post in Solarpunks"}
+      </div>
       {isActiveRecord && !error && !loading ? (
-        <div>
-          <div className="font-bold">
-            {sortCriteria === "TOP_COMMENTED" && "Top commented post in Solarpunks"}
-          </div>
-          <div className="font-bold">
-            {sortCriteria === "TOP_COLLECTED" && "Top collected post in Solarpunks"}
-          </div>
-          {items?.map((post, index) => (
-            <div key={index}>
-              <PostCard
-                post={post}
-                showLinkToPublicProfile={true}
-                hideTraits={true}
-                hideImage={true}
-                hideStats={true}
-              />
-            </div>
-          ))}
-          {/* Defect: Pagination */}
-          {/* <Pagination
+        <>
+          <div>
+            {items?.map((post, index) => (
+              <div key={index}>
+                <PostCard
+                  post={post}
+                  showLinkToPublicProfile={true}
+                  hideTraits={true}
+                  hideImage={true}
+                  hideStats={true}
+                />
+              </div>
+            ))}
+            {/* Defect: Pagination */}
+            {/* <Pagination
             loading={loading}
             error={error}
             next={() =>
@@ -77,7 +77,8 @@ const ExplorePublication = ({ sortCriteria, dev, pageSize }) => {
             }
             totalCount={totalCount}
           /> */}
-        </div>
+          </div>
+        </>
       ) : (
         <NoRecord />
       )}

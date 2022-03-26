@@ -88,10 +88,11 @@ const Publications = ({
                 </div>
               ))}
               <Pagination
+                pageSize={pageSize}
                 next={() =>
                   refetch({
                     request: {
-                      limit: PAGESIZE,
+                      limit: pageSize || PAGESIZE,
                       profileId,
                       publicationTypes,
                       cursor: nextCursor,
@@ -101,7 +102,7 @@ const Publications = ({
                 prev={() =>
                   refetch({
                     request: {
-                      limit: PAGESIZE,
+                      limit: pageSize || PAGESIZE,
                       profileId,
                       publicationTypes,
                       cursor: prevCursor,
