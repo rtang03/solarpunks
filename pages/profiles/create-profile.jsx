@@ -7,6 +7,8 @@ import { useContext } from "react";
 import LensContext from "../../components/LensContext";
 import ConnectWalletMessage from "../../components/ConnectWalletMessage";
 import Layout from "../../components/Layout";
+import RingLoader from "react-spinners/RingLoader";
+import GridLoader from "react-spinners/GridLoader";
 
 const CreateProfilePage = ({ dev }) => {
   const FUNC = "createProfile";
@@ -68,10 +70,11 @@ const CreateProfilePage = ({ dev }) => {
           }}
         >
           {({ values, errors, touched, isSubmitting }) => (
-            <Form className="bg-glass-100 mx-96 px-20 py-6 rounded-lg font-exo text-lg text-white text-center">
-              {loading && <div>...loading</div>}
+            <div className="text-center">
+            <Form className="bg-glass-100 inline-block px-20 py-6 rounded-lg font-exo text-lg text-white text-center">
+              {loading && <div className="text-center"><div className="inline-block pb-16 pr-10"><RingLoader color="white"/></div><div className="text-center">...Creating profile</div></div>}
               {/* Field1: Handle */}
-              <div className="text-left m-10">
+              <div className="text-right m-10">
                 <h1 className="text-5xl text-center pb-14">New 🌿Lens Profile</h1>
                 <span className="p-2 m-2">
                   <label className="text-2xl" htmlFor="handle">
@@ -95,10 +98,10 @@ const CreateProfilePage = ({ dev }) => {
                 </span>
               </div>
               {/* Field2: profilePictureUri */}
-              <div className="text-left m-10">
+              <div className="text-right m-10">
                 <span className="p-2 m-2">
                   <label className="text-2xl" htmlFor="profilePictureUri">
-                    Paste your 🖼️ profilePictureUri:
+                    Paste your 🖼️ pic URL:
                   </label>
                 </span>
                 <span className="p-2 m-2">
@@ -116,7 +119,7 @@ const CreateProfilePage = ({ dev }) => {
                   </div>
                 )}
               </div>
-              {/* Field3: followNFTURI */}
+              {/* Field3: followNFTURI 
               <div className="text left m-10">
                 <label className=" text-2xl text-solar-500" htmlFor="followNFTURI">
                   Paste your 🖼️ followNFTURI:
@@ -129,7 +132,8 @@ const CreateProfilePage = ({ dev }) => {
                     placeholder="followNFTURI"
                   />
                 </span>
-                {/* Input Error */}
+                */}
+                {/* Input Error 
                 <p className="text-solar-500 m-5">
                   NOTE: The follow NFT URI is the NFT metadata your followers will mint when they
                   follow you. This can be updated at all times. If you do not pass in anything it
@@ -143,7 +147,9 @@ const CreateProfilePage = ({ dev }) => {
                     <ErrorMessage name="followNFTURI" />
                   </div>
                 )}
+               
               </div>
+               */}
                 <button
                   disabled={
                     isSubmitting ||
@@ -160,13 +166,12 @@ const CreateProfilePage = ({ dev }) => {
                 </button>
               {/* Successful call */}
               {txHash && (
-                <div className="border-2">
-                  Result
-                  <p>submit successfully. txHash: {txHash}</p>
+                <div className="mt-5 text-xl">
+                  <p>🌿Lens profile created!</p> <div className="mt-5 mb-5">txHash: {txHash}</div>
                 </div>
               )}
               {/* error like HANDLE_TAKEN */}
-              {reason && <pre className="border-2">error: {reason}</pre>}
+              {reason && <pre className="">error: {reason}</pre>}
               {/* Apollo Error  */}
               {error && !loading && (
                 <>
@@ -181,9 +186,9 @@ const CreateProfilePage = ({ dev }) => {
               )}
               {/* after receiving transactionReceipt */}
               {transactionReceipt && (
-                <div className="w-64">
-                  transaction receipt received
-                  <p>indexed: {transactionReceipt?.indexed ? "true" : "false"}</p>
+                <div className="text-solar-100">
+                  Profile status:
+                  <p>{transactionReceipt?.indexed ? "✅ Indexed" : <div><GridLoader color="white"/></div>}</p>
                 </div>
               )}
               {dev && transactionReceipt && (
@@ -193,6 +198,7 @@ const CreateProfilePage = ({ dev }) => {
                 </>
               )}
             </Form>
+            </div>
           )}
         </Formik>
       )}
