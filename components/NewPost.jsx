@@ -75,7 +75,7 @@ const NewPost = ({ setParentContentURL }) => {
   error && console.error("error in preparing contentUrl", error);
 
   return (
-    <div className="m-2">
+    <div className="mt-2">
       <Formik
         initialValues={{
           name: "",
@@ -114,12 +114,12 @@ const NewPost = ({ setParentContentURL }) => {
             <div className="ProPost">
               {/* Field1 name */}
               <div className="m-5 col-span-2 text-center ">
-                  <label className="ProLabel" htmlFor="name">Name*</label>
+                  <label className="ProLabel" htmlFor="name">Post title</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="name"
                     name="name"
-                    placeholder="What are you thinking?"
+                    placeholder="Your post in a nutshell"
                     className="ProField"
                   />
                 {/* Input Error */}
@@ -131,13 +131,13 @@ const NewPost = ({ setParentContentURL }) => {
               </div>
               {/* Field2 description */}
               <div className="m-5 col-span-2 text-center" >
-                  <label className="ProLabel " htmlFor="description">Description</label>
+                  <label className="ProLabel " htmlFor="description">Add details to your post</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     as="textarea"
                     id="description"
                     name="description"
-                    placeholder="description"
+                    placeholder="What are you thinking?"
                     className="ProField"
                   />
                 {/* Input Error */}
@@ -171,7 +171,7 @@ const NewPost = ({ setParentContentURL }) => {
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="tokenId"
                     name="tokenId"
-                    placeholder="tokenId"
+                    placeholder="Paste a Lens friend URL"
                     className="ProField"
                   />
                 {errors?.tokenId && (
@@ -187,7 +187,7 @@ const NewPost = ({ setParentContentURL }) => {
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="location"
                     name="location"
-                    placeholder="location"
+                    placeholder="Paste place URL from Punk Cities"
                     className="ProField"
                   />
                 {errors?.location && (
@@ -198,7 +198,7 @@ const NewPost = ({ setParentContentURL }) => {
               </div>
               {/* Field5 placeType */}
               <div className="m-5">
-                  <label className="ProLabel" htmlFor="placeType">Purpuse on your post 🌌</label>
+                  <label className="ProLabel" htmlFor="placeType">Purpose on your post 🌌</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
                     id="placeType"
