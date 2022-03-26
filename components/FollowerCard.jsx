@@ -1,4 +1,5 @@
 import { shortenAddress } from "../lib/shortenAddress";
+import { FaTwitterSquare, FaGlobe, FaGlobeAmericas, FaRegUserCircle } from "react-icons/fa";
 
 const FollowerCard = ({ follower }) => {
   const { wallet, totalAmountOfTimesFollowed } = follower;
@@ -24,10 +25,38 @@ const FollowerCard = ({ follower }) => {
       <div className="my-5 font-bold">{user}</div>
       <div>{shortenAddress(address)}</div>
       {name && <div>Name: {name}</div>}
-      {bio && <div>Bio: {bio}</div>}
-      {location && <div>Location: {location}</div>}
-      {website && <div>Website: {website}</div>}
-      {twitterUrl && <div>Twitter: {twitterUrl}</div>}
+      {bio && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaRegUserCircle />
+          </span>{" "}
+          {bio}
+        </div>
+      )}
+      {location && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaGlobeAmericas />
+          </span>{" "}
+          {location}
+        </div>
+      )}
+      {website && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaGlobe />
+          </span>{" "}
+          {website}
+        </div>
+      )}
+      {twitterUrl && (
+        <div className="my-3 flex flex-row">
+          <span className="mr-2">
+            <FaTwitterSquare />
+          </span>{" "}
+          {twitterUrl}
+        </div>
+      )}
       {totalFollowers > 0 && <div>Followers: {totalFollowers}</div>}
       {totalFollowing > 0 && <div>Following: {totalFollowing}</div>}
       {totalPosts > 0 && <div>Posts: {totalPosts}</div>}
@@ -35,9 +64,7 @@ const FollowerCard = ({ follower }) => {
       {totalMirrors > 0 && <div>Mirrors: {totalMirrors}</div>}
       {totalPublications > 0 && <div>Publications: {totalPublications}</div>}
       {totalCollects > 0 && <div>Collects: {totalCollects}</div>}
-      {totalAmountOfTimesFollowed > 0 && (
-        <div>Times of Followed: {totalAmountOfTimesFollowed}</div>
-      )}
+      {totalAmountOfTimesFollowed > 0 && <div>Times of Followed: {totalAmountOfTimesFollowed}</div>}
     </div>
   );
 };
