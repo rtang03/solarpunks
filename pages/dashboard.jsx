@@ -133,7 +133,7 @@ const Dashboard = () => {
           <div className="MainBoard">
             <div className="Board1 divide-y-2">
               <div className="my-5">Friends</div>
-              <div className="text-md py-2">
+              <div className="text-sm py-2">
                 {friendList?.map((friend, index) => (
                   <div key={index}>
                     <Link href={`/explore/${friend.replace("#", "%23")}`}>
