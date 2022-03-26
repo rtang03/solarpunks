@@ -2,12 +2,16 @@ import { useRouter } from "next/router";
 import Layout from "../../../../../components/Layout";
 import Publication from "../../../../../components/Publication";
 import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage";
+import LensContext from "../../../../../components/LensContext";
 import { useMoralis } from "react-moralis";
+import { useContext } from "react";
 
 const PublicationPage = () => {
   const { account, isAuthenticated } = useMoralis();
   const router = useRouter();
   const { handle, publicationid } = router.query;
+  const { isLensReady } = useContext(LensContext);
+  const isValidUser = !!handle && !!publicationid;
 
   return (
     <Layout>
