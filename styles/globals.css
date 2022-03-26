@@ -218,6 +218,13 @@
   bg-glass-100 rounded-lg 
 }
 
+.ProPost {
+  @apply
+  grid grid-cols-2
+  rounded-lg text-right
+  xl:text-xl font-exo
+}
+
 .ProUpdate {
   @apply
   relative bg-glass-100 
@@ -247,6 +254,7 @@
   @apply
   rounded-xl
   p-2
+  w-full
 }
 
 /* Screens*/

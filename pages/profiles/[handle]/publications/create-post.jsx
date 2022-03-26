@@ -9,7 +9,14 @@ import { useSendTransWithSig } from "../../../../hooks/useSendTransWithSig";
 import { useRouter } from "next/router";
 import { SEARCH } from "../../../../graphql/search";
 import Link from "next/link";
-import NewPlace from "../../../../components/NewPlace";
+import NewPost from "../../../../components/NewPost";
+import {
+  FaTwitterSquare,
+  FaGlobe,
+  FaGlobeAmericas,
+  FaRegUserCircle,
+  FaExternalLinkAlt,
+} from "react-icons/fa";
 
 const CreatePostPage = ({ dev }) => {
   const FUNC = "createPostTypedData";
@@ -110,17 +117,21 @@ const CreatePostPage = ({ dev }) => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <>
-          <div>
+        <div className="justify-center flex">
+        <div className="ProUpdate">
+
+
+          <div className="ProReturn">
             <Link href={`/profiles/${handle}/publications`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Back to my publications</a>
+              <button>
+                <a><FaExternalLinkAlt className="-rotate-90 mx-3 text-4xl" /></a>
               </button>
             </Link>
           </div>
+
           <div>
-            <div> Step 1: Upload Your Favorite Image to IPFS</div>
-            <NewPlace setParentContentURL={setContentUrl} />
+            <div className="ProTitle my-10">🌱 Seed your post</div>
+            <NewPost setParentContentURL={setContentUrl} />
           </div>
           <Formik
             initialValues={{}}
@@ -130,6 +141,7 @@ const CreatePostPage = ({ dev }) => {
               setSubmitting(false);
             }}
           >
+
             {({ errors, values, isSubmitting }) => (
               <Form>
                 <div>Step 2: Create Post</div>
@@ -150,7 +162,7 @@ const CreatePostPage = ({ dev }) => {
                     !!errors?.contentURI ||
                     !!transaction
                   }
-                  className="bg-blue-500 m-2 p-2 border-2"
+                  className="bg-blue-500 m-2 p-2 border-2="
                   type="submit"
                 >
                   {!data && !loading && "Create Post"}
@@ -212,7 +224,8 @@ const CreatePostPage = ({ dev }) => {
               </Form>
             )}
           </Formik>
-        </>
+        </div>
+        </div>
       )}
     </Layout>
   );
