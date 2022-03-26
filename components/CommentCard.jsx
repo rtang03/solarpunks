@@ -1,13 +1,8 @@
 import Link from "next/link";
-import includes from "lodash/includes";
 import Image from "next/image";
-
-// const MIMETYPE = ["image/png", "image/jpeg"];
 
 const CommentCard = ({ comment, showLinkToPublicProfile, hideTraits, hideImage, hideStats }) => {
   const { stats, metadata, profile, mainPost, commentOn } = comment;
-  // const media0MemeType = metadata?.media?.[0]?.original?.mimeType;
-  // const media0Url = metadata?.media?.[0]?.original?.url;
   const totalAmountOfMirrors = stats?.totalAmountOfMirrors;
   const totalAmountOfCollects = stats?.totalAmountOfCollects;
   const totalAmountOfComments = stats?.totalAmountOfComments;
@@ -55,9 +50,6 @@ const CommentCard = ({ comment, showLinkToPublicProfile, hideTraits, hideImage, 
             <div>value: {attribute.value}</div>
           </div>
         ))}
-      {/* <div>
-        <Image width={100} height={100} src={media0Url} />
-      </div> */}
       <div>
         {!hideImage && (
           <>
