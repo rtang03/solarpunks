@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "../graphql/getProfiles";
 import { Menu, Transition } from "@headlessui/react";
 import { useQueryPunkCities } from "../hooks/useQueryPunkCities";
+import SwitchNetwork from "./SwitchNetwork";
 
 const PUNKCITIES_ADDRESS = "0x092BBe9022D421940B6D74799179267e5c822895";
 
@@ -140,6 +141,11 @@ const Layout = ({ children, home }) => {
           <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
             <a className="hud4">Create Post</a>
           </Link>
+        )}
+        {!account && (
+          <span className="hud0">
+            <SwitchNetwork />
+          </span>
         )}
       </nav>
       <main>{children}</main>
