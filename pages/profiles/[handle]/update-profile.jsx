@@ -9,6 +9,13 @@ import { useMoralis } from "react-moralis";
 import { useContext } from "react";
 import { SEARCH } from "../../../graphql/search";
 import Link from "next/link";
+import {
+  FaTwitterSquare,
+  FaGlobe,
+  FaGlobeAmericas,
+  FaRegUserCircle,
+  FaExternalLinkAlt,
+} from "react-icons/fa";
 
 /**
  *
@@ -101,113 +108,130 @@ const UpdateProfilePage = ({ dev }) => {
         >
           {({ values, errors, touched, isSubmitting }) => (
             <div className="justify-center flex">
-            <Form className="ProUpdate">
-              <div className="ProReturn" >
-                <Link href={`/profiles/${handle}`}>
-                🠔
-                </Link>
-              </div>
-              {loading && <div>...loading</div>}
-              {!searchResult && !loading && <div>No search result error</div>}
-              <div className="ProTitle">
-              ♻️ Update {profileToUpdate?.handle}#{profileToUpdate?.profileId}
-              </div>
-              {/* Field1: name */}
-              <div className="m-10">
-                <label className="ProLabel" htmlFor="name">☀️ Account name*</label>
-                <Field id="name" name="name" placeholder="name" className="ProField"/>
-                {/* Input Error */}
-                {errors?.name && (
-                  <div>
-                    <ErrorMessage name="name" />
-                  </div>
-                )}
-              </div>
-              {/* Field2: bio */}
-              <div className="m-10">
-                  <label className="ProLabel" htmlFor="bio">🛣️ Bio</label>
+              <Form className="ProUpdate">
+                <div className="ProReturn">
+                  <Link href={`/profiles/${handle}`}>
+                    <a >
+                      <FaExternalLinkAlt className="-rotate-90 mx-3 text-md" />
+                    </a>
+                  </Link>
+                </div>
+                {loading && <div>...loading</div>}
+                {!searchResult && !loading && <div>No search result error</div>}
+                <div className="ProTitle">
+                  ♻️ Update {profileToUpdate?.handle}#{profileToUpdate?.profileId}
+                </div>
+                {/* Field1: name */}
+                <div className="m-10">
+                  <label className="ProLabel" htmlFor="name">
+                    ☀️ Account name*
+                  </label>
+                  <Field id="name" name="name" placeholder="name" className="ProField" />
+                  {/* Input Error */}
+                  {errors?.name && (
+                    <div>
+                      <ErrorMessage name="name" />
+                    </div>
+                  )}
+                </div>
+                {/* Field2: bio */}
+                <div className="m-10">
+                  <label className="ProLabel" htmlFor="bio">
+                    🛣️ Bio
+                  </label>
                   <Field id="bio" name="bio" placeholder="bio" className="ProField" />
-                {/* Input Error */}
-                {errors?.bio && (
-                  <div>
-                    <ErrorMessage name="bio" />
-                  </div>
-                )}
-              </div>
-              {/* Field3: location */}
-              <div className="m-10">
-                <label className="ProLabel" htmlFor="location">🗺️ Location</label>
-                <Field id="location" name="location" placeholder="location" className="ProField" />
-                {/* Input Error */}
-                {errors?.location && (
-                  <div>
-                    <ErrorMessage name="location" />
-                  </div>
-                )}
-              </div>
-              {/* Field4: website */}
-              <div className="m-10">
-                  <label className="ProLabel" htmlFor="website">🌐 Website</label>
+                  {/* Input Error */}
+                  {errors?.bio && (
+                    <div>
+                      <ErrorMessage name="bio" />
+                    </div>
+                  )}
+                </div>
+                {/* Field3: location */}
+                <div className="m-10">
+                  <label className="ProLabel" htmlFor="location">
+                    🗺️ Location
+                  </label>
+                  <Field
+                    id="location"
+                    name="location"
+                    placeholder="location"
+                    className="ProField"
+                  />
+                  {/* Input Error */}
+                  {errors?.location && (
+                    <div>
+                      <ErrorMessage name="location" />
+                    </div>
+                  )}
+                </div>
+                {/* Field4: website */}
+                <div className="m-10">
+                  <label className="ProLabel" htmlFor="website">
+                    🌐 Website
+                  </label>
                   <Field id="website" name="website" className="ProField" />
-                {/* Input Error */}
-                {errors?.website && (
-                  <div>
-                    <ErrorMessage name="website" />
-                  </div>
-                )}
-              </div>
-              {/* Field5: twitterUrl */}
-              <div className="m-10">
-                  <label className="ProLabel" htmlFor="twitterUrl">🐋 Twitter URL</label>
+                  {/* Input Error */}
+                  {errors?.website && (
+                    <div>
+                      <ErrorMessage name="website" />
+                    </div>
+                  )}
+                </div>
+                {/* Field5: twitterUrl */}
+                <div className="m-10">
+                  <label className="ProLabel" htmlFor="twitterUrl">
+                    🐋 Twitter URL
+                  </label>
                   <Field id="twitterUrl" name="twitterUrl" className="ProField" />
-                {/* Input Error */}
-                {errors?.twitterUrl && (
-                  <div>
-                    <ErrorMessage name="twitterUrl" />
-                  </div>
-                )}
-              </div>
-              {/* Field6: coverPicture */}
-              <div className="m-10">
-                  <label className="ProLabel" htmlFor="coverPicture">🖼️ Pic URL</label>
+                  {/* Input Error */}
+                  {errors?.twitterUrl && (
+                    <div>
+                      <ErrorMessage name="twitterUrl" />
+                    </div>
+                  )}
+                </div>
+                {/* Field6: coverPicture */}
+                <div className="m-10">
+                  <label className="ProLabel" htmlFor="coverPicture">
+                    🖼️ Pic URL
+                  </label>
                   <Field id="coverPicture" name="coverPicture" className="ProField" />
-                {/* Input Error */}
-                {errors?.coverPicture && (
+                  {/* Input Error */}
+                  {errors?.coverPicture && (
+                    <div>
+                      <ErrorMessage name="coverPicture" />
+                    </div>
+                  )}
+                </div>
+                <div className="text-center">
+                  <button
+                    disabled={
+                      !searchResult ||
+                      isSubmitting ||
+                      loading ||
+                      !!result ||
+                      !!errors?.name ||
+                      !!errors?.bio ||
+                      !!errors?.location
+                    }
+                    className="ProButton"
+                    type="submit"
+                  >
+                    {result ? "OK" : "Update"}
+                  </button>
+                </div>
+                {/* Successful call */}
+                {result?.handle === handle && (
+                  <div className="text-white animate-pulse">✅ Profile updated</div>
+                )}
+                {/* Apollo Error  */}
+                {error && (
                   <div>
-                    <ErrorMessage name="coverPicture" />
+                    <Error error={error} />
                   </div>
                 )}
-              </div>
-              <div className="text-center">
-                <button
-                  disabled={
-                    !searchResult ||
-                    isSubmitting ||
-                    loading ||
-                    result ||
-                    errors?.name ||
-                    errors?.bio ||
-                    errors?.location
-                  }
-                  className="ProButton"
-                  type="submit"
-                >
-                  {result ? "OK" : "Update"}
-                </button>
-              </div>
-              {/* Successful call */}
-              {result?.handle === handle && (
-                <div className="text-white animate-pulse">
-                  ✅ Profile updated
-                </div>
-              )}
-              {/* Apollo Error  */}
-              {error && (
-                <div>
-                  <Error error={error} />
-                </div>
-              )}
-            </Form>
+              </Form>
             </div>
           )}
         </Formik>

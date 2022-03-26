@@ -42,6 +42,36 @@ const Dashboard = () => {
     cities && setCitiesArray(Object.values(cities));
   }, [city0, city1, city2, city3, city4, city5]);
 
+  useEffect(() => {
+    city0 && setCities({ ...cities, [city0.tokenID]: city0 });
+    cities && setCitiesArray(Object.values(cities));
+  }, [city0]);
+
+  useEffect(() => {
+    city1 && setCities({ ...cities, [city1.tokenID]: city1 });
+    cities && setCitiesArray(Object.values(cities));
+  }, [city1]);
+
+  useEffect(() => {
+    city2 && setCities({ ...cities, [city2.tokenID]: city2 });
+    cities && setCitiesArray(Object.values(cities));
+  }, [city2]);
+
+  useEffect(() => {
+    city3 && setCities({ ...cities, [city3.tokenID]: city3 });
+    cities && setCitiesArray(Object.values(cities));
+  }, [city3]);
+
+  useEffect(() => {
+    city4 && setCities({ ...cities, [city4.tokenID]: city4 });
+    cities && setCitiesArray(Object.values(cities));
+  }, [city4]);
+
+  useEffect(() => {
+    city5 && setCities({ ...cities, [city5.tokenID]: city5 });
+    cities && setCitiesArray(Object.values(cities));
+  }, [city5]);
+
   // query cities
   const { citiesMetadataloading: loading0, citiesMetadataError: error0 } =
     useQueryPuckCitiesMetadata(setCity0, PUNKCITIES_ADDRESS, 0);
@@ -103,7 +133,7 @@ const Dashboard = () => {
           <div className="MainBoard">
             <div className="Board1 divide-y-2">
               <div className="my-5">Friends</div>
-              <div className="text-md py-2">
+              <div className="text-sm py-2">
                 {friendList?.map((friend, index) => (
                   <div key={index}>
                     <Link href={`/explore/${friend.replace("#", "%23")}`}>

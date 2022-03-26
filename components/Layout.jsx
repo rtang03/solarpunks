@@ -2,7 +2,7 @@ import Link from "next/link";
 import Account from "./Account/Account";
 import { useMoralis } from "react-moralis";
 import Authenticate from "../components/Lens/Authenicate";
-import { useContext, useEffect, Fragment } from "react";
+import { useContext, useEffect, Fragment, useRef, useState } from "react";
 import LensContext from "./LensContext";
 import { useQuery } from "@apollo/client";
 import { GET_PROFILES } from "../graphql/getProfiles";

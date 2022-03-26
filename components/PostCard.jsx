@@ -2,14 +2,12 @@ import Link from "next/link";
 import includes from "lodash/includes";
 import Image from "next/image";
 
-const MIMETYPE = ["image/png", "image/jpeg"];
-
 // when using Timeline query. The result Post has no stats fields
-const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
+const PostCard = ({ post, showLinkToPublicProfile, hideStats, hideTraits, hideImage }) => {
   const { stats, metadata, profile } = post;
   let imgSrc = metadata?.media?.[0]?.original?.url || metadata?.cover?.original?.url;
   if (imgSrc?.startsWith("ipfs://")) imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
-  console.log(post);
+
   return (
     <div>
       <div>Type: {post.__typename}</div>
@@ -40,15 +38,20 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
       <div>metadata-name: {metadata?.name}</div>
       <div>metadata-description: {metadata?.description}</div>
       <div>metadata-content: {metadata?.content}</div>
-      {metadata?.attributes?.map((attribute, index) => (
-        <div key={index}>
-          {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
-          <div>traitType: {attribute.traitType}</div>
-          <div>value: {attribute.value}</div>
-        </div>
-      ))}
+      {!hideTraits &&
+        metadata?.attributes?.map((attribute, index) => (
+          <div key={index}>
+            {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
+            <div>traitType: {attribute.traitType}</div>
+            <div>value: {attribute.value}</div>
+          </div>
+        ))}
       <div>
-        {imgSrc ? <Image width={100} height={100} src={imgSrc} /> : <div>No image found</div>}
+        {!hideImage && (
+          <>
+            {imgSrc ? <Image width={100} height={100} src={imgSrc} /> : <div>No image found</div>}
+          </>
+        )}
       </div>
       <div>ownedBy: {profile.ownedBy}</div>
       <div>createdAt: {post.createdAt}</div>

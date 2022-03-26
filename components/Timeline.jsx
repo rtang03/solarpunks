@@ -5,6 +5,7 @@ import CommentCard from "./CommentCard";
 import { JSONTree } from "react-json-tree";
 import Link from "next/link";
 import Pagination from "./Pagination";
+import { useState, useEffect } from "react";
 
 const PAGESIZE = 1;
 
@@ -91,16 +92,16 @@ const Timeline = ({
             </div>
           ))}
           <Pagination
-            next={() =>
+            next={() => {
               refetch({
                 request: { limit: PAGESIZE, cursor: nextCursor, profileId },
-              })
-            }
-            prev={() =>
+              });
+            }}
+            prev={() => {
               refetch({
                 request: { limit: PAGESIZE, cursor: prevCursor, profileId },
-              })
-            }
+              });
+            }}
             totalCount={totalCount}
           />
         </>
