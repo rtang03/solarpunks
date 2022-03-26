@@ -99,7 +99,14 @@ const FollowPage = ({ dev }) => {
           <div>
             <Link href={`/explore/${handle}%23${profileId}`}>
               <button className="border-2 p-2 bg-blue-300">
-                <a>Back to previous profile</a>
+                <a>Back to following's profile</a>
+              </button>
+            </Link>
+          </div>
+                    <div>
+            <Link href={`/explore/${handle}%23${profileId}/publications`}>
+              <button className="border-2 p-2 bg-blue-300">
+                <a>Back to following's publications</a>
               </button>
             </Link>
           </div>

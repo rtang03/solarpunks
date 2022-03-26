@@ -55,7 +55,7 @@ const ProfileCard = ({
                 <span className="mr-2">
                   <FaGlobe />
                 </span>
-                <span /> <span>{profile.website}</span>
+                <span>{profile.website}</span>
               </div>
             )}
             {profile.location && (
@@ -63,7 +63,7 @@ const ProfileCard = ({
                 <span className="mr-2">
                   <FaGlobeAmericas />
                 </span>
-                <span /> <span>{profile.location}</span>
+                <span>{profile.location}</span>
               </div>
             )}
             <div className="text-base my-3">{profile.ownedBy}</div>
