@@ -111,7 +111,7 @@ const ProfileComponent = ({ handle, dev, isPublicProfile, canFollow }) => {
               {!isPublicProfile && (
                 <Link href={`/profiles/${handle}/update-profile`}>
                   <a className="absolute text-white -top-5 left-16 font-exo w-20 h-20 hover:bg-solar-100 rounded-full align-middle bg-cyber-100 hover:text-night-100 pt-3">
-                    <div>⚙️</div> Update
+                    <div>♻️</div> Update
                   </a>
                 </Link>
               )}

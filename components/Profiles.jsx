@@ -70,7 +70,7 @@ const ProfilesComponent = ({ cursor, dev }) => {
                     )}
                     <Link href={`/profiles/${handle}`}>
                       <a className="font-exo text-white bg-cyber-100 p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer">
-                        ⚙️ Settings
+                        ♻️ Settings
                       </a>
                     </Link>
                     <Link href={`/profiles/${handle}/publications`}>

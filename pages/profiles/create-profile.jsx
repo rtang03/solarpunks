@@ -144,21 +144,20 @@ const CreateProfilePage = ({ dev }) => {
                   </div>
                 )}
               </div>
-              <button
-                disabled={
-                  isSubmitting ||
-                  loading ||
-                  txHash ||
-                  errors?.handle ||
-                  errors?.profilePictureUri ||
-                  errors?.followNFTURI
-                }
-                className="bg-cyber-100 mx-5 mt-16 px-5 py-3 rounded-lg 
-                hover:bg-solar-100 hover:animate-pulse hover:text-night-100 cursor-pointer"
-                type="submit"
-              >
-                {txHash ? "OK" : "Create 🌿 Lens Profile"}
-              </button>
+                <button
+                  disabled={
+                    isSubmitting ||
+                    loading ||
+                    txHash ||
+                    errors?.handle ||
+                    errors?.profilePictureUri ||
+                    errors?.followNFTURI
+                  }
+                  className="ProButton"
+                  type="submit"
+                >
+                  {txHash ? "OK" : "Create 🌿 Lens Profile"}
+                </button>
               {/* Successful call */}
               {txHash && (
                 <div className="border-2">

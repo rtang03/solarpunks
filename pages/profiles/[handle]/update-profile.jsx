@@ -100,27 +100,22 @@ const UpdateProfilePage = ({ dev }) => {
           }}
         >
           {({ values, errors, touched, isSubmitting }) => (
-            <Form>
-              <div>
+            <div className="justify-center flex">
+            <Form className="ProUpdate">
+              <div className="ProReturn" >
                 <Link href={`/profiles/${handle}`}>
-                  <button className="border-2 p-2 bg-blue-300">
-                    <a>Back to my profile</a>
-                  </button>
+                🠔
                 </Link>
               </div>
               {loading && <div>...loading</div>}
               {!searchResult && !loading && <div>No search result error</div>}
-              <div className="font-bold">
-                Edit {profileToUpdate?.handle}#{profileToUpdate?.profileId}
+              <div className="ProTitle">
+              ♻️ Update {profileToUpdate?.handle}#{profileToUpdate?.profileId}
               </div>
               {/* Field1: name */}
               <div className="m-10">
-                <span className="p-2 m-2">
-                  <label htmlFor="name">name*</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="name" name="name" placeholder="name" />
-                </span>
+                <label className="ProLabel" htmlFor="name">☀️ Account name*</label>
+                <Field id="name" name="name" placeholder="name" className="ProField"/>
                 {/* Input Error */}
                 {errors?.name && (
                   <div>
@@ -130,12 +125,8 @@ const UpdateProfilePage = ({ dev }) => {
               </div>
               {/* Field2: bio */}
               <div className="m-10">
-                <span className="p-2 m-2">
-                  <label htmlFor="bio">bio</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="bio" name="bio" placeholder="bio" />
-                </span>
+                  <label className="ProLabel" htmlFor="bio">🛣️ Bio</label>
+                  <Field id="bio" name="bio" placeholder="bio" className="ProField" />
                 {/* Input Error */}
                 {errors?.bio && (
                   <div>
@@ -145,12 +136,8 @@ const UpdateProfilePage = ({ dev }) => {
               </div>
               {/* Field3: location */}
               <div className="m-10">
-                <span className="p-2 m-2">
-                  <label htmlFor="location">location</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="location" name="location" placeholder="location" />
-                </span>
+                <label className="ProLabel" htmlFor="location">🗺️ Location</label>
+                <Field id="location" name="location" placeholder="location" className="ProField" />
                 {/* Input Error */}
                 {errors?.location && (
                   <div>
@@ -160,12 +147,8 @@ const UpdateProfilePage = ({ dev }) => {
               </div>
               {/* Field4: website */}
               <div className="m-10">
-                <span className="p-2 m-2">
-                  <label htmlFor="website">website</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="website" name="website" />
-                </span>
+                  <label className="ProLabel" htmlFor="website">🌐 Website</label>
+                  <Field id="website" name="website" className="ProField" />
                 {/* Input Error */}
                 {errors?.website && (
                   <div>
@@ -175,12 +158,8 @@ const UpdateProfilePage = ({ dev }) => {
               </div>
               {/* Field5: twitterUrl */}
               <div className="m-10">
-                <span className="p-2 m-2">
-                  <label htmlFor="twitterUrl">twitterUrl</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="twitterUrl" name="twitterUrl" />
-                </span>
+                  <label className="ProLabel" htmlFor="twitterUrl">🐋 Twitter URL</label>
+                  <Field id="twitterUrl" name="twitterUrl" className="ProField" />
                 {/* Input Error */}
                 {errors?.twitterUrl && (
                   <div>
@@ -190,12 +169,8 @@ const UpdateProfilePage = ({ dev }) => {
               </div>
               {/* Field6: coverPicture */}
               <div className="m-10">
-                <span className="p-2 m-2">
-                  <label htmlFor="coverPicture">coverPicture</label>
-                </span>
-                <span className="p-2 m-2 border-2">
-                  <Field id="coverPicture" name="coverPicture" />
-                </span>
+                  <label className="ProLabel" htmlFor="coverPicture">🖼️ Pic URL</label>
+                  <Field id="coverPicture" name="coverPicture" className="ProField" />
                 {/* Input Error */}
                 {errors?.coverPicture && (
                   <div>
@@ -203,26 +178,27 @@ const UpdateProfilePage = ({ dev }) => {
                   </div>
                 )}
               </div>
-              <button
-                disabled={
-                  !searchResult ||
-                  isSubmitting ||
-                  loading ||
-                  result ||
-                  errors?.name ||
-                  errors?.bio ||
-                  errors?.location
-                }
-                className="bg-blue-500 m-2 p-2 border-2"
-                type="submit"
-              >
-                {result ? "OK" : "Update"}
-              </button>
+              <div className="text-center">
+                <button
+                  disabled={
+                    !searchResult ||
+                    isSubmitting ||
+                    loading ||
+                    result ||
+                    errors?.name ||
+                    errors?.bio ||
+                    errors?.location
+                  }
+                  className="ProButton"
+                  type="submit"
+                >
+                  {result ? "OK" : "Update"}
+                </button>
+              </div>
               {/* Successful call */}
               {result?.handle === handle && (
-                <div className="border-2">
-                  Result
-                  <p>update successfully</p>
+                <div className="text-white animate-pulse">
+                  ✅ Profile updated
                 </div>
               )}
               {/* Apollo Error  */}
@@ -232,6 +208,7 @@ const UpdateProfilePage = ({ dev }) => {
                 </div>
               )}
             </Form>
+            </div>
           )}
         </Formik>
       )}
