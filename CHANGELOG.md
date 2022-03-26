@@ -15,6 +15,7 @@
 
 **Merged pull requests:**
 
+- add switch network [\#49](https://github.com/rtang03/solarpunks/pull/49) ([rtang03](https://github.com/rtang03))
 - fix broken comment card [\#48](https://github.com/rtang03/solarpunks/pull/48) ([rtang03](https://github.com/rtang03))
 - add image upload to create-profile [\#47](https://github.com/rtang03/solarpunks/pull/47) ([rtang03](https://github.com/rtang03))
 - dashboard wiring done [\#44](https://github.com/rtang03/solarpunks/pull/44) ([rtang03](https://github.com/rtang03))
