@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- dashboard wiring done [\#44](https://github.com/rtang03/solarpunks/pull/44) ([rtang03](https://github.com/rtang03))
 - fix broken link in /explore/\[user\]/publications [\#43](https://github.com/rtang03/solarpunks/pull/43) ([rtang03](https://github.com/rtang03))
 - UI fixing in profile related ui [\#40](https://github.com/rtang03/solarpunks/pull/40) ([rtang03](https://github.com/rtang03))
 
