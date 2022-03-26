@@ -57,7 +57,7 @@ const PublicUserPage = () => {
 
   return (
     <Layout>
-      <div className="MainCon">
+      <div>
         {!(account && isAuthenticated) && <ConnectWalletMessage />}
         {!(account && isAuthenticated && isLensReady) && (
           <div className="LensCon">
@@ -66,7 +66,7 @@ const PublicUserPage = () => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <>
+        <div className="MainCon2">
           {!isValidUser ? (
             <div>Malformed username; (e.g. john#0x01)</div>
           ) : (
@@ -79,7 +79,7 @@ const PublicUserPage = () => {
               {doesFollowResult && <div className="font-bold m-5">You Followed</div>}
             </div>
           )}
-        </>
+        </div>
       )}
     </Layout>
   );

@@ -24,7 +24,7 @@ const NewPlace = ({ setParentContentURL }) => {
     setImage(_image);
   };
 
-  const registerPlace = async ({ name, description, tag }) => {
+  const registerPlace = async ({ name, description, tag, location, tokenId, placeType }) => {
     let metadata;
     try {
       const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
@@ -32,7 +32,7 @@ const NewPlace = ({ setParentContentURL }) => {
       metadata = await client.store({
         version: "1.0.0",
         metadata_id: uuidv4(),
-        content: "Content",
+        content: "Solarpunks",
         name,
         description,
         image: image,
@@ -40,12 +40,16 @@ const NewPlace = ({ setParentContentURL }) => {
         imageMimeType: contentType,
         attributes: [
           {
-            traitType: "place_type",
-            value: "placeType123",
+            traitType: "tokenId",
+            value: tokenId,
           },
           {
-            traitType: "quest_type",
-            value: "questType123",
+            traitType: "location",
+            value: location,
+          },
+          {
+            traitType: "place_type",
+            value: placeType,
           },
         ],
         appId: "solarpunks",
@@ -76,17 +80,31 @@ const NewPlace = ({ setParentContentURL }) => {
           name: "",
           description: "",
           tag: "",
-          // traits: "",
+          tokenId: "",
+          location: "",
+          placeType: "",
         }}
         validationSchema={Yup.object().shape({
           name: Yup.string().required("Required field"),
           description: Yup.string(),
           tag: Yup.string(),
-          // traits: Yup.string(),
+          tokenId: Yup.number().integer(),
+          location: Yup.string(),
+          placeType: Yup.string(),
         })}
-        onSubmit={async ({ name, description, tag }, { setSubmitting }) => {
+        onSubmit={async (
+          { name, description, tag, tokenId, placeType, location },
+          { setSubmitting },
+        ) => {
           setSubmitting(true);
-          await registerPlace({ name, description, tag });
+          await registerPlace({
+            name,
+            description,
+            tag,
+            tokenId: tokenId.toString(),
+            placeType,
+            location,
+          });
           setSubmitting(false);
         }}
       >
@@ -133,7 +151,7 @@ const NewPlace = ({ setParentContentURL }) => {
                   </div>
                 )}
               </div>
-              {/* Field4 tag */}
+              {/* Field3 tag */}
               <div className="m-5">
                 <span className="p-2 m-2">
                   <label htmlFor="tag">Tag</label>
@@ -153,20 +171,63 @@ const NewPlace = ({ setParentContentURL }) => {
                   </div>
                 )}
               </div>
-              {/* Field5 traits */}
-              {/* <div className="m-5">
+              {/* Field4 tokenId */}
+              <div className="m-5">
                 <span className="p-2 m-2">
-                  <label htmlFor="traits">Traits</label>
+                  <label htmlFor="tokenId">Token ID</label>
                 </span>
                 <span className="p-2 m-2 border-2">
-                  <Field disabled={isSubmitting} id="traits" name="traits" placeholder="traits" />
+                  <Field
+                    disabled={isSubmitting || loading || !!contentUrl}
+                    id="tokenId"
+                    name="tokenId"
+                    placeholder="tokenId"
+                  />
                 </span>
-                {errors?.traits && (
+                {errors?.tokenId && (
                   <div>
-                    <ErrorMessage name="traits" />
+                    <ErrorMessage name="tokenId" />
                   </div>
                 )}
-              </div> */}
+              </div>
+              {/* Field5 location */}
+              <div className="m-5">
+                <span className="p-2 m-2">
+                  <label htmlFor="location">Location</label>
+                </span>
+                <span className="p-2 m-2 border-2">
+                  <Field
+                    disabled={isSubmitting || loading || !!contentUrl}
+                    id="location"
+                    name="location"
+                    placeholder="location"
+                  />
+                </span>
+                {errors?.location && (
+                  <div>
+                    <ErrorMessage name="location" />
+                  </div>
+                )}
+              </div>
+              {/* Field5 placeType */}
+              <div className="m-5">
+                <span className="p-2 m-2">
+                  <label htmlFor="placeType">Type of Place</label>
+                </span>
+                <span className="p-2 m-2 border-2">
+                  <Field
+                    disabled={isSubmitting || loading || !!contentUrl}
+                    id="placeType"
+                    name="placeType"
+                    placeholder="placeType"
+                  />
+                </span>
+                {errors?.placeType && (
+                  <div>
+                    <ErrorMessage name="placeType" />
+                  </div>
+                )}
+              </div>
               <div className="m-2">
                 <label className="file">
                   Take and upload a photo of the place
@@ -180,13 +241,28 @@ const NewPlace = ({ setParentContentURL }) => {
                     DONE
                   </button>
                 ) : (
-                  <button
-                    disabled={isSubmitting || loading || !!errors?.name || !image || !values?.name}
-                    className="bg-blue-500 m-2 p-2 border-2"
-                    type="submit"
-                  >
-                    Upload Image
-                  </button>
+                  <>
+                    {isSubmitting ? (
+                      <button className="bg-blue-500 m-2 p-2 border-2" disabled={true}>
+                        ...Uploading
+                      </button>
+                    ) : (
+                      <button
+                        disabled={
+                          isSubmitting ||
+                          loading ||
+                          !!errors?.name ||
+                          !image ||
+                          !values?.name ||
+                          !!error?.tokenId
+                        }
+                        className="bg-blue-500 m-2 p-2 border-2"
+                        type="submit"
+                      >
+                        Upload Image
+                      </button>
+                    )}{" "}
+                  </>
                 )}
                 {contentUrl && <div>Image successfully upload</div>}
                 {error && <div>Image upload error</div>}

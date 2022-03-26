@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { FaTwitterSquare, FaGlobe, FaGlobeAmericas, FaRegUserCircle } from "react-icons/fa";
 import Link from "next/link";
 
 const ProfileCard = ({
@@ -15,39 +15,66 @@ const ProfileCard = ({
   return (
     <div className="font-exo">
       <div className="ProfileGrid">
-
-        
         <div className="justify-self-center">
-          <img className="ProfilePic" src={coverPicUrl} />
+          {coverPicUrl ? (
+            <img className="ProfilePic" src={coverPicUrl} />
+          ) : (
+            <img
+              className="ProfilePic "
+              src={
+                "https://ipfs.io/ipfs/bafybeihmqfpohsggtesvvg3vb26g2mb3z6mkslycfs7ba6ijqyihnjq5xa/pug.png"
+              }
+            />
+          )}
         </div>
-
 
         <div className="">
           <div className="ProfileData">
-            <div className="my-3">☀️ {profile.name}</div>
+            {profile.name && <div className="my-3">☀️ {profile.name}</div>}
             <div className="my-3">
-              🌿{profile.handle}#{profile.profileId}
+              🌿 {profile.handle}#{profile.profileId}
             </div>
-            <div className="my-3 text-lg">🐋 @{profile.twitterUrl}</div>
-            <div className="my-3 text-lg">🌐 {profile.website}</div>
-            <div className="text-lg">🗺️ {profile.location}</div>
+            {profile.bio && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaRegUserCircle />
+                </span>{" "}
+                {profile.bio}
+              </div>
+            )}
+            {profile.twitterUrl && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaTwitterSquare />
+                </span>{" "}
+                {profile.twitterUrl}
+              </div>
+            )}
+            {profile.website && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaGlobe />
+                </span>
+                <span /> <span>{profile.website}</span>
+              </div>
+            )}
+            {profile.location && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaGlobeAmericas />
+                </span>
+                <span /> <span>{profile.location}</span>
+              </div>
+            )}
             <div className="text-base my-3">{profile.ownedBy}</div>
           </div>
-          <div className="text-lg mt-3 mb-10">{profile.bio}</div>
         </div>
 
-
         <div className="StatsGrid">
-          <div
-            className="StatsBg-Pointer"
-            onClick={openFollowersDialogModal}
-          >
+          <div className="StatsBg-Pointer" onClick={openFollowersDialogModal}>
             <div className="text-5xl m-3">🪴</div>Followers: {stats?.totalFollowers}
           </div>
-          <div
-            className="StatsBg-Pointer"
-            onClick={openFollowingsDialogModal}
-          >
+          <div className="StatsBg-Pointer" onClick={openFollowingsDialogModal}>
             <div className="text-5xl m-3">🍃</div> Following: {stats?.totalFollowing}
           </div>
           <div className="StatsBg">
@@ -66,9 +93,9 @@ const ProfileCard = ({
                 : `/profiles/${handle}/publications`
             }
           >
-              <div className="StatsBg-Pointer">
-                <div className="text-5xl m-3">📜</div> Publications: {stats?.totalPublications}
-              </div>
+            <div className="StatsBg-Pointer">
+              <div className="text-5xl m-3">📜</div> Publications: {stats?.totalPublications}
+            </div>
           </Link>
           <div className="StatsBg">
             <div className="text-5xl m-3">💬</div> Comments: {stats?.totalComments}

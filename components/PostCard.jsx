@@ -9,7 +9,7 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats }) => {
   const { stats, metadata, profile } = post;
   let imgSrc = metadata?.media?.[0]?.original?.url || metadata?.cover?.original?.url;
   if (imgSrc?.startsWith("ipfs://")) imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
-  console.log(post);
+  
   return (
     <div>
       <div>Type: {post.__typename}</div>
