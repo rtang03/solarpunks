@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaTwitterSquare, FaGlobe, FaGlobeAmericas, FaRegUserCircle } from "react-icons/fa";
 
 const ProfileCard = ({
   profile,
@@ -16,20 +17,57 @@ const ProfileCard = ({
     <div className="font-exo">
       <div className="grid grid-cols-2">
         <div className="justify-self-center">
-          <img className="h-96 w-96 rounded-lg bg-glass-100 mb-20 " src={coverPicUrl} />
+          {coverPicUrl ? (
+            <img className="h-96 w-96 rounded-lg bg-glass-100 mb-20 " src={coverPicUrl} />
+          ) : (
+            <img
+              className="h-96 w-96 rounded-lg bg-glass-100 mb-20 "
+              src={
+                "https://ipfs.io/ipfs/bafybeihmqfpohsggtesvvg3vb26g2mb3z6mkslycfs7ba6ijqyihnjq5xa/pug.png"
+              }
+            />
+          )}
         </div>
         <div className="text-left text-lg mt-3 -m-16">
           <div className="text-3xl text-night-100 mb-3 pr-16 text-left">
-            <div className="my-3">☀️ {profile.name}</div>
+            {profile.name && <div className="my-3">☀️ {profile.name}</div>}
             <div className="my-3">
-              🌿{profile.handle}#{profile.profileId}
+              🌿 {profile.handle}#{profile.profileId}
             </div>
-            <div className="my-3">🐋 @{profile.twitterUrl}</div>
-            <div className="my-3">🌐 {profile.website}</div>
-            <span>🗺️ {profile.location}</span>
+            {profile.bio && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaRegUserCircle />
+                </span>{" "}
+                {profile.bio}
+              </div>
+            )}
+            {profile.twitterUrl && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaTwitterSquare />
+                </span>{" "}
+                {profile.twitterUrl}
+              </div>
+            )}
+            {profile.website && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaGlobe />
+                </span>
+                <span /> <span>{profile.website}</span>
+              </div>
+            )}
+            {profile.location && (
+              <div className="my-3 flex flex-row">
+                <span className="mr-2">
+                  <FaGlobeAmericas />
+                </span>
+                <span /> <span>{profile.location}</span>
+              </div>
+            )}
             <div className="text-base my-3">{profile.ownedBy}</div>
           </div>
-          <div className="text-lg mt-3 mb-10">{profile.bio}</div>
         </div>
         <div className="col-span-2 grid grid-cols-4 text-xl gap-3 text-white">
           <div

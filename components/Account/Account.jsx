@@ -21,7 +21,7 @@ const Account = () => {
     return (
       <>
         <button type="button" onClick={openWalletDialogModal} className="hud0">
-        🔑 Connect wallet
+          🔑 Connect wallet
         </button>
 
         <DialogModal
@@ -29,7 +29,7 @@ const Account = () => {
           handleClose={closeWalletDialogModal}
           title="Connect Wallet"
         >
-          <div >
+          <div>
             {/* Using MetaMask */}
             <div className="text-center">
               {connectors.map(({ title, icon, connectorId }, key) => (
@@ -55,16 +55,23 @@ const Account = () => {
 
             {/* Close Button */}
             <div className="mt-12">
-              <button
-                type="button"
-                className="WalletClose"
-                onClick={closeWalletDialogModal}
-              >
-                <svg class="h-10 w-10 " xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <button type="button" className="WalletClose" onClick={closeWalletDialogModal}>
+                <svg
+                  className="h-10 w-10 "
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
               </button>
-              {/* TODO: enhance me */}
               {authError && authError.message}
             </div>
           </div>
@@ -78,7 +85,11 @@ const Account = () => {
       <button type="button" onClick={openAuthDialogModal} className="hud1con">
         {shortenAddress(account)}
       </button>
-      <DialogModal isOpen={isAuthDialogOpen} handleClose={closeAuthDialogModal} title="This is your account">
+      <DialogModal
+        isOpen={isAuthDialogOpen}
+        handleClose={closeAuthDialogModal}
+        title="This is your account"
+      >
         <>
           <div className="-mt-8 inline-block text-white">
             <Address copyable={true} shortAddress={true} chars={5} />
@@ -106,7 +117,8 @@ const Account = () => {
           </button>
 
           {/* Close Button */}
-          <div className="mt-4">
+          {/* BUG: This button has no respond. Comment it out.  */}
+          {/* <div className="mt-4">
           <button
                 type="button"
                 className="WalletClose"
@@ -116,7 +128,7 @@ const Account = () => {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
               </button>
-          </div>
+          </div> */}
         </>
       </DialogModal>
     </>

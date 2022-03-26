@@ -19,23 +19,23 @@ const FollowingCard = ({ following }) => {
   const totalCollects = stats?.totalCollects;
 
   return (
-    <div className="border-2 my-2">
-      <div>{user}</div>
-      {name && <div>name: {name}</div>}
-      {bio && <div>bio: {bio}</div>}
-      {location && <div>location: {location}</div>}
-      {website && <div>website: {website}</div>}
-      {twitterUrl && <div>twitterUrl: {twitterUrl}</div>}
-      {ownedBy && <div>ownedBy: {shortenAddress(ownedBy)}</div>}
-      {totalFollowers > 0 && <div>totalFollowers: {totalFollowers}</div>}
-      {totalFollowing > 0 && <div>totalFollowing: {totalFollowing}</div>}
-      {totalPosts > 0 && <div>totalPosts: {totalPosts}</div>}
-      {totalComments > 0 && <div>totalComments: {totalComments}</div>}
-      {totalMirrors > 0 && <div>totalMirrors: {totalMirrors}</div>}
-      {totalPublications > 0 && <div>totalPublications: {totalPublications}</div>}
-      {totalCollects > 0 && <div>totalCollects: {totalCollects}</div>}
+    <div className="border-2 m-10 py-10">
+      <div className="my-5 font-bold">{user}</div>
+      {name && <div>Name: {name}</div>}
+      {bio && <div>Bio: {bio}</div>}
+      {location && <div>Location: {location}</div>}
+      {website && <div>Website: {website}</div>}
+      {twitterUrl && <div>Twitter: {twitterUrl}</div>}
+      {ownedBy && <div>Owner: {shortenAddress(ownedBy)}</div>}
+      {totalFollowers > 0 && <div>Followers: {totalFollowers}</div>}
+      {totalFollowing > 0 && <div>Following: {totalFollowing}</div>}
+      {totalPosts > 0 && <div>Posts: {totalPosts}</div>}
+      {totalComments > 0 && <div>Comments: {totalComments}</div>}
+      {totalMirrors > 0 && <div>Mirrors: {totalMirrors}</div>}
+      {totalPublications > 0 && <div>Publications: {totalPublications}</div>}
+      {totalCollects > 0 && <div>Collects: {totalCollects}</div>}
       {totalAmountOfTimesFollowing > 0 && (
-        <div>totalAmountOfTimesFollowing: {totalAmountOfTimesFollowing}</div>
+        <div>Times of Following: {totalAmountOfTimesFollowing}</div>
       )}
     </div>
   );

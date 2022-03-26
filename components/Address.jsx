@@ -57,9 +57,9 @@ const Address = props => {
   return (
     <>
       {address && (
-        <div className="flex">
+        <div className="flex my-5">
           <div>{props?.shortAddress ? shortenAddress(address, props.chars) : address}</div>
-          {props?.copyable && (isClicked ? <Check /> : <Copy />)}
+          <span className="mx-5">{props?.copyable && (isClicked ? <Check /> : <Copy />)}</span>
         </div>
       )}
     </>

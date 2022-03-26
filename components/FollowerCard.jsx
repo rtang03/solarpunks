@@ -20,23 +20,23 @@ const FollowerCard = ({ follower }) => {
   const user = `${defaultProfile?.handle}#${defaultProfile?.id}`;
 
   return (
-    <div className="border-2 my-2">
-      <div>address: {shortenAddress(address)}</div>
-      <div>{user}</div>
-      {name && <div>name: {name}</div>}
-      {bio && <div>bio: {bio}</div>}
-      {location && <div>location: {location}</div>}
-      {website && <div>website: {website}</div>}
-      {twitterUrl && <div>twitterUrl: {twitterUrl}</div>}
-      {totalFollowers > 0 && <div>totalFollowers: {totalFollowers}</div>}
-      {totalFollowing > 0 && <div>totalFollowing: {totalFollowing}</div>}
-      {totalPosts > 0 && <div>totalPosts: {totalPosts}</div>}
-      {totalComments > 0 && <div>totalComments: {totalComments}</div>}
-      {totalMirrors > 0 && <div>totalMirrors: {totalMirrors}</div>}
-      {totalPublications > 0 && <div>totalPublications: {totalPublications}</div>}
-      {totalCollects > 0 && <div>totalCollects: {totalCollects}</div>}
+    <div className="border-2 m-10 py-10">
+      <div className="my-5 font-bold">{user}</div>
+      <div>{shortenAddress(address)}</div>
+      {name && <div>Name: {name}</div>}
+      {bio && <div>Bio: {bio}</div>}
+      {location && <div>Location: {location}</div>}
+      {website && <div>Website: {website}</div>}
+      {twitterUrl && <div>Twitter: {twitterUrl}</div>}
+      {totalFollowers > 0 && <div>Followers: {totalFollowers}</div>}
+      {totalFollowing > 0 && <div>Following: {totalFollowing}</div>}
+      {totalPosts > 0 && <div>Posts: {totalPosts}</div>}
+      {totalComments > 0 && <div>Comments: {totalComments}</div>}
+      {totalMirrors > 0 && <div>Mirrors: {totalMirrors}</div>}
+      {totalPublications > 0 && <div>Publications: {totalPublications}</div>}
+      {totalCollects > 0 && <div>Collects: {totalCollects}</div>}
       {totalAmountOfTimesFollowed > 0 && (
-        <div>totalAmountOfTimesFollowed: {totalAmountOfTimesFollowed}</div>
+        <div>Times of Followed: {totalAmountOfTimesFollowed}</div>
       )}
     </div>
   );
