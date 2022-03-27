@@ -40,7 +40,7 @@ const TimelinePage = () => {
         <>
           {profileId ? (
             <div className="text-center">
-              <div className="text-5xl font-exo mb-5 text-night-100 -mt-10">Timeline</div>
+              <div className="text-5xl font-exo mb-5 text-night-100 -mt-10 -mb-1">Timeline</div>
               <Timeline handle={handle} profileId={profileId} showComment={true} />
             </div>
           ) : (

@@ -37,7 +37,7 @@ const Timeline = ({
 
   return (
     <div className="text-center">
-    <div className="inline-block rounded-lg">
+    <div className="">
       {loading && <div>...loading</div>}
       {isActiveRecord && !error && !loading ? (
         <>
@@ -61,8 +61,8 @@ const Timeline = ({
                     showLinkToPublicProfile={showLinkToPublicProfile}
                     hideStats={true}
                   />
-                  <div className="m-5">
-                    <span className="mx-2">
+                  <div className="">
+                    <span className="">
                       {canComment && (
                         <Link
                           href={`/explore/${handle}%23${profileId}/publications/${item.id}/create-comment`}
@@ -73,7 +73,7 @@ const Timeline = ({
                         </Link>
                       )}
                     </span>
-                    <span className="mx-2">
+                    <span className="">
                       {canCollect && (
                         <Link
                           href={`/explore/${handle}%23${profileId}/publications/${item.id}/collect`}
@@ -91,6 +91,7 @@ const Timeline = ({
               )}
             </div>
           ))}
+          <div className="absolute bottom-10 left-0 right-0">
           <Pagination2
             next={() => {
               refetch({
@@ -104,6 +105,7 @@ const Timeline = ({
             }}
             totalCount={totalCount}
           />
+          </div>
         </>
       ) : (
         <NoRecord />
