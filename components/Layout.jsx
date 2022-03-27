@@ -138,10 +138,11 @@ const Layout = ({ children, home }) => {
           </Menu>
         )}
         {account && isAuthenticated && isLensReady && (
-          <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
-            <a className="hud4">Create Post</a>
+          <Link href={`/profiles/${defaultHandle}/timeline`}>
+            <a className="hud4">Timeline</a>
           </Link>
         )}
+        
         {!account && (
           <span className="hud0">
             <SwitchNetwork />
@@ -150,18 +151,12 @@ const Layout = ({ children, home }) => {
       </nav>
       <main>{children}</main>
       <nav className="bottom-hud">
-        {account && <div className="huda"> 🔥 Gas</div>}
-        {account && isAuthenticated && isLensReady && (
-          <Link href="/explore">
-            <a className="hud3">Explore</a>
+      {account && isAuthenticated && isLensReady && (
+          <Link href={`/profiles/${defaultHandle}/publications/create-post`}>
+            <a className="huda">Create Post</a>
           </Link>
         )}
-
-        {account && isAuthenticated && isLensReady && (
-          <Link href={`/profiles/${defaultHandle}/timeline`}>
-            <a className="hud3">Timeline</a>
-          </Link>
-        )}
+        
         {account && (
           <div className="hudb">
             <span> ⚡ </span>

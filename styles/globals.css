@@ -89,7 +89,7 @@
   }
 
   .bottom-hud { 
-    @apply mx-96 fixed grid grid-cols-5 items-center bottom-0 left-0 right-0
+    @apply mx-96 fixed grid grid-cols-3 items-center bottom-0 left-0 right-0
     rounded-b-lg
     font-exo
     font-medium
