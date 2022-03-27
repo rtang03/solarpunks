@@ -192,20 +192,32 @@
   xl:grid-cols-2
 }
 
+.PostGrid {
+  @apply
+  grid grid-cols-1
+  xl:grid-cols-2
+}
+
 .ProfilePic {
   @apply
-  h-96 w-96 rounded-lg bg-glass-100 xl:mb-20
+  h-fit rounded-lg bg-glass-100 xl:mb-20
+}
+
+.ProfilePic2 {
+  @apply
+   w-fit h-fit rounded-lg bg-glass-100 xl:mb-20 xl:ml-20 
 }
 
 .ProfileData {
   @apply
   text-xl
-  xl:text-3xl text-night-100 mb-3 px-10 text-left
+  xl:text-xl text-night-100 mb-3 px-10 text-left
 }
 
 .StatsGrid {
   @apply 
-  xl:col-span-2 grid grid-cols-4 text-xl gap-3 text-white
+  xl:col-span-2 grid grid-cols-3 text-xl gap-3 text-white
+
 }
 
 .StatsBg-Pointer {
@@ -321,5 +333,11 @@
   }
   .Board3 {
     @apply bg-glass-100 text-center rounded-lg 2xl:col-span-3 text-white row-span-2
+  }
+
+  /* Dashboard */
+  .DasTitle {
+    @apply
+    absolute bottom-40 left-5 text-4xl
   }
 }

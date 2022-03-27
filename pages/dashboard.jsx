@@ -183,7 +183,7 @@ const Dashboard = () => {
                 
                 {numberOfCities >= 0 && (
                   <div className=" text-center mt-10">
-                    <div className="absolute bottom-40 left-5 text-4xl">☀️ {citiesArray?.[currentCity]?.name}</div>
+                    <div className="DasTitle">☀️ {citiesArray?.[currentCity]?.name}</div>
                     {/* TODO Add field on Punk Cities form}
                     <div>{citiesArray?.[currentCity]?.description}</div>
                     <div>City: {citiesArray?.[currentCity]?.content}</div>*/}
