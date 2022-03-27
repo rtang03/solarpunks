@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { networkConfigs } from "../lib/networks";
 import DialogModal from "./DialogModal";
 
@@ -102,6 +102,9 @@ const SwitchNetwork = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const closeDialogModal = () => setIsDialogOpen(false);
   const openDialogModal = () => setIsDialogOpen(true);
+  const metamaskRef = useRef()
+
+  typeof window !== "undefined" && window.ethereum && (metamaskRef.current = true);
 
   return (
     <div>
@@ -111,7 +114,7 @@ const SwitchNetwork = () => {
         handleClose={closeDialogModal}
         title="Switch Metamask Network"
       >
-        <SwitchNetworkDialog />
+        {metamaskRef.current ? <SwitchNetworkDialog /> : <div>Please install Metamask</div>}
       </DialogModal>
     </div>
   );
