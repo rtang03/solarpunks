@@ -2,7 +2,7 @@
 
 # Solarpunks
 
-Developed [LFGrow Hackathon 2022](https://showcase.ethglobal.com/lfgrow/solarpunks-86vjx)
+Developed at [LFGrow Hackathon 2022](https://showcase.ethglobal.com/lfgrow/solarpunks-86vjx)
 [Live Demo](https://solarpunks.vercel.app/)
 
 ## Contracts
