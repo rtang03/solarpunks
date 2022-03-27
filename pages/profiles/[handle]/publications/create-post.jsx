@@ -10,21 +10,19 @@ import { useRouter } from "next/router";
 import { SEARCH } from "../../../../graphql/search";
 import Link from "next/link";
 import NewPost from "../../../../components/NewPost";
-import {
-  FaTwitterSquare,
-  FaGlobe,
-  FaGlobeAmericas,
-  FaRegUserCircle,
-  FaExternalLinkAlt,
-} from "react-icons/fa";
+import { FaExternalLinkAlt } from "react-icons/fa";
+import { shortenTx } from "../../../../lib/shortenAddress";
+import { getExplorer } from "../../../../lib/networks";
+import GridLoader from "react-spinners/GridLoader";
 
 const CreatePostPage = ({ dev }) => {
   const FUNC = "createPostTypedData";
   const CONTRACT_FUNC_NAME = "postWithSig";
-  const { account, isAuthenticated } = useMoralis();
+  const { account, isAuthenticated, chainId } = useMoralis();
   const { isLensReady } = useContext(LensContext);
   const router = useRouter();
   const { handle } = router.query;
+  const explorerURL = chainId && getExplorer(chainId);
 
   // for obtaining contentURL from child NewPage component
   const [contentUrl, setContentUrl] = useState();
@@ -117,114 +115,134 @@ const CreatePostPage = ({ dev }) => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <div className="justify-center flex">
-        <div className="ProUpdate">
-
-
-          <div className="ProReturn">
-            <Link href={`/profiles/${handle}/publications`}>
-              <button>
-                <a><FaExternalLinkAlt className="-rotate-90 mx-3 text-4xl" /></a>
-              </button>
-            </Link>
-          </div>
-
-          <div>
-            <div className="ProTitle my-10">🌱 Seed your post</div>
-            <NewPost setParentContentURL={setContentUrl} />
-          </div>
-          <Formik
-            initialValues={{}}
-            onSubmit={async ({}, { setSubmitting }) => {
-              setSubmitting(true);
-              create({ profileId, contentURI: contentUrl });
-              setSubmitting(false);
-            }}
-          >
-
-            {({ errors, values, isSubmitting }) => (
-              <Form>
-                <div>Step 2: Create Post</div>
-                {contentUrl ? (
-                  <div>Your image: {contentUrl}</div>
-                ) : (
-                  <div>Please complete step 1.</div>
-                )}
-                <button
-                  disabled={
-                    !contentUrl ||
-                    !profileId ||
-                    isSubmitting ||
-                    isIndexedLoading ||
-                    loading ||
-                    isSignTypedDataLoading ||
-                    isSendTransLoading ||
-                    !!errors?.contentURI ||
-                    !!transaction
-                  }
-                  className="bg-blue-500 m-2 p-2 border-2="
-                  type="submit"
-                >
-                  {!data && !loading && "Create Post"}
-                  {loading && "Preparing"}
-                  {isSignTypedDataLoading && "Signing"}
-                  {isSendTransLoading && "Submitting"}
-                  {transaction && "Done"}
+        <div className="justify-center flex text-center">
+          <div className="ProUpdate">
+            <div className="ProReturn">
+              <Link href={`/profiles/${handle}/publications`}>
+                <button>
+                  <a>
+                    <FaExternalLinkAlt className="-rotate-90 mx-3 text-4xl" />
+                  </a>
                 </button>
-                {/* PROGRESS */}
-                <div>
-                  {loading && <div>...creating</div>}
-                  {isIndexedLoading && <div>...indexing</div>}
-                  {isSignTypedDataLoading && <div>...signing</div>}
-                  {isSendTransLoading && <div>...submittig</div>}
-                </div>
-                {/* MESSAGE SECTION */}
-                {/* Display Error */}
-                {error && <div className="border-2">error: {error.message}</div>}
-                {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
-                {transError && <div className="border-2">Oops!! transError</div>}
-                {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
-                {/* Success */}
-                {data && <div>create typed data successfully</div>}
-                {transaction && <div>submit transaction successfully</div>}
-                {transactionReceipt && <div>transaction receipt returned</div>}
-                {transaction && <div>nonce: {nonce}</div>}
-                {transaction && (
-                  <div>
-                    <a
-                      className="m-2 p-2 underline"
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
+              </Link>
+            </div>
+
+            <div>
+              <div className="ProTitle my-10">🌱 Seed your post</div>
+              <NewPost setParentContentURL={setContentUrl} />
+            </div>
+            <Formik
+              initialValues={{}}
+              onSubmit={async ({}, { setSubmitting }) => {
+                setSubmitting(true);
+                create({ profileId, contentURI: contentUrl });
+                setSubmitting(false);
+              }}
+            >
+              {({ errors, values, isSubmitting }) => (
+                <Form className="mb-20">
+                  {/* <div className="ProTitle">Create</div> */}
+                  {contentUrl ? (
+                    <div className="ProLabel text-sm text-center">{contentUrl}</div>
+                  ) : (
+                    <div></div>
+                  )}
+                  <div className={`text-center ${!contentUrl && "scale-75"}`}>
+                    <button
+                      disabled={
+                        !contentUrl ||
+                        !profileId ||
+                        isSubmitting ||
+                        isIndexedLoading ||
+                        loading ||
+                        isSignTypedDataLoading ||
+                        isSendTransLoading ||
+                        !!errors?.contentURI ||
+                        !!transaction
+                      }
+                      className={`ProButton ${transaction && "scale-75"}`}
+                      type="submit"
                     >
-                      View on Explorer
-                    </a>
-                    <span>note: indexing may take a while.</span>
+                      {!data && !loading && "Create"}
+                      {loading && "Preparing"}
+                      {isSignTypedDataLoading && "Signing"}
+                      {isSendTransLoading && "Submitting"}
+                      {transaction && "Done"}
+                    </button>
                   </div>
-                )}
-                {/* when Dev-mode is ON */}
-                {dev && data && (
-                  <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>
-                )}
-                {dev && transaction && (
-                  <>
-                    <div>Submitted transaction</div>
-                    <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
-                  </>
-                )}
-                {dev && transactionReceipt && (
-                  <>
-                    <div>Transaction receipt</div>
-                    <pre className="text-left w-64">
-                      {JSON.stringify(transactionReceipt, null, 2)}
-                    </pre>
-                  </>
-                )}
-                {/* END OF MESSAGE SECTION */}
-              </Form>
-            )}
-          </Formik>
-        </div>
+                  {/* PROGRESS */}
+                  <div className="text-center my-2">
+                    {(loading ||
+                      isIndexedLoading ||
+                      isSignTypedDataLoading ||
+                      isSendTransLoading) && (
+                      <button className="" disabled={true}>
+                        <GridLoader color="white" />
+                      </button>
+                    )}
+                  </div>
+                  {/* MESSAGE SECTION */}
+                  {/* Display Error */}
+                  {error && <div className="border-2">error: {error.message}</div>}
+                  {signTypedDataError && <div className="border-2">Oops!! signTypedDataError</div>}
+                  {transError && <div className="border-2">Oops!! transError</div>}
+                  {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
+                  {/* Success */}
+                  {transaction && (
+                    <div className="ProLabel text-center">
+                      <p>🌿Lens post created!</p>
+                      <div className="text-sm mt-5 mb-5">
+                        <span>txHash: {shortenTx(transaction.hash)}</span>
+                        <span>
+                          <a
+                            className="m-2 p-2 underline text-lg text-night-100 hover:text-solar-100"
+                            target="_blank"
+                            rel="noreferrer"
+                            href={`${explorerURL}/tx/${transaction.hash}`}
+                          >
+                            View on Explorer
+                          </a>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {transactionReceipt && (
+                    <div className="text-center text-solar-100">
+                      Transaction status:{" "}
+                      <p>
+                        {transactionReceipt?.indexed ? (
+                          "✅ Indexed"
+                        ) : (
+                          <div>
+                            <GridLoader color="white" />
+                          </div>
+                        )}
+                      </p>
+                    </div>
+                  )}
+                  {/* when Dev-mode is ON */}
+                  {dev && data && (
+                    <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>
+                  )}
+                  {dev && transaction && (
+                    <>
+                      <div>Submitted transaction</div>
+                      <pre className="text-left w-64">{JSON.stringify(transaction, null, 2)}</pre>
+                    </>
+                  )}
+                  {dev && transactionReceipt && (
+                    <>
+                      <div>Transaction receipt</div>
+                      <pre className="text-left w-64">
+                        {JSON.stringify(transactionReceipt, null, 2)}
+                      </pre>
+                    </>
+                  )}
+                  {/* END OF MESSAGE SECTION */}
+                </Form>
+              )}
+            </Formik>
+          </div>
         </div>
       )}
     </Layout>
