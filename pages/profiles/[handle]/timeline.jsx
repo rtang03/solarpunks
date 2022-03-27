@@ -39,10 +39,10 @@ const TimelinePage = () => {
       {account && isAuthenticated && isLensReady && (
         <>
           {profileId ? (
-            <>
-              <div>My Favorite Timeline</div>
+            <div className="text-center">
+              <div className="text-5xl font-exo mb-5 text-night-100 -mt-10">Timeline</div>
               <Timeline handle={handle} profileId={profileId} showComment={true} />
-            </>
+            </div>
           ) : (
             <NoRecord />
           )}

@@ -4,7 +4,7 @@ import PostCard from "./PostCard";
 import CommentCard from "./CommentCard";
 import { JSONTree } from "react-json-tree";
 import Link from "next/link";
-import Pagination from "./Pagination";
+import Pagination2 from "./Pagination2";
 import { useState, useEffect } from "react";
 
 const PAGESIZE = 1;
@@ -91,7 +91,7 @@ const Timeline = ({
               )}
             </div>
           ))}
-          <Pagination
+          <Pagination2
             next={() => {
               refetch({
                 request: { limit: PAGESIZE, cursor: nextCursor, profileId },
