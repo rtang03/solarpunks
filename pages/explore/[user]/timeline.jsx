@@ -28,13 +28,14 @@ const TimelinePage = () => {
       </div>
       {account && isAuthenticated && isLensReady && (
         <>
-          <div>
+          {/* Below is reason link, but ugly, not time to fix */}
+          {/* <div>
             <Link href={`/explore/${handle}%23${profileId}`}>
               <a>
                 <button className="bg-blue-300">Back to My Public Profile Page</button>
               </a>
             </Link>
-          </div>
+          </div> */}
           {profileId ? (
             <>
               <Timeline

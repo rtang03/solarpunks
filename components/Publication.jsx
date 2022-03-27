@@ -24,19 +24,9 @@ const PublicationComponent = ({ handle, profileId, publicationId, isPublicPublic
           <div className="LensIcon">🌿</div>Connect to Lens
         </div>
       ) : (
-        <div className="border-2 p-2">
-          <div>
-            {isPublicPublication && result && (
-              <Link
-                href={`/explore/${handle}%23${profileId}/publications/${result.id}/create-comment`}
-              >
-                <button className="border-2 p-2 bg-blue-300">
-                  <a>Create Comment</a>
-                </button>
-              </Link>
-            )}
-          </div>
-          <button className="bg-blue-200 border-2 m-2 p-2">
+        <div className="">
+          {/* Todo: This Back button is good for nagivation, but I need to place it properly */}
+          {/* <button className="ProButton">
             <Link
               href={
                 isPublicPublication
@@ -44,13 +34,23 @@ const PublicationComponent = ({ handle, profileId, publicationId, isPublicPublic
                   : `/profiles/${handle}/publications`
               }
             >
-              <a>Back to my publications</a>
+              <a>Back</a>
             </Link>
-          </button>
-          <h1>Post</h1>
+          </button> */}
+          <div className="text-center">
+            {isPublicPublication && result && (
+              <Link
+                href={`/explore/${handle}%23${profileId}/publications/${result.id}/create-comment`}
+              >
+                <button className="ProButton">
+                  <a>Create Comment</a>
+                </button>
+              </Link>
+            )}
+          </div>
           {loading && <div>...loading</div>}
           {result && !loading && (
-            <div>
+            <div className="scale-75">
               {/* Post Detail */}
               <PostCard post={result} />
             </div>

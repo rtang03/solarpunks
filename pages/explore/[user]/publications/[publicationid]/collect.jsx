@@ -76,39 +76,38 @@ const CollectPage = () => {
       {account && isAuthenticated ? (
         <>
           {isLensReady && (
-            <div>
+            <div className="MainCon2">
               {isLoading && <div>...loading</div>}
-              <div>
+              {/* <div>
                 <Link href={`/explore/${handle}%23${profileId}/timeline`}>
                   <button className="border-2 p-2 bg-blue-300">
                     <a>Back to timeline</a>
                   </button>
                 </Link>
-              </div>
-              <div>
+              </div> */}
+              <div className="text-left my-10">
                 <Link href={`/explore/${handle}%23${profileId}/publications/${publicationid}`}>
-                  <button className="border-2 p-2 bg-blue-300">
-                    <a>Back to publication details</a>
+                  <button className="ProButton">
+                    <a>Back</a>
                   </button>
                 </Link>
               </div>
               {hasCollectedResult && (
-                <div className="m-5 border-2">
+                <div className="ProTitle mb-10">
                   {collected
                     ? `You have collected it for ${collectedTimes} times `
-                    : "You are not collector"}
-                  ,
+                    : `You have not collected this post ${publicationid}`}
                 </div>
               )}
               {!doesFollowResult && (
                 <>
-                  <div>
+                  <div className="ProTitle mb-10">
                     You are not follower. Cannot Collect. Please follow below publication owner.
                   </div>
                   <div>
                     <Link href={`/explore/${handle}%23${profileId}`}>
-                      <button className="border-2 p-2 bg-blue-300">
-                        <a>Go</a>
+                      <button className="ProButton">
+                        <a>Follow</a>
                       </button>
                     </Link>
                   </div>
