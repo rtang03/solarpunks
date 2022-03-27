@@ -10,15 +10,14 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats, hideTraits, hideIm
 
   return (
     <div className="PostGrid font-exo">
-      <div className="ProfileData bg-glass-100 rounded-lg p-10 text-white relative">
-        <div className="absolute bottom-5">Owned by: {profile.ownedBy}</div>
+      <div className="ProfileData bg-glass-100 rounded-lg p-5 text-white relative">
+        <div className="absolute bottom-5 text-lg">Owned by: {profile.ownedBy}</div>
         <div className="relative">
           <div className="text-lg"> {post.__typename} {post.id} <span className="absolute right-0">{post.createdAt}</span></div>
           
           <span className="text-3xl">
             by {profile?.handle}#{profile?.id}
-          </span>
-          {showLinkToPublicProfile && (
+            {showLinkToPublicProfile && (
             <span>
               <button className="bg-blue-200 m-2 p-2">
                 <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
@@ -27,6 +26,8 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats, hideTraits, hideIm
               </button>
             </span>
           )}
+          </span>
+         
         </div>
         {!hideStats && (
           <>
@@ -37,7 +38,7 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats, hideTraits, hideIm
             <div>{metadata?.content}</div>
           </>
         )}
-        <div class="text-center">
+        <div class="text-center my-10">
           <div className="text-solar-100">{metadata?.name}</div>
           <div><a className="4xl">"</a> {metadata?.description}<a className="4xl"> "</a></div>
         </div>
