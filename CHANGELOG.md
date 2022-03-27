@@ -6,6 +6,7 @@
 
 **Merged pull requests:**
 
+- add coverpicture to publications [\#53](https://github.com/rtang03/solarpunks/pull/53) ([rtang03](https://github.com/rtang03))
 - update readme [\#52](https://github.com/rtang03/solarpunks/pull/52) ([rtang03](https://github.com/rtang03))
 
 ## [v0.11](https://github.com/rtang03/solarpunks/tree/v0.11) (2022-03-27)
