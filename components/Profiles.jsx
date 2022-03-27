@@ -30,7 +30,7 @@ const ProfilesComponent = ({ cursor, dev }) => {
   const items = isActiveRecord ? data?.[FUNC]?.items : null;
 
   return (
-    <div className="xl:-mt-16">
+    <div className="xl:-mt-16 mb-20">
       {!isLensReady ? (
         <div className="LensCon">
           <div className="LensIcon">🌿</div>Connect to Lens

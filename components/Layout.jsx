@@ -115,10 +115,10 @@ const Layout = ({ children, home }) => {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-48 mt-48 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-green-500 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-48 top-10 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-cyber-100 shadow-lg focus:outline-none">
                 <Menu.Item>
                   {({ active }) => (
-                    <MyLink className={`${active && "bg-blue-500"}`} href="/profiles">
+                    <MyLink className={`${active && "text-solar-100"}`} href="/profiles">
                       My Profiles
                     </MyLink>
                   )}
@@ -126,7 +126,17 @@ const Layout = ({ children, home }) => {
                 <Menu.Item>
                   {({ active }) => (
                     <MyLink
-                      className={`${active && "bg-blue-500"}`}
+                      className={`${active && "text-solar-100"}`}
+                      href="/explore"
+                    >
+                      Friends
+                    </MyLink>
+                  )}
+                </Menu.Item>
+                <Menu.Item>
+                  {({ active }) => (
+                    <MyLink
+                      className={`${active && "text-solar-100"}`}
                       href="/profiles/create-profile"
                     >
                       Create Profile
