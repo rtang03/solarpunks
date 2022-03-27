@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import Layout from "../../components/Layout";
 import ConnectWalletMessage from "../../components/ConnectWalletMessage";
 import LensContext from "../../components/LensContext";
 import { useMoralis } from "react-moralis";
-import isEqual from "lodash/isEqual";
 import includes from "lodash/includes";
-import remove from "lodash/remove";
 import ExplorePublication from "../../components/ExplorePublication";
 
 const ExplorePage = () => {
@@ -20,67 +18,8 @@ const ExplorePage = () => {
     defaultProfile,
     last5VisitProfiles,
   } = useContext(LensContext);
-  const { account, isAuthenticated, setUserData, user, isUserUpdating } = useMoralis();
+  const { account, isAuthenticated } = useMoralis();
   const [isValidUser, setIsValidUser] = useState();
-  const [saveFriendError, setSaveFriendError] = useState();
-  const [removeAllFriendError, setRemoveAllFriendError] = useState();
-  const [removeOneFriendError, setRemoveOneFriendError] = useState();
-
-  const saveMoralisUserDataToContext = friends => {
-    if (!friends) {
-      setFriendList([]);
-    } else {
-      setFriendList(friends.split(","));
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) saveMoralisUserDataToContext(user?.attributes?.friends);
-    // if (isAuthenticated) setUserData({ friends: null });
-  }, [user]);
-
-  const arrayToString = arr => arr.reduce((prev, curr) => `${prev}${prev && ","}${curr}`, "");
-
-  const saveFriends = async friends => {
-    try {
-      const response = await setUserData({ friends: arrayToString(friends) });
-      saveMoralisUserDataToContext(response?.attributes?.friends);
-    } catch (error) {
-      setSaveFriendError(error);
-    }
-  };
-
-  const removeAllFriend = async () => {
-    try {
-      await setUserData({ friends: null });
-      setFriendList([]);
-    } catch (error) {
-      setRemoveAllFriendError(error);
-    }
-  };
-
-  const removeOneFriend = async friend => {
-    try {
-      let _friends = user?.attributes?.friends;
-      if (!_friends) {
-        return;
-      }
-      const friends = _friends.split(",");
-      if (friends?.length > 0 && includes(friends, friend)) {
-        remove(friends, item => item === friend);
-        const response = await setUserData({
-          friends: isEqual(friends, []) ? null : arrayToString(friends),
-        });
-        saveMoralisUserDataToContext(response?.attributes?.friends);
-      }
-    } catch (error) {
-      setRemoveOneFriendError(error);
-    }
-  };
-
-  saveFriendError && console.error("saveFriendError", saveFriendError);
-  removeAllFriendError && console.error("removeAllFriendError", removeAllFriendError);
-  removeOneFriendError && console.error("removeOneFriendError", removeOneFriendError);
 
   return (
     <Layout>
@@ -101,9 +40,8 @@ const ExplorePage = () => {
               validationSchema={Yup.object().shape({
                 newfriend: Yup.string().lowercase("only lowercase").required("required field"),
               })}
-              onSubmit={async ({ newfriend }, { setSubmitting }) => {
+              onSubmit={({ newfriend }) => {
                 const [handle, profileId] = newfriend.split("#");
-                // you cannot add yourself as friend
                 if (
                   !handle ||
                   !profileId ||
@@ -114,13 +52,12 @@ const ExplorePage = () => {
                   return;
                 }
                 setIsValidUser(true);
-                setSubmitting(true);
-                await saveFriends([...friendList, newfriend]);
-                setSubmitting(false);
+                setFriendList([...friendList, newfriend]);
               }}
             >
-              {({ errors, values, isSubmitting }) => (
+              {({ errors, values }) => (
                 <Form>
+                  {/* ADD FRIEND */}
                   <div className="my-5">
                     <span className="p-2 m-2">
                       <label htmlFor="newfriend">Add Friend</label>
@@ -137,16 +74,16 @@ const ExplorePage = () => {
                     <button className="bg-blue-300 border-2" type="submit">
                       Add
                     </button>
-                    {saveFriendError && <div>Opps Something bad happens</div>}
+                    {/* does not work, ignore it */}
+                    {/* {!isValidUser && values?.newfriend && <div>Invalid user name</div>} */}
                   </div>
                 </Form>
               )}
             </Formik>
             {/* MY GROUP  */}
-            {friendList?.length > 0 && <div className="font-bold">My Friends</div>}
-            {friendList?.map((friend, index) => (
+            <div className="font-bold">My Group</div>
+            {friendList.map((friend, index) => (
               <div key={index}>
-                {/* Profile Link */}
                 <span className="mx-2">{friend}</span>
                 <span>
                   <Link href={`/explore/${friend.replace("#", "%23")}`}>
@@ -155,7 +92,6 @@ const ExplorePage = () => {
                     </a>
                   </Link>
                 </span>
-                {/* Timeline Link */}
                 <span>
                   <Link href={`/explore/${friend.replace("#", "%23")}/timeline`}>
                     <a>
@@ -163,7 +99,6 @@ const ExplorePage = () => {
                     </a>
                   </Link>
                 </span>
-                {/* Follow Link */}
                 {friend?.split("#")[0] !== defaultHandle &&
                   friend?.split("#")[1] !== defaultProfile && (
                     <span>
@@ -174,23 +109,6 @@ const ExplorePage = () => {
                       </Link>
                     </span>
                   )}
-                {/* Remove friend */}
-                <Formik
-                  initialValues={{}}
-                  onSubmit={async ({}, { setSubmitting }) => {
-                    setSubmitting(true);
-                    await removeOneFriend(friend);
-                    setSubmitting(false);
-                  }}
-                >
-                  {({ isSubmitting }) => (
-                    <Form>
-                      <button className="bg-blue-300" disabled={isSubmitting} type="submit">
-                        Remove
-                      </button>
-                    </Form>
-                  )}
-                </Formik>
               </div>
             ))}
             {/* LAST 5 VISIT PROFILES */}
