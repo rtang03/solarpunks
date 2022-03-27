@@ -129,10 +129,10 @@ const Dashboard = () => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <div className="MainScreen">
+        <div className="MainScreen -mt-10">
           <div className="MainBoard">
             <div className="Board1 divide-y-2">
-              <div className="my-5"> 🌿Friends</div>
+              <div className="my-5"><a className="hover:text-solar-100 animate-pulse"><Link href="/explore" >🌿My Friends</Link></a></div>
               <div className="text-sm py-2">
                 {friendList?.map((friend, index) => (
                   <div className="text-xl hover:text-solar-100 hover:animate-ping" key={index}>
