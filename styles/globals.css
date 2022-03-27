@@ -88,15 +88,15 @@
     @apply xl:mx-96 fixed grid grid-cols-5 items-center top-0 left-0 right-0
     rounded-b-lg
     font-exo
-    font-medium
     text-white
-    text-lg
+    text-xs
+    xl:text-lg
     border-none
     z-10
   }
 
   .bottom-hud { 
-    @apply mx-96 fixed grid grid-cols-3 items-center bottom-0 left-0 right-0
+    @apply xl:mx-96 fixed grid grid-cols-3 items-center bottom-0 left-0 right-0
     rounded-b-lg
     font-exo
     font-medium
@@ -336,19 +336,19 @@
     @apply grid grid-cols-1 
     grid-rows-4
     2xl:grid-cols-9 gap-3 
-    w-full mx-28 h-[50rem] flex 
+    w-full xl:mx-28 xl:h-[50rem] flex 
     font-exo
     text-2xl
   }
   
   .Board1 {
-    @apply bg-glass-100 text-center rounded-lg text-white xl:col-span-2 row-span-2
+    @apply bg-glass-100 text-center rounded-lg text-white xl:col-span-2 xl:row-span-2
   }
   .Board2 {
-    @apply bg-glass-100 text-center rounded-lg 2xl:col-span-4 row-span-4 text-white
+    @apply bg-glass-100 text-center rounded-lg 2xl:col-span-4 xl:row-span-4 text-white
   }
   .Board3 {
-    @apply bg-glass-100 text-center rounded-lg 2xl:col-span-3 row-span-4 text-white
+    @apply bg-glass-100 text-center rounded-lg 2xl:col-span-3 xl:row-span-4 text-white
   }
 
   /* Dashboard */
