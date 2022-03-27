@@ -1,4 +1,9 @@
 {
+  "name": "solarpunks",
+  "version": "0.10.0",
+  "license": "MIT",
+  "description": "Hackathon project",
+  "keywords": ["solidity", "nextjs", "lens-protocol", "apollo", "moralis"],
   "private": true,
   "scripts": {
     "dev": "next dev",
