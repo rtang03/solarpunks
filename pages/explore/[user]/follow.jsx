@@ -8,16 +8,18 @@ import { useContext } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { SEARCH } from "../../../graphql/search";
 import { useSendTransWithSig } from "../../../hooks/useSendTransWithSig";
-import { shortenAddress } from "../../../lib/shortenAddress";
+import { shortenTx, shortenAddress } from "../../../lib/shortenAddress";
+import { getExplorer } from "../../../lib/networks";
 import { Formik, Form } from "formik";
-import Link from "next/link";
+import GridLoader from "react-spinners/GridLoader";
 
 const FollowPage = ({ dev }) => {
   const FUNC = "createFollowTypedData";
   const CONTRACT_FUNC_NAME = "followWithSig";
-  const { account, isAuthenticated } = useMoralis();
+  const { account, isAuthenticated, chainId } = useMoralis();
   const { isLensReady } = useContext(LensContext);
   const router = useRouter();
+  const explorerURL = chainId && getExplorer(chainId);
 
   // user is being followed
   const user = router.query.user;
@@ -95,25 +97,12 @@ const FollowPage = ({ dev }) => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <>
-          <div>
-            <Link href={`/explore/${handle}%23${profileId}`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Back to following's profile</a>
-              </button>
-            </Link>
-          </div>
-                    <div>
-            <Link href={`/explore/${handle}%23${profileId}/publications`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Back to following's publications</a>
-              </button>
-            </Link>
-          </div>
-          <div className="font-bold">
+        <div className="MainCon2">
+          {/* <div className="justify-center flex -mt-16 mb-16"> */}
+          <div className="ProTitle">
             You ({shortenAddress(account)}) are about to follow {handle}#{profileId}
           </div>
-          <div>{profiletoFollow && <ProfileCard profile={profiletoFollow} guessOnly={true} />}</div>
+
           <Formik
             initialValues={{}}
             onSubmit={async ({}, { setSubmitting }) => {
@@ -135,21 +124,25 @@ const FollowPage = ({ dev }) => {
                     isSendTransLoading ||
                     !!transaction
                   }
-                  className="bg-blue-500 m-2 p-2 border-2"
+                  className="ProButton"
                   type="submit"
                 >
-                  {!data && !loading && "Follow !!"}
+                  {!data && !loading && "Follow"}
                   {loading && "Preparing"}
                   {isSignTypedDataLoading && "Signing"}
                   {isSendTransLoading && "Submitting"}
                   {transaction && "Done"}
                 </button>
                 {/* PROGRESS */}
-                <div>
-                  {loading && <div>...creating</div>}
-                  {isIndexedLoading && <div>...indexing</div>}
-                  {isSignTypedDataLoading && <div>...signing</div>}
-                  {isSendTransLoading && <div>...submittig</div>}
+                <div className="text-center my-2">
+                  {(loading ||
+                    isIndexedLoading ||
+                    isSignTypedDataLoading ||
+                    isSendTransLoading) && (
+                    <button className="" disabled={true}>
+                      <GridLoader color="white" />
+                    </button>
+                  )}
                 </div>
                 {/* MESSAGE SECTION */}
                 {/* Display Error */}
@@ -158,23 +151,44 @@ const FollowPage = ({ dev }) => {
                 {transError && <div className="border-2">Oops!! transError</div>}
                 {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
                 {/* Success */}
-                {data && <div>create typed data successfully</div>}
-                {transaction && <div>submit transaction successfully</div>}
-                {transactionReceipt && <div>transaction receipt returned</div>}
-                {transaction && <div>nonce: {nonce}</div>}
                 {transaction && (
-                  <div>
-                    <a
-                      className="m-2 p-2 underline"
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
-                    >
-                      View on Explorer
-                    </a>
-                    <span>note: indexing may take a while.</span>
+                  <div className="ProLabel text-center">
+                    <p>🌿Lens Followed</p>
+                    <div className="text-sm mt-5 mb-5">
+                      <span>txHash: {shortenTx(transaction.hash)}</span>
+                      <span>
+                        <a
+                          className="m-2 p-2 underline text-lg text-night-100 hover:text-solar-100"
+                          target="_blank"
+                          rel="noreferrer"
+                          href={`${explorerURL}/tx/${transaction.hash}`}
+                        >
+                          View on Explorer
+                        </a>
+                      </span>
+                    </div>
                   </div>
                 )}
+                {transactionReceipt && (
+                  <div className="text-center text-solar-100">
+                    Transaction status:{" "}
+                    <p>
+                      {transactionReceipt?.indexed ? (
+                        "✅ Indexed"
+                      ) : (
+                        <div>
+                          <GridLoader color="white" />
+                        </div>
+                      )}
+                    </p>
+                  </div>
+                )}
+                {/* Profile Section */}
+                <div className="scale-50">
+                  {profiletoFollow && (
+                    <ProfileCard profile={profiletoFollow} isPublicProfile={true} />
+                  )}
+                </div>
                 {/* when Dev-mode is ON */}
                 {dev && data && (
                   <pre className="text-left w-64">{JSON.stringify(data, null, 2)}</pre>
@@ -197,7 +211,7 @@ const FollowPage = ({ dev }) => {
               </Form>
             )}
           </Formik>
-        </>
+        </div>
       )}
     </Layout>
   );
