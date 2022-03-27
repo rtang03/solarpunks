@@ -214,8 +214,12 @@
 
 .ProfilePic2 {
   @apply
-  
    w-fit h-fit rounded-lg bg-glass-100 xl:mb-20 xl:ml-10 
+}
+
+.ProfilePic3 {
+  @apply
+   w-60 h-fit rounded-lg bg-glass-100 xl:mb-20 xl:ml-10 
 }
 
 .ProfileData {

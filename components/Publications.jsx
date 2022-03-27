@@ -57,7 +57,16 @@ const Publications = ({
             <>
               {items?.map((item, key) => (
                 <div className="rounded-lg text-center text-lg  gap-5" key={key}>
-                  <span className="py-3">
+                  <div className="py-3 justify-center">
+                  {/* Fixed image, not linked to post /
+                  <div className="text-center">
+                    {showCoverPic && item?.profile?.coverPicture?.original?.url ? (
+                      <img className="ProfilePic3" src={item.profile.coverPicture.original.url} />
+                    ) : (
+                      <span>no image</span>
+                    )}
+                  </div>
+                    */}
                     <div>
                       {publicationTypes}: {item.id}
                     </div>
@@ -78,14 +87,8 @@ const Publications = ({
                   </span>
 
                     */}
-                  </span>
-                  <div>
-                    {showCoverPic && item?.profile?.coverPicture?.original?.url ? (
-                      <img className="ProfilePic2" src={item.profile.coverPicture.original.url} />
-                    ) : (
-                      <span>no image</span>
-                    )}
                   </div>
+                  
 
                   <span className="">
                     <button className="ProButton">
