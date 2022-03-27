@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import Layout from "../../components/Layout";
 import ConnectWalletMessage from "../../components/ConnectWalletMessage";
 import LensContext from "../../components/LensContext";
 import { useMoralis } from "react-moralis";
+import isEqual from "lodash/isEqual";
 import includes from "lodash/includes";
+import remove from "lodash/remove";
 import ExplorePublication from "../../components/ExplorePublication";
 
 const ExplorePage = () => {
@@ -18,8 +20,67 @@ const ExplorePage = () => {
     defaultProfile,
     last5VisitProfiles,
   } = useContext(LensContext);
-  const { account, isAuthenticated } = useMoralis();
+  const { account, isAuthenticated, setUserData, user, isUserUpdating } = useMoralis();
   const [isValidUser, setIsValidUser] = useState();
+  const [saveFriendError, setSaveFriendError] = useState();
+  const [removeAllFriendError, setRemoveAllFriendError] = useState();
+  const [removeOneFriendError, setRemoveOneFriendError] = useState();
+
+  const saveMoralisUserDataToContext = friends => {
+    if (!friends) {
+      setFriendList([]);
+    } else {
+      setFriendList(friends.split(","));
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) saveMoralisUserDataToContext(user?.attributes?.friends);
+    // if (isAuthenticated) setUserData({ friends: null });
+  }, [user]);
+
+  const arrayToString = arr => arr.reduce((prev, curr) => `${prev}${prev && ","}${curr}`, "");
+
+  const saveFriends = async friends => {
+    try {
+      const response = await setUserData({ friends: arrayToString(friends) });
+      saveMoralisUserDataToContext(response?.attributes?.friends);
+    } catch (error) {
+      setSaveFriendError(error);
+    }
+  };
+
+  const removeAllFriend = async () => {
+    try {
+      await setUserData({ friends: null });
+      setFriendList([]);
+    } catch (error) {
+      setRemoveAllFriendError(error);
+    }
+  };
+
+  const removeOneFriend = async friend => {
+    try {
+      let _friends = user?.attributes?.friends;
+      if (!_friends) {
+        return;
+      }
+      const friends = _friends.split(",");
+      if (friends?.length > 0 && includes(friends, friend)) {
+        remove(friends, item => item === friend);
+        const response = await setUserData({
+          friends: isEqual(friends, []) ? null : arrayToString(friends),
+        });
+        saveMoralisUserDataToContext(response?.attributes?.friends);
+      }
+    } catch (error) {
+      setRemoveOneFriendError(error);
+    }
+  };
+
+  saveFriendError && console.error("saveFriendError", saveFriendError);
+  removeAllFriendError && console.error("removeAllFriendError", removeAllFriendError);
+  removeOneFriendError && console.error("removeOneFriendError", removeOneFriendError);
 
   return (
     <Layout>
@@ -53,8 +114,9 @@ const ExplorePage = () => {
               validationSchema={Yup.object().shape({
                 newfriend: Yup.string().lowercase("only lowercase").required("required field"),
               })}
-              onSubmit={({ newfriend }) => {
+              onSubmit={async ({ newfriend }, { setSubmitting }) => {
                 const [handle, profileId] = newfriend.split("#");
+                // you cannot add yourself as friend
                 if (
                   !handle ||
                   !profileId ||
@@ -65,7 +127,9 @@ const ExplorePage = () => {
                   return;
                 }
                 setIsValidUser(true);
-                setFriendList([...friendList, newfriend]);
+                setSubmitting(true);
+                await saveFriends([...friendList, newfriend]);
+                setSubmitting(false);
               }}
             >
               {({ errors, values }) => (

@@ -171,7 +171,7 @@ const Dashboard = () => {
                     )}
                   />
                 )}
-                <div class="absolute top-0">
+                <div className="absolute top-0">
                 <Pagination  next={next} prev={prev} totalCount={numberOfCities || 0} />
                 </div>
                 {citiesArray?.[currentCity]?.attributes?.map((attribute, index) => (
