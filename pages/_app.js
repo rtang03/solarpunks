@@ -10,8 +10,7 @@ const MoralisContextProvider = dynamic(() => import("../components/MoralisContex
   ssr: false,
 });
 
-// TODO: DEMO ONLY
-const friends = ["rtang3#0x21", "rtang4#0x2f"];
+const friends = [];
 
 export default function App({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps);
