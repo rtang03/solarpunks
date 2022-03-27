@@ -4,8 +4,13 @@
 
 [Full Changelog](https://github.com/rtang03/solarpunks/compare/v0.11...HEAD)
 
+**Closed issues:**
+
+- March 26 UI todo [\#45](https://github.com/rtang03/solarpunks/issues/45)
+
 **Merged pull requests:**
 
+- collect / create-comment / timeline [\#54](https://github.com/rtang03/solarpunks/pull/54) ([rtang03](https://github.com/rtang03))
 - add coverpicture to publications [\#53](https://github.com/rtang03/solarpunks/pull/53) ([rtang03](https://github.com/rtang03))
 - update readme [\#52](https://github.com/rtang03/solarpunks/pull/52) ([rtang03](https://github.com/rtang03))
 
