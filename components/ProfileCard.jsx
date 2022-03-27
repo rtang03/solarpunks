@@ -81,9 +81,6 @@ const ProfileCard = ({
             <div className="text-5xl m-3">🌱</div> Posts: {stats?.totalPosts}
           </div>
           <div className="StatsBg">
-            <div className="text-5xl m-3">🪞</div> Mirrors: {stats?.totalMirrors}
-          </div>
-          <div className="StatsBg">
             <div className="text-5xl m-3">🎁</div> Collects: {stats?.totalCollects}
           </div>
           <Link

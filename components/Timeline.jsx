@@ -36,8 +36,8 @@ const Timeline = ({
   const totalCount = data?.[FUNC]?.pageInfo?.totalCount;
 
   return (
-    <div>
-      <div className="m-2 p-2 font-bold">Timeline</div>
+    <div className="text-center">
+    <div className="inline-block rounded-lg">
       {loading && <div>...loading</div>}
       {isActiveRecord && !error && !loading ? (
         <>
@@ -46,7 +46,7 @@ const Timeline = ({
               {item["__typename"] === "Comment" ? (
                 <>
                   {showComment && (
-                    <div className="border-2 m-2 p-2">
+                    <div className="m-2 p-2">
                       <CommentCard
                         comment={item}
                         showLinkToPublicProfile={showLinkToPublicProfile}
@@ -55,7 +55,7 @@ const Timeline = ({
                   )}
                 </>
               ) : item["__typename"] === "Post" ? (
-                <div className="border-2 m-2 p-2">
+                <div className="m-2 p-2">
                   <PostCard
                     post={item}
                     showLinkToPublicProfile={showLinkToPublicProfile}
@@ -119,6 +119,7 @@ const Timeline = ({
           )}
         </>
       )}
+      </div>
     </div>
   );
 };

@@ -9,52 +9,59 @@ const PostCard = ({ post, showLinkToPublicProfile, hideStats, hideTraits, hideIm
   if (imgSrc?.startsWith("ipfs://")) imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
 
   return (
-    <div>
-      <div>Type: {post.__typename}</div>
-      <div className="my-2 font-bold">{post.id}</div>
-      <div>
-        <span>
-          owner: {profile?.handle}#{profile?.id}
-        </span>
-        {showLinkToPublicProfile && (
-          <span>
-            <button className="bg-blue-200 m-2 p-2">
-              <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
-                <a>Go to Public Profile</a>
-              </Link>
-            </button>
+    <div className="PostGrid font-exo">
+      <div className="ProfileData bg-glass-100 rounded-lg p-10 text-white relative">
+        <div className="absolute bottom-5">Owned by: {profile.ownedBy}</div>
+        <div className="relative">
+          <div className="text-lg"> {post.__typename} {post.id} <span className="absolute right-0">{post.createdAt}</span></div>
+          
+          <span className="text-3xl">
+            by {profile?.handle}#{profile?.id}
           </span>
-        )}
-      </div>
-      {!hideStats && (
-        <>
-          <div className="my-2 font-bold">PublicationStats</div>
-          <div>Total Mirrors: {stats?.totalAmountOfMirrors}</div>
-          <div>Total Collects: {stats?.totalAmountOfCollects}</div>
-          <div>Total Comments: {stats?.totalAmountOfComments}</div>
-        </>
-      )}
-      <div className="my-2 font-bold">Metadata</div>
-      <div>metadata-name: {metadata?.name}</div>
-      <div>metadata-description: {metadata?.description}</div>
-      <div>metadata-content: {metadata?.content}</div>
-      {!hideTraits &&
-        metadata?.attributes?.map((attribute, index) => (
-          <div key={index}>
-            {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
-            <div>traitType: {attribute.traitType}</div>
-            <div>value: {attribute.value}</div>
-          </div>
-        ))}
-      <div>
-        {!hideImage && (
+          {showLinkToPublicProfile && (
+            <span>
+              <button className="bg-blue-200 m-2 p-2">
+                <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
+                  <a>Go to Public Profile</a>
+                </Link>
+              </button>
+            </span>
+          )}
+        </div>
+        {!hideStats && (
           <>
-            {imgSrc ? <Image width={100} height={100} src={imgSrc} /> : <div>No image found</div>}
+            <div className="my-2 font-bold">PublicationStats</div>
+            <div>Total Mirrors: {stats?.totalAmountOfMirrors}</div>
+            <div>Total Collects: {stats?.totalAmountOfCollects}</div>
+            <div>Total Comments: {stats?.totalAmountOfComments}</div>
+            <div>{metadata?.content}</div>
           </>
         )}
-      </div>
-      <div>ownedBy: {profile.ownedBy}</div>
-      <div>createdAt: {post.createdAt}</div>
+        <div class="text-center">
+          <div className="text-solar-100">{metadata?.name}</div>
+          <div><a className="4xl">"</a> {metadata?.description}<a className="4xl"> "</a></div>
+        </div>
+        
+        {!hideTraits &&
+          metadata?.attributes?.map((attribute, index) => (
+            <div key={index}>
+              {attribute.displayType && <div>{attribute.displayType}</div>}
+              <div>{attribute.traitType}</div>
+              <div className="mb-5">{attribute.value}</div>
+            </div>
+          ))}
+
+        
+        
+        </div>
+
+        <div>
+        {!hideImage && (
+          <>
+            {imgSrc ? <img className="ProfilePic2" src={imgSrc} /> : <div>No image found</div>}
+          </>
+        )}
+        </div>
     </div>
   );
 };
