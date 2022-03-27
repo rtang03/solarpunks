@@ -11,7 +11,7 @@ const Pagination = ({ next, prev, totalCount, loading, error, pageSize = 1 }) =>
         <span className="m-2 p-2">
           <button
             disabled={pageRef.current === 1 || !isReady}
-            className="bg-red-200 p-2 rounded-md"
+            className="bg-glass-100 p-2 rounded-md hover:bg-solar-100 hover:text-night-100 hover:animate-ping"
             onClick={() => {
               pageRef.current = 1;
               prev();
@@ -25,7 +25,7 @@ const Pagination = ({ next, prev, totalCount, loading, error, pageSize = 1 }) =>
             disabled={
               pageRef.current === totalCount || !isReady
             }
-            className="bg-red-200 p-2 rounded-md"
+            className="bg-cyber-100 p-2 rounded-md hover:bg-solar-100 hover:text-night-100 hover:animate-ping"
             onClick={() => {
               const total = pageRef.current + pageSize;
               if (total > totalCount) {

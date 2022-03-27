@@ -132,7 +132,7 @@ const Dashboard = () => {
         <div className="MainScreen">
           <div className="MainBoard">
             <div className="Board1 divide-y-2">
-              <div className="my-5">Friends</div>
+              <div className="my-5"> 🌿Friends</div>
               <div className="text-sm py-2">
                 {friendList?.map((friend, index) => (
                   <div key={index}>
@@ -144,7 +144,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="Board2 divide-y-2">
-              <div className="my-5">My Post</div>
+              <div className="my-5">🌱 My Post</div>
               <div className="text-sm text-left py-2">
                 <Publications
                   profileId={defaultProfile}
@@ -158,22 +158,45 @@ const Dashboard = () => {
             </div>
             <div className="Board3 divide-y-2">
               {" "}
-              <div className="my-5">Punk Cities Places</div>
-              <div className="text-md py-2">
+              <div className="my-5 ">🏢 Punk Cities Places</div>
+              <div className="text-md py-2 ">
+                <div className="relative">
+                {citiesArray?.[currentCity]?.image && (
+                  <Image
+                    width={550}
+                    height={550}
+                    src={citiesArray?.[currentCity]?.image.replace(
+                      "ipfs://",
+                      "https://ipfs.io/ipfs/",
+                    )}
+                  />
+                )}
+                <div class="absolute top-0">
+                <Pagination  next={next} prev={prev} totalCount={numberOfCities || 0} />
+                </div>
+                {citiesArray?.[currentCity]?.attributes?.map((attribute, index) => (
+                      <div className="text-right ml-10 mr-10" key={index}>
+                        <div className="text-solar-100 bottom-6 ml-10 text-lg">{attribute.trait_type}</div>
+                        <div className="text-right">{attribute.value}</div>
+                      </div>
+                    ))}
+                
                 {numberOfCities >= 0 && (
-                  <div className=" text-left m-10">
-                    <div>Name: {citiesArray?.[currentCity]?.name}</div>
-                    <div>Desc: {citiesArray?.[currentCity]?.description}</div>
-                    <div>Content: {citiesArray?.[currentCity]?.content}</div>
-                    <div>Tag: {citiesArray?.[currentCity]?.tag}</div>
-                    <div>TokenID: {citiesArray?.[currentCity]?.tokenID}</div>
-                    <div className="flex flex-row">
-                      <span>
-                        <FaMapMarkerAlt />
+                  <div className=" text-center mt-10">
+                    <div className="absolute bottom-40 left-5 text-4xl">☀️ {citiesArray?.[currentCity]?.name}</div>
+                    {/* TODO Add field on Punk Cities form}
+                    <div>{citiesArray?.[currentCity]?.description}</div>
+                    <div>City: {citiesArray?.[currentCity]?.content}</div>*/}
+                    <div className="absolute text-solar-100 xl:bottom-0 left-10 text-2xl">#{citiesArray?.[currentCity]?.tag}</div>
+                    <div className="absolute text-white bottom-32 right-10 text-2xl">NFT ID: {citiesArray?.[currentCity]?.tokenID}</div>
+                    <div className="flex absolute bottom-28 text-white left-10 text-2xl">                      <span>
+                  
+                        <FaMapMarkerAlt/>
+                        
                       </span>
                       <span>
                         <a
-                          className="m-2 p-2 underline text-night-100 hover:text-solar-100"
+                          className="text-white hover:text-solar-100 ml-3"
                           target="_blank"
                           rel="noreferrer"
                           href={citiesArray?.[currentCity]?.address}
@@ -182,30 +205,15 @@ const Dashboard = () => {
                         </a>
                       </span>
                     </div>
-                    <div className="font-bold my-2">Attributes</div>
-                    {citiesArray?.[currentCity]?.attributes?.map((attribute, index) => (
-                      <div key={index}>
-                        <div className="ml-5">trait_type: {attribute.trait_type}</div>
-                        <div className="ml-5 mb-2">value: {attribute.value}</div>
-                      </div>
-                    ))}
-                    {citiesArray?.[currentCity]?.image && (
-                      <Image
-                        width={256}
-                        height={256}
-                        src={citiesArray?.[currentCity]?.image.replace(
-                          "ipfs://",
-                          "https://ipfs.io/ipfs/",
-                        )}
-                      />
-                    )}
-                    <Pagination next={next} prev={prev} totalCount={numberOfCities || 0} />
+                    <div className="absolute text-solar-100 bottom-40 right-10 text-2xl">Attributes</div>
+                    
                   </div>
                 )}
+                </div>
               </div>
             </div>
             <div className="Board2 divide-y-2">
-              <div className="my-5">My Followers</div>
+              <div className="my-5">🪴 My Followers</div>
               <div className="text-md py-2">
                 {followers?.[0] && (
                   <>
