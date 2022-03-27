@@ -21,6 +21,13 @@
     hover:bg-solar-100 hover:animate-pulse hover:text-night-100 
     cursor-pointer
   }
+
+  .ProButton2 {
+    @apply
+    bg-solar-900 mx-5 px-5 py-3 rounded-lg 
+    hover:bg-solar-100 hover:animate-pulse hover:text-night-100 
+    cursor-pointer
+  }
   
   .connect-btn-no-hover {
     @apply connect-block-text mx-4 rounded-lg border-2
@@ -238,6 +245,7 @@
   grid grid-cols-2
   rounded-lg text-right
   xl:text-xl font-exo
+
 }
 
 .ProUpdate {

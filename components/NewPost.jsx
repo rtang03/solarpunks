@@ -75,7 +75,7 @@ const NewPost = ({ setParentContentURL }) => {
   error && console.error("error in preparing contentUrl", error);
 
   return (
-    <div className="mt-2">
+    <div className="">
       <Formik
         initialValues={{
           name: "",
@@ -113,7 +113,7 @@ const NewPost = ({ setParentContentURL }) => {
           <Form>
             <div className="ProPost">
               {/* Field1 name */}
-              <div className="m-5 col-span-2 text-center ">
+              <div className="m-2 col-span-2 text-center ">
                   <label className="ProLabel" htmlFor="name">Post title</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
@@ -130,7 +130,7 @@ const NewPost = ({ setParentContentURL }) => {
                 )}
               </div>
               {/* Field2 description */}
-              <div className="m-5 col-span-2 text-center" >
+              <div className="m-2 col-span-2 text-center" >
                   <label className="ProLabel " htmlFor="description">Add details to your post</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
@@ -148,7 +148,7 @@ const NewPost = ({ setParentContentURL }) => {
                 )}
               </div>
               {/* Field3 tag */}
-              <div className="m-5">
+              <div className="m-2">
                   <label className="ProLabel" htmlFor="tag">Tags for your post 🏷️</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
@@ -164,7 +164,7 @@ const NewPost = ({ setParentContentURL }) => {
                   </div>
                 )}
               </div>
-              {/* Field4 tokenId */}
+              {/* Field4 tokenId 
               <div className="m-5">
                   <label className="ProLabel" htmlFor="tokenId">Tag a Lens Friend 🌿</label>
                   <Field
@@ -180,7 +180,8 @@ const NewPost = ({ setParentContentURL }) => {
                   </div>
                 )}
               </div>
-              {/* Field5 location */}
+              */}
+              {/* Field5 location 
               <div className="m-5">
                   <label className="ProLabel" htmlFor="location">Tag a Punk Cities place 🏢</label>
                   <Field
@@ -195,9 +196,9 @@ const NewPost = ({ setParentContentURL }) => {
                     <ErrorMessage name="location" />
                   </div>
                 )}
-              </div>
+              </div>*/}
               {/* Field5 placeType */}
-              <div className="m-5">
+              <div className="m-2">
                   <label className="ProLabel" htmlFor="placeType">Purpose on your post 🌌</label>
                   <Field
                     disabled={isSubmitting || loading || !!contentUrl}
@@ -205,7 +206,16 @@ const NewPost = ({ setParentContentURL }) => {
                     name="placeType"
                     placeholder="Choose 💖💡🤝🏽☀️💽🌿"
                     className="ProField"
-                  />
+                    as="select"
+                  >
+                    <option disabled selected>Choose 💖💡🤝🏽☀️💽🌿</option>
+                    <option>💖 Show love</option>
+                    <option>💡 Share idea</option>
+                    <option>🤝🏽 Ask for help</option>
+                    <option>☀️ Ask for energy</option>
+                    <option>💽 Ask for chips</option>
+                    <option>🌿 Meet new friends!</option>
+                  </Field>
                 {errors?.placeType && (
                   <div>
                     <ErrorMessage name="placeType" />
@@ -221,7 +231,7 @@ const NewPost = ({ setParentContentURL }) => {
               </div>
               <div className="m-5 text-center">
                 {contentUrl ? (
-                  <button disabled={true} className="ProButton scale-75" type="submit">
+                  <button disabled={true} className="ProButton2" type="submit">
                     DONE
                   </button>
                 ) : (
@@ -240,7 +250,7 @@ const NewPost = ({ setParentContentURL }) => {
                           !values?.name ||
                           !!error?.tokenId
                         }
-                        className="ProButton"
+                        className="ProButton2"
                         type="submit"
                       >
                         Upload Image
