@@ -9,7 +9,7 @@ import { useSendTransWithSig } from "../../../../../hooks/useSendTransWithSig";
 import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage";
 import Layout from "../../../../../components/Layout";
 import LensContext from "../../../../../components/LensContext";
-import NewPlace from "../../../../../components/NewPlace";
+import NewPost from "../../../../../components/NewPost";
 
 const CreateCommentPage = ({ dev }) => {
   const FUNC = "createCommentTypedData";
@@ -111,7 +111,7 @@ const CreateCommentPage = ({ dev }) => {
           </div>
           <div>
             <div> Step 1: Upload Your Favorite Image to IPFS</div>
-            <NewPlace setParentContentURL={setContentUrl} />
+            <NewPost setParentContentURL={setContentUrl} />
           </div>
           <Formik
             initialValues={{}}
