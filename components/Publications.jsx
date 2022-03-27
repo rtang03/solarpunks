@@ -51,7 +51,7 @@ const Publications = ({
         </div>
       ) : (
         <>
-          {!hideTitle && <h1>Publications</h1>}
+          {/* {!hideTitle && <h1>Publications</h1>} */}
           {loading && <div>...loading</div>}
           {isActiveRecord && !error && !loading ? (
             <>
