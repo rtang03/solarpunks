@@ -55,7 +55,7 @@ const ProfilesComponent = ({ cursor, dev }) => {
                   <div className="grid grid-cols-3">
                     {defaultUser === `${handle}#${id}` ? (
                       <span className="font-exo text-night-100 bg-solar-100 rounded-bl-lg p-5 h-auto w-25 animate-pulse">
-                        ✔️ Current
+                      Current
                       </span>
                     ) : (
                       <span
@@ -65,17 +65,17 @@ const ProfilesComponent = ({ cursor, dev }) => {
                           setDefaultHandle(handle);
                         }}
                       >
-                        😴 Switch
+                       Switch
                       </span>
                     )}
                     <Link href={`/profiles/${handle}`}>
                       <a className="font-exo text-white bg-cyber-100 p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer">
-                        ♻️ Settings
+                       Update
                       </a>
                     </Link>
                     <Link href={`/profiles/${handle}/publications`}>
                       <a className="font-exo text-white bg-cyber-100 rounded-br-lg p-5 h-15 w-25 hover:bg-solar-100 hover:text-night-100 hover:animate-pulse cursor-pointer">
-                        🍃 Post
+                       Post
                       </a>
                     </Link>
                   </div>
