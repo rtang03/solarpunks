@@ -32,16 +32,16 @@ const ExplorePublication = ({ sortCriteria, dev, pageSize }) => {
       {" "}
       {loading && <div>...loading</div>}
       <div className="font-bold">
-        {sortCriteria === "TOP_COMMENTED" && "Top commented post in Solarpunks"}
+        {sortCriteria === "TOP_COMMENTED" && "Top commented post"}
       </div>
       <div className="font-bold">
         {sortCriteria === "TOP_COLLECTED" && "Top collected post in Solarpunks"}
       </div>
       {isActiveRecord && !error && !loading ? (
         <>
-          <div>
+          <div className="">
             {items?.map((post, index) => (
-              <div key={index}>
+              <div className="" key={index}>
                 <PostCard
                   post={post}
                   showLinkToPublicProfile={true}

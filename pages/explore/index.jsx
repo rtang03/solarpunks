@@ -33,8 +33,21 @@ const ExplorePage = () => {
       </div>
       {account && isAuthenticated && isLensReady && (
         <>
-          {/* PART 1: ADD FRIEND AND MY GROUP */}
-          <div className="border-2 m-2 p-10">
+            <div className="">
+            
+          {/*Saturated screen 
+          <div className="absolute bottom-48 left-48">
+              <ExplorePublication sortCriteria={"TOP_COMMENTED"} pageSize={1} />
+            </div>
+           <div className="p-2">
+              <ExplorePublication sortCriteria={"TOP_COLLECTED"} pageSize={1} />
+            </div>
+          */}
+          </div>
+            {/* MY GROUP  */}
+            <div className="grid grid-cols-2 text-center font-exo text-2xl mr-2">
+              {/* PART 1: ADD FRIEND AND MY GROUP */}
+         
             <Formik
               initialValues={{ newfriend: "" }}
               validationSchema={Yup.object().shape({
@@ -56,61 +69,67 @@ const ExplorePage = () => {
               }}
             >
               {({ errors, values }) => (
-                <Form>
+                <Form className="text-center font-exo text-2xl mt-60">
                   {/* ADD FRIEND */}
                   <div className="my-5">
-                    <span className="p-2 m-2">
+                    <div className="p-10 -mt-20">
                       <label htmlFor="newfriend">Add Friend</label>
-                    </span>
-                    <span className="p-2 m-2 border-2">
-                      <Field id="newfriend" name="newfriend" placeholder="tangr1#0x" />
-                    </span>
+                    </div>
+                    <Field className="rounded-lg p-5 " id="newfriend" name="newfriend" placeholder="lensfriend#0x" />
                     {/* Input Error */}
                     {errors?.newfriend && (
                       <div>
                         <ErrorMessage name="newfriend" />
                       </div>
                     )}
-                    <button className="bg-blue-300 border-2" type="submit">
-                      Add
-                    </button>
+                    <div>
+                      <button className="ProButton" type="submit">
+                        Add
+                      </button>
+                    </div>
                     {/* does not work, ignore it */}
                     {/* {!isValidUser && values?.newfriend && <div>Invalid user name</div>} */}
                   </div>
                 </Form>
               )}
             </Formik>
-            {/* MY GROUP  */}
+            <div className="">
             <div className="font-bold">My Group</div>
+            <div className="grid grid-cols-3 gap-3">
             {friendList.map((friend, index) => (
-              <div key={index}>
-                <span className="mx-2">{friend}</span>
-                <span>
+              <div className="bg-glass-100 rounded-lg p-5"key={index}>
+                <div className="mt-5 mb-10 text-white">🌿 {friend}</div>
+
+                <span className="h-auto w-25 text-base bg-cyber-100 rounded-bl-lg -ml-5 p-5 hover:bg-solar-100 text-white hover:text-night-100">
                   <Link href={`/explore/${friend.replace("#", "%23")}`}>
                     <a>
-                      <span className="mx-2 underlined bg-blue-300">Profile Details</span>
+                      <span className="">Details</span>
                     </a>
                   </Link>
                 </span>
-                <span>
+                <span className="text-base bg-cyber-100 p-5 hover:bg-solar-100 text-white hover:text-night-100">
                   <Link href={`/explore/${friend.replace("#", "%23")}/timeline`}>
                     <a>
-                      <span className="mx-2 underlined bg-blue-300">Timeline</span>
+                      <span className="">Timeline</span>
                     </a>
                   </Link>
-                </span>
+                </span >
+                <span className="text-base bg-cyber-100 rounded-br-lg p-5 hover:bg-solar-100 text-white hover:text-night-100">
                 {friend?.split("#")[0] !== defaultHandle &&
                   friend?.split("#")[1] !== defaultProfile && (
-                    <span>
+                    
                       <Link href={`/explore/${friend.replace("#", "%23")}/follow`}>
                         <a>
-                          <span className="mx-2 underlined bg-blue-300">Follow</span>
+                          <span className="">Follow</span>
                         </a>
                       </Link>
-                    </span>
+                   
                   )}
+                  </span>
               </div>
             ))}
+            </div>
+            </div>
             {/* LAST 5 VISIT PROFILES */}
             {/* Seem not useful */}
             {/* <div>
@@ -123,17 +142,13 @@ const ExplorePage = () => {
                 </>
               )}
             </div> */}
+                      {/* END OF PART 1 */}
+          
+
+
+         
           </div>
-          {/* END OF PART 1 */}
-          {/* PART 2 EXPLORE WORLD PUBLICATION - TOP COMMENTED */}
-          <div className="flex flex-row">
-            <div className="border-2 p-2">
-              <ExplorePublication sortCriteria={"TOP_COMMENTED"} pageSize={1} />
-            </div>
-            <div className="border-2 p-2">
-              <ExplorePublication sortCriteria={"TOP_COLLECTED"} pageSize={1} />
-            </div>
-          </div>
+          
           {/* END OF PART 2 */}
         </>
       )}
