@@ -221,7 +221,7 @@ const NewPost = ({ setParentContentURL }) => {
               </div>
               <div className="m-5 text-center">
                 {contentUrl ? (
-                  <button disabled={true} className="bg-blue-500 m-2 p-2 border-2" type="submit">
+                  <button disabled={true} className="ProButton scale-75" type="submit">
                     DONE
                   </button>
                 ) : (
@@ -248,7 +248,7 @@ const NewPost = ({ setParentContentURL }) => {
                     )}{" "}
                   </>
                 )}
-                {contentUrl && <div>Image successfully upload</div>}
+                {contentUrl && <div className="ProLabel">Image successfully upload</div>}
                 {error && <a class="text-white mt-5">Oops, something failed!</a>}
               </div>
           </Form>
