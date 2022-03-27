@@ -208,7 +208,7 @@ const CreatePostPage = ({ dev }) => {
                   )}
                   {transactionReceipt && (
                     <div className="text-center text-solar-100">
-                      Profile status:{" "}
+                      Transaction status:{" "}
                       <p>
                         {transactionReceipt?.indexed ? (
                           "✅ Indexed"
