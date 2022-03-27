@@ -12,36 +12,43 @@ const CommentCard = ({ comment, showLinkToPublicProfile, hideTraits, hideImage, 
   if (imgSrc?.startsWith("ipfs://")) imgSrc = imgSrc.replace("ipfs://", "https://ipfs.io/ipfs/");
 
   return (
-    <div>
-      <div>Type: {comment.__typename}</div>
-      <div className="my-2 font-bold">{comment.id}</div>
-      <div>
-        <span>
-          owner: {profile?.handle}#{profile?.id}
-        </span>
-        {showLinkToPublicProfile && (
-          <span>
-            <button className="bg-blue-200 m-2 p-2">
-              <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
-                <a>Go to Public Profile</a>
-              </Link>
-            </button>
+    <div class="PostGrid font-exo">
+      
+      <div className="ProfileData bg-glass-100 rounded-lg p-5 text-white relative">
+      <div className="absolute bottom-5 text-lg">Owned by: {profile.ownedBy}</div> 
+      
+      
+      <div className="relative">
+          
+      <div className="text-lg text-solar-100">{comment.__typename} {comment.id} <span className="absolute right-0 text-white">{comment.createdAt}</span></div>
+      <div className="text-solar-900">on post {mainPost?.id} <span> from {mainPost?.profile?.id}</span></div>
+          <span className="text-3xl">
+            by {profile?.handle}#{profile?.id}
           </span>
-        )}
-      </div>
-      {!hideStats && (
+          {showLinkToPublicProfile && (
+            <span>
+              <button className="bg-blue-200 m-2 p-2">
+                <Link href={`/explore/${profile?.handle}%23${profile.id}`}>
+                  <a>Go to Public Profile</a>
+                </Link>
+              </button>
+            </span>
+          )}
+        </div>
+      {/*!hideStats && (
         <>
           <div className="my-2 font-bold">PublicationStats</div>
           <div>Total Mirrors: {stats?.totalAmountOfMirrors}</div>
           <div>Total Collects: {stats?.totalAmountOfCollects}</div>
           <div>Total Comments: {stats?.totalAmountOfComments}</div>
+          <div>{metadata?.content}</div>
         </>
-      )}
-      <div className="my-2 font-bold">Metadata</div>
-      <div>metadata-name: {metadata?.name}</div>
-      <div>metadata-description: {metadata?.description}</div>
-      <div>metadata-content: {metadata?.content}</div>
-      <div>metadata-name: {metadata?.name}</div>
+      )*/}
+      <div class="text-center my-10">
+          <div className="text-solar-100">{metadata?.name}</div>
+          <div><a className="4xl">"</a> {metadata?.description}<a className="4xl"> "</a></div>
+        </div>
+
       {!hideTraits &&
         metadata?.attributes?.map((attribute, index) => (
           <div key={index}>
@@ -50,22 +57,26 @@ const CommentCard = ({ comment, showLinkToPublicProfile, hideTraits, hideImage, 
             <div>value: {attribute.value}</div>
           </div>
         ))}
-      <div>
+  
+      {collectedBy && <div>collectedBy: {collectedBy}</div>}
+    
+      
+      
+      {/*
+        <div>onChainContentURI: {comment.onChainContentURI}</div>
+        <div>commentOn-profile: {commentOn?.id}</div>
+      */}
+      {firstComment && <div>firstComment: {firstComment}</div>}
+      </div>
+      <div >
         {!hideImage && (
           <>
-            {imgSrc ? <Image width={100} height={100} src={imgSrc} /> : <div>No image found</div>}
+            {imgSrc ? <img className="ProfilePic2" src={imgSrc} /> : <div>No image found</div>}
           </>
         )}
       </div>
-      <div>ownedBy: {profile.ownedBy}</div>
-      <div>createdAt: {comment.createdAt}</div>
-      {collectedBy && <div>collectedBy: {collectedBy}</div>}
-      <div>onChainContentURI: {comment.onChainContentURI}</div>
-      <div>mainPoint: {mainPost?.id}</div>
-      <div>mainPoint-profile: {mainPost?.profile?.id}</div>
-      <div>commentOn-profile: {commentOn?.id}</div>
-      {firstComment && <div>firstComment: {firstComment}</div>}
     </div>
+    
   );
 };
 

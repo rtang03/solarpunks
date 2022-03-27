@@ -205,6 +205,7 @@
 
 .ProfilePic2 {
   @apply
+  
    w-fit h-fit rounded-lg bg-glass-100 xl:mb-20 xl:ml-20 
 }
 
