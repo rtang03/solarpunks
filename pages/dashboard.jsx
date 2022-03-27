@@ -145,14 +145,14 @@ const Dashboard = () => {
             </div>
             <div className="Board2 divide-y-2">
               <div className="my-5">🌱 My Post</div>
-              <div className="text-sm text-left py-2">
+              <div className="text-sm text-left grid gap-2">
                 <Publications
                   profileId={defaultProfile}
                   handle={defaultHandle}
                   publicationTypes={["POST"]}
                   isPublicPublications={true}
                   hideTitle={true}
-                  pageSize={3}
+                  pageSize={1}
                 />
               </div>
             </div>
@@ -212,7 +212,7 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="Board2 divide-y-2">
+            <div className="Board1 divide-y-2">
               <div className="my-5">🪴 My Followers</div>
               <div className="text-md py-2">
                 {followers?.[0] && (

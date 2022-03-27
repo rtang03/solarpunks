@@ -55,15 +55,18 @@ const Publications = ({
           {isActiveRecord && !error && !loading ? (
             <>
               {items?.map((item, key) => (
-                <div className="m-2 p-2 flex flex-row" key={key}>
-                  <span>
+                <div className="rounded-lg text-center text-lg  gap-5" key={key}>
+                  <span className="py-3">
                     <div>
                       {publicationTypes}: {item.id}
                     </div>
-                    <div>Name: {item?.metadata?.name}</div>
+                    <div className="text-solar-100">Name: {item?.metadata?.name}</div>
                     <div>Description: {item?.metadata?.description}</div>
-                  </span>
-                  <span>
+                    
+                    {/*screen overload 
+                    
+                   
+                    <span>
                     {item?.metadata?.attributes?.map((attribute, index) => (
                       <div key={index}>
                         {attribute.displayType && <div>displayType: {attribute.displayType}</div>}
@@ -72,8 +75,12 @@ const Publications = ({
                       </div>
                     ))}
                   </span>
-                  <span className="m-2">
-                    <button className="bg-blue-200 m-2 p-2">
+
+                    */}
+                  </span>
+                  
+                  <span className="">
+                    <button className="ProButton">
                       <Link
                         href={
                           isPublicPublications
