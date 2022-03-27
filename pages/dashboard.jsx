@@ -135,7 +135,7 @@ const Dashboard = () => {
               <div className="my-5"> 🌿Friends</div>
               <div className="text-sm py-2">
                 {friendList?.map((friend, index) => (
-                  <div key={index}>
+                  <div className="text-xl hover:text-solar-100 hover:animate-ping" key={index}>
                     <Link href={`/explore/${friend.replace("#", "%23")}`}>
                       <a>{friend}</a>
                     </Link>

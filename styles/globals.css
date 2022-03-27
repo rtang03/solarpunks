@@ -314,12 +314,12 @@
   }
   
   .Board1 {
-    @apply bg-glass-100 text-center rounded-lg text-white row-span-2
+    @apply bg-glass-100 text-center rounded-lg text-white row-span-2 xl:col-span-2
   }
   .Board2 {
     @apply bg-glass-100 text-center rounded-lg 2xl:col-span-4  text-white
   }
   .Board3 {
-    @apply bg-glass-100 text-center rounded-lg 2xl:col-span-4 text-white row-span-2
+    @apply bg-glass-100 text-center rounded-lg 2xl:col-span-3 text-white row-span-2
   }
 }
