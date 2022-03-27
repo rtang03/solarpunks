@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 const Document = () => {
   return (
-    <Html className="h-screen bg-gradient-to-t from-cyber-500 via-solar-900 to-solar-500">
+    <Html className="bg-fixed bg-gradient-to-t from-cyber-500 via-solar-900 to-solar-500">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         <meta charSet="utf-8" />
