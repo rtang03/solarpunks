@@ -2,11 +2,17 @@
 
 # Solarpunks
 
-LFGrow Hackathon
+Developed [LFGrow Hackathon 2022](https://showcase.ethglobal.com/lfgrow/solarpunks-86vjx)
+[Live Demo](https://solarpunks.vercel.app/)
+
+## Contracts
+
+[📚 Lens Hub](https://mumbai.polygonscan.com/address/0xd7B3481De00995046C7850bCe9a5196B7605c367)  
+[📚 Punk Cities](https://mumbai.polygonscan.com/address/0x89a5e08f445a561ff62dde53d9e071c32634a688)
 
 ## About
+This project uses Profile, Publication, Timeline, Follow, Explore, and NFT functions from Lens API to build a social graph on top of [Punk Cities](https://punkcity.surge.sh/) game and let users connect locally through decentralized social networks based on public places and commons minted as NFTs and meet new friends globally.
 
-First of the kind LensAPI frontend project, with high quality, high customizable and re-usable component for Lens-API interactions
 
 ### Pre-requisite
 
@@ -67,10 +73,6 @@ Live deployment is made via Github / Vercel integration, as a vercel.app; from m
 
 Open [solarpunks.vercel.app](https://solarpunks.vercel.app)
 
-## Contracts
-
-[📚 Lens Hub](https://mumbai.polygonscan.com/address/0xd7B3481De00995046C7850bCe9a5196B7605c367)
-[📚 Punk Cities](https://mumbai.polygonscan.com/address/0x89a5e08f445a561ff62dde53d9e071c32634a688)
 
 ### Related to LensAPI integration
 
