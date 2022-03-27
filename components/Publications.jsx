@@ -17,6 +17,7 @@ const Publications = ({
   isPublicPublications,
   hideTitle,
   pageSize,
+  showCoverPic,
 }) => {
   const FUNC = "publications";
   const { isLensReady } = useContext(LensContext);
@@ -62,7 +63,7 @@ const Publications = ({
                     </div>
                     <div className="text-solar-100">Name: {item?.metadata?.name}</div>
                     <div>Description: {item?.metadata?.description}</div>
-                    
+
                     {/*screen overload 
                     
                    
@@ -78,7 +79,14 @@ const Publications = ({
 
                     */}
                   </span>
-                  
+                  <div>
+                    {showCoverPic && item?.profile?.coverPicture?.original?.url ? (
+                      <img className="ProfilePic2" src={item.profile.coverPicture.original.url} />
+                    ) : (
+                      <span>no image</span>
+                    )}
+                  </div>
+
                   <span className="">
                     <button className="ProButton">
                       <Link

@@ -17,8 +17,21 @@ const PUNKCITIES_ADDRESS = "0x092BBe9022D421940B6D74799179267e5c822895";
 const Dashboard = () => {
   const { friendList, setFriendList, isLensReady, defaultHandle, defaultProfile } =
     useContext(LensContext);
-  const { account, isAuthenticated } = useMoralis();
+  const { account, isAuthenticated, user } = useMoralis();
 
+  const saveMoralisUserDataToContext = friends => {
+    if (!friends) {
+      setFriendList([]);
+    } else {
+      setFriendList(friends.split(","));
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) saveMoralisUserDataToContext(user?.attributes?.friends);
+    // if (isAuthenticated) setUserData({ friends: null });
+  }, [user]);
+ 
   // PART 1: PunkCities
   const [city0, setCity0] = useState();
   const [city1, setCity1] = useState();
@@ -132,7 +145,11 @@ const Dashboard = () => {
         <div className="MainScreen -mt-10">
           <div className="MainBoard">
             <div className="Board1 divide-y-2">
-              <div className="my-5"><a className="hover:text-solar-100 animate-pulse"><Link href="/explore" >🌿My Friends</Link></a></div>
+              <div className="my-5">
+                <a className="hover:text-solar-100 animate-pulse">
+                  <Link href="/explore">🌿My Friends</Link>
+                </a>
+              </div>
               <div className="text-sm py-2">
                 {friendList?.map((friend, index) => (
                   <div className="text-xl hover:text-solar-100 hover:animate-ping" key={index}>
@@ -153,6 +170,7 @@ const Dashboard = () => {
                   isPublicPublications={true}
                   hideTitle={true}
                   pageSize={1}
+                  showCoverPic={true}
                 />
               </div>
             </div>
@@ -161,54 +179,61 @@ const Dashboard = () => {
               <div className="my-5 ">🏢 Punk Cities Places</div>
               <div className="text-md py-2 ">
                 <div className="relative">
-                {citiesArray?.[currentCity]?.image && (
-                  <Image
-                    width={550}
-                    height={550}
-                    src={citiesArray?.[currentCity]?.image.replace(
-                      "ipfs://",
-                      "https://ipfs.io/ipfs/",
-                    )}
-                  />
-                )}
-                <div className="absolute top-0">
-                <Pagination  next={next} prev={prev} totalCount={numberOfCities || 0} />
-                </div>
-                {citiesArray?.[currentCity]?.attributes?.map((attribute, index) => (
-                      <div className="text-right ml-10 mr-10" key={index}>
-                        <div className="text-solar-100 bottom-6 ml-10 text-lg">{attribute.trait_type}</div>
-                        <div className="text-right">{attribute.value}</div>
+                  {citiesArray?.[currentCity]?.image && (
+                    <Image
+                      width={550}
+                      height={550}
+                      src={citiesArray?.[currentCity]?.image.replace(
+                        "ipfs://",
+                        "https://ipfs.io/ipfs/",
+                      )}
+                    />
+                  )}
+                  <div className="absolute top-0">
+                    <Pagination next={next} prev={prev} totalCount={numberOfCities || 0} />
+                  </div>
+                  {citiesArray?.[currentCity]?.attributes?.map((attribute, index) => (
+                    <div className="text-right ml-10 mr-10" key={index}>
+                      <div className="text-solar-100 bottom-6 ml-10 text-lg">
+                        {attribute.trait_type}
                       </div>
-                    ))}
-                
-                {numberOfCities >= 0 && (
-                  <div className=" text-center mt-10">
-                    <div className="DasTitle">☀️ {citiesArray?.[currentCity]?.name}</div>
-                    {/* TODO Add field on Punk Cities form}
+                      <div className="text-right">{attribute.value}</div>
+                    </div>
+                  ))}
+
+                  {numberOfCities >= 0 && (
+                    <div className=" text-center mt-10">
+                      <div className="DasTitle">☀️ {citiesArray?.[currentCity]?.name}</div>
+                      {/* TODO Add field on Punk Cities form}
                     <div>{citiesArray?.[currentCity]?.description}</div>
                     <div>City: {citiesArray?.[currentCity]?.content}</div>*/}
-                    <div className="absolute text-solar-100 xl:bottom-0 left-10 text-2xl">#{citiesArray?.[currentCity]?.tag}</div>
-                    <div className="absolute text-white bottom-32 right-10 text-2xl">NFT ID: {citiesArray?.[currentCity]?.tokenID}</div>
-                    <div className="flex absolute bottom-28 text-white left-10 text-2xl">                      <span>
-                  
-                        <FaMapMarkerAlt/>
-                        
-                      </span>
-                      <span>
-                        <a
-                          className="text-white hover:text-solar-100 ml-3"
-                          target="_blank"
-                          rel="noreferrer"
-                          href={citiesArray?.[currentCity]?.address}
-                        >
-                          Map
-                        </a>
-                      </span>
+                      <div className="absolute text-solar-100 xl:bottom-0 left-10 text-2xl">
+                        #{citiesArray?.[currentCity]?.tag}
+                      </div>
+                      <div className="absolute text-white bottom-32 right-10 text-2xl">
+                        NFT ID: {citiesArray?.[currentCity]?.tokenID}
+                      </div>
+                      <div className="flex absolute bottom-28 text-white left-10 text-2xl">
+                        {" "}
+                        <span>
+                          <FaMapMarkerAlt />
+                        </span>
+                        <span>
+                          <a
+                            className="text-white hover:text-solar-100 ml-3"
+                            target="_blank"
+                            rel="noreferrer"
+                            href={citiesArray?.[currentCity]?.address}
+                          >
+                            Map
+                          </a>
+                        </span>
+                      </div>
+                      <div className="absolute text-solar-100 bottom-40 right-10 text-2xl">
+                        Attributes
+                      </div>
                     </div>
-                    <div className="absolute text-solar-100 bottom-40 right-10 text-2xl">Attributes</div>
-                    
-                  </div>
-                )}
+                  )}
                 </div>
               </div>
             </div>
