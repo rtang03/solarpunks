@@ -10,15 +10,19 @@ import ConnectWalletMessage from "../../../../../components/ConnectWalletMessage
 import Layout from "../../../../../components/Layout";
 import LensContext from "../../../../../components/LensContext";
 import NewPost from "../../../../../components/NewPost";
+import GridLoader from "react-spinners/GridLoader";
+import { shortenTx, shortenAddress } from "../../../../../lib/shortenAddress";
+import { getExplorer } from "../../../../../lib/networks";
 
 const CreateCommentPage = ({ dev }) => {
   const FUNC = "createCommentTypedData";
   const CONTRACT_FUNC_NAME = "commentWithSig";
-  const { account, isAuthenticated } = useMoralis();
+  const { account, isAuthenticated, chainId } = useMoralis();
   const { isLensReady, defaultProfile } = useContext(LensContext);
   const router = useRouter();
   const { user, publicationid } = router.query;
   const [handle, profileId] = user.split("#");
+  const explorerURL = chainId && getExplorer(chainId);
 
   // step 0. for obtaining contentURL from child NewPage component
   const [contentUrl, setContentUrl] = useState();
@@ -101,16 +105,18 @@ const CreateCommentPage = ({ dev }) => {
         )}
       </div>
       {account && isAuthenticated && isLensReady && (
-        <>
-          <div>
+        <div className="MainCon2 mb-40">
+          <div className="text-center">
             <Link href={`/explore/${handle}%23${profileId}/publications/${publicationid}`}>
-              <button className="border-2 p-2 bg-blue-300">
-                <a>Back to previous publication</a>
+              <button className="ProButton">
+                <a>Back</a>
               </button>
             </Link>
           </div>
           <div>
-            <div> Step 1: Upload Your Favorite Image to IPFS</div>
+            <div className="ProTitle mb-10">
+              Leave {handle}#{profileId} a comment upon {publicationid}
+            </div>
             <NewPost setParentContentURL={setContentUrl} />
           </div>
           <Formik
@@ -154,11 +160,10 @@ const CreateCommentPage = ({ dev }) => {
                     )}
                   </span>
                 </div> */}
-                <div>Step 2: Create Comment</div>
                 {contentUrl ? (
-                  <div>Your image: {contentUrl}</div>
+                  <div className="ProLabel text-sm text-center">{contentUrl}</div>
                 ) : (
-                  <div>Please complete step 1.</div>
+                  <div></div>
                 )}
                 <button
                   disabled={
@@ -171,7 +176,7 @@ const CreateCommentPage = ({ dev }) => {
                     !!errors?.contentURI ||
                     !!transaction
                   }
-                  className="bg-blue-300 m-2 p-2 border-2"
+                  className="ProButton"
                   type="submit"
                 >
                   {!data && !loading && "Create Comment"}
@@ -181,11 +186,15 @@ const CreateCommentPage = ({ dev }) => {
                   {transaction && "Done"}
                 </button>
                 {/* PROGRESS */}
-                <div>
-                  {loading && <div>...creating</div>}
-                  {isIndexedLoading && <div>...indexing</div>}
-                  {isSignTypedDataLoading && <div>...signing</div>}
-                  {isSendTransLoading && <div>...submittig</div>}
+                <div className="text-center my-2">
+                  {(loading ||
+                    isIndexedLoading ||
+                    isSignTypedDataLoading ||
+                    isSendTransLoading) && (
+                    <button className="" disabled={true}>
+                      <GridLoader color="white" />
+                    </button>
+                  )}
                 </div>
                 {/* MESSAGE SECTION */}
                 {/* Display Error */}
@@ -194,21 +203,36 @@ const CreateCommentPage = ({ dev }) => {
                 {transError && <div className="border-2">Oops!! transError</div>}
                 {isIndexedError && <div className="border-2">Oops!! isIndexedError</div>}
                 {/* Success */}
-                {data && <div>create typed data successfully</div>}
-                {transaction && <div>submit transaction successfully</div>}
-                {transactionReceipt && <div>transaction receipt returned</div>}
-                {transaction && <div>nonce: {nonce}</div>}
                 {transaction && (
-                  <div>
-                    <a
-                      className="m-2 p-2 underline"
-                      target="_blank"
-                      rel="noreferrer"
-                      href={`https://mumbai.polygonscan.com/tx/${transaction.hash}`}
-                    >
-                      View on Explorer
-                    </a>
-                    <span>note: indexing may take a while.</span>
+                  <div className="ProLabel text-center">
+                    <p>🌿Lens comment created!</p>
+                    <div className="text-sm mt-5 mb-5">
+                      <span>txHash: {shortenTx(transaction.hash)}</span>
+                      <span>
+                        <a
+                          className="m-2 p-2 underline text-lg text-night-100 hover:text-solar-100"
+                          target="_blank"
+                          rel="noreferrer"
+                          href={`${explorerURL}/tx/${transaction.hash}`}
+                        >
+                          View on Explorer
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                )}
+                {transactionReceipt && (
+                  <div className="text-center text-solar-100">
+                    Transaction status:{" "}
+                    <p>
+                      {transactionReceipt?.indexed ? (
+                        "✅ Indexed"
+                      ) : (
+                        <div>
+                          <GridLoader color="white" />
+                        </div>
+                      )}
+                    </p>
                   </div>
                 )}
                 {/* when Dev-mode is ON */}
@@ -233,7 +257,7 @@ const CreateCommentPage = ({ dev }) => {
               </Form>
             )}
           </Formik>
-        </>
+        </div>
       )}
     </Layout>
   );

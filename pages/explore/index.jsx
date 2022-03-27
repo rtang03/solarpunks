@@ -158,7 +158,7 @@ const ExplorePage = () => {
               )}
             </Formik>
             <div className="">
-            <div className="font-bold">My Group</div>
+            <div className="ProTitle my-10">My Group</div>
             <div className="grid grid-cols-3 gap-3">
             {friendList.map((friend, index) => (
               <div className="bg-glass-100 rounded-lg p-5"key={index}>

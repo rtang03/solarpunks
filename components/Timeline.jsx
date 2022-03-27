@@ -68,7 +68,7 @@ const Timeline = ({
                           href={`/explore/${handle}%23${profileId}/publications/${item.id}/create-comment`}
                         >
                           <a>
-                            <button className="bg-blue-300 p-2">Create Comment</button>
+                            <button className="ProButton">Create Comment</button>
                           </a>
                         </Link>
                       )}
@@ -79,7 +79,7 @@ const Timeline = ({
                           href={`/explore/${handle}%23${profileId}/publications/${item.id}/collect`}
                         >
                           <a>
-                            <button className="bg-blue-300 p-2">Collect Me</button>
+                            <button className="ProButton">Collect Me</button>
                           </a>
                         </Link>
                       )}
