@@ -79,7 +79,7 @@ Open [solarpunks.vercel.app](https://solarpunks.vercel.app)
 
 1. Apollo Client
 
-We adapt the Apollo provider to call LensAPI, [source](https://github.com/rtang03/solarpunks/lib/apolloClient.js).
+We adapt the Apollo provider to call LensAPI, [source](https://github.com/rtang03/solarpunks/blob/master/lib/apolloClient.js).
 
 2. React hooks
 
